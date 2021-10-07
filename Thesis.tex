@@ -1,0 +1,74 @@
+\documentclass[12pt,oneside]{uhthesis}
+\usepackage{subfigure}
+\usepackage[ruled,lined,linesnumbered,titlenumbered,algochapter,english]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{caption,booktabs}
+\captionsetup{
+	justification = centering
+}
+%\usepackage{mathpazo}
+\usepackage{float}
+\usepackage{todonotes}
+\floatstyle{plaintop}
+\restylefloat{table}
+
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\listalgorithmcfname}{Índice de Algoritmos}%
+%\dontprintsemicolon
+\SetAlgoNoEnd
+
+
+\title{Implementaci\'on de la recuperaci\'on de imágenes usando una ordenación suave de sus parches}
+\author{Daniel Alberto Garc\'ia P\'erez}
+\advisor{ Dr. Marta Lourdes Baguer}
+\degree{Licenciatura en Ciencia de la Computaci\'on}
+\faculty{Facultad de Matemática y Computación}
+\date{5 de octubre del 2021}
+\logo{Graphics/uhlogo}
+\makenomenclature
+
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\diff}[1]{\ensuremath{\mathrm{d}#1}}
+\newcommand{\me}[1]{\mathrm{e}^{#1}}
+\newcommand{\pf}{\mathfrak{p}}
+\newcommand{\qf}{\mathfrak{q}}
+%\newcommand{\kf}{\mathfrak{k}}
+\newcommand{\kt}{\mathtt{k}}
+\newcommand{\mf}{\mathfrak{m}}
+\newcommand{\hf}{\mathfrak{h}}
+\newcommand{\fac}{\mathrm{fac}}
+\newcommand{\maxx}[1]{\max\left\{ #1 \right\} }
+\newcommand{\minn}[1]{\min\left\{ #1 \right\} }
+\newcommand{\lldpcf}{1.25}
+\newcommand{\nnorm}[1]{\left\lvert #1 \right\rvert }
+
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+%\include{FrontMatter/Dedication}
+\include{FrontMatter/Thanks}
+\include{FrontMatter/SupervisorOpinion}
+\include{FrontMatter/Abstract}
+\include{FrontMatter/Contents}
+
+\mainmatter
+
+\include{MainMatter/Introduction}
+\include{MainMatter/Background}
+\include{MainMatter/Patches}
+\include{MainMatter/Code}
+\include{MainMatter/Results}
+
+\backmatter
+
+\include{BackMatter/Conclusions}
+\include{BackMatter/Recomendations}
+
+\include{BackMatter/Bibliography}
+
+\end{document}

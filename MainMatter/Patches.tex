@@ -1,0 +1,32 @@
+\chapter{Algoritmo de ordenamiento de parches}\label{chapter:PRA} %PRA = Patches reordering algorithm
+[Explicar la teoría detrás del algoritmo]
+
+
+%	Ejemplo de algoritmo:
+%	
+%	\begin{algorithm}
+%	    \caption{Algoritmo de Arnoldi para construir una base ortonormal del subespacio de Krylov $\mathcal{K}_\mf(\tau A,b)$}
+%	    \label{alg:Arnoldi}
+%	    \KwIn{Matriz $A\in \mathbb{R}^{d\times d}$, vector $b\in \mathbb{R}^{d}$ y constante $\tau$}
+%	    \KwOut{Base ortonormal $\{v_1,v_2,\ldots,v_\mf,v_{\mf+1}\}$ de $K_\mf(\tau A,b)$ y matriz de Hessenberg $H_\mf=V_\mf^{\intercal}\tau A V_\mf $,
+%	        donde $V_{\mf+1}=[v_1\,v_2\,\cdots \,v_\mf\,v_{\mf+1}]\in \mathbb{R}^{d\times \mf+1}$, $breakdown$ }
+%	    $breakdown=false$\\
+%	    $v_1=b/\lVert b \rVert_2$\\
+%	    \For{ $j=1,2,\ldots,\mf$ }{
+%	        $w_j=\tau A v_j$\\
+%	        \For{ $i=1,\ldots,j$}{ 
+%	            $\hf_{ij}=\langle w_j,v_i \rangle$\\
+%	            $w_j=w_j-\hf_{ij}v_i$       
+%	        }
+%	        $\hf_{j+1,i}=\lVert w_j \rVert_2$\\
+%	        \eIf(\tcp*[h] \emph{Break Down}\label{alg:breakdown}){$\hf_{j+1,i}<2\epsilon_{mach}$}{
+%	            $\mf_{cut}=j$\\
+%	             $breakdown=true$\\
+%	            Stop
+%	        }{
+%	            $v_{j+1}=w_j/\hf_{j+1,i}$
+%	        }
+%	    }
+%	\end{algorithm}
+
+

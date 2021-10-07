@@ -1,0 +1,1 @@
+inkscape -D -z --file=uhlogo.svg --export-pdf=uhlogo.pdf --export-latex

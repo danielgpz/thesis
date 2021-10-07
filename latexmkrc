@@ -1,0 +1,1 @@
+$pdf_previewer = 'start "C:\Program Files\KDE\bin\okular.exe" %S';
