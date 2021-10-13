@@ -1,6 +1,41 @@
 \chapter{Algoritmo de ordenamiento de parches}\label{chapter:PRA} %PRA = Patches reordering algorithm
-[Explicar la teoría detrás del algoritmo]
 
+Planteemos primeramente el esquema principal de este algoritmo. Para ellos consideremos la siguiente notaci\'on:
+
+\begin{itemize}
+\item $\Z$: matriz que representa la imagen incompleta a recuperar, con dimensiones $N_1 \times N_2$, $N_1N_2 = N$.
+\item $\z$: versión en forma de vector(o señal) de la matriz $\Z$, con dimensiones $N \times 1$.
+\item $\P$: matriz de permutaci\'on de dimensiones $N \times N$.
+\end{itemize}
+
+Para obtener la una señal recuperada $\yhat$ a partir de $\z$ se procede de la siguiente forma:
+
+\begin{equation}
+	\begin{array}[t]{ccccccccc}
+	& & \mbox{\tiny{Permutaci\'on}} & & \mbox{\tiny{Operador de suavidad}} & & \mbox{\tiny{Permutaci\'on inversa}} & &\\
+	\z & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhat \\
+	\end{array}
+\end{equation}
+
+\qquad 
+
+Lo cual se puede expresar como:
+\begin{equation}
+\yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
+\end{equation}
+
+
+\begin{equation}
+	\z\;\left\{
+	\def\arraystretch{2.2}
+	\begin{array}{ccccccccc}
+		\longrightarrow & \boxed{\P_1} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P_1^{-1}} & \longrightarrow \\
+		\longrightarrow & \boxed{\P_2} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P_2^{-1}} & \longrightarrow \\
+		\longrightarrow & \huge\vdots &  & \huge\vdots &  & \huge\vdots & \longrightarrow & \\
+		\longrightarrow & \boxed{\P_K} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P_K^{-1}} & \longrightarrow
+	\end{array}
+	\right\}\;\oplus\longrightarrow\boxed{\times\frac{1}{K}}\longrightarrow\yhat
+\end{equation}
 
 %	Ejemplo de algoritmo:
 %	
