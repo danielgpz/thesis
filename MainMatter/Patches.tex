@@ -3,9 +3,9 @@
 Planteemos primeramente el esquema principal de este algoritmo. Para ellos consideremos la siguiente notaci\'on:
 
 \begin{itemize}
-\item $\Z$: matriz que representa la imagen incompleta a recuperar, con dimensiones $N_1 \times N_2$, $N_1N_2 = N$.
-\item $\z$: versión en forma de vector(o señal) de la matriz $\Z$, con dimensiones $N \times 1$.
-\item $\P$: matriz de permutaci\'on de dimensiones $N \times N$.
+	\item $\Z$: matriz que representa la imagen incompleta a recuperar, con dimensiones $N_1 \times N_2$, $N_1N_2 = N$.
+	\item $\z$: versión en forma de vector(o señal) de la matriz $\Z$, con dimensiones $N \times 1$.
+	\item $\P$: matriz de permutaci\'on de dimensiones $N \times N$.
 \end{itemize}
 
 Para obtener la una señal recuperada $\yhat$ a partir de $\z$ se procede de la siguiente forma:
@@ -15,13 +15,32 @@ Para obtener la una señal recuperada $\yhat$ a partir de $\z$ se procede de la 
 	& & \mbox{\tiny{Permutaci\'on}} & & \mbox{\tiny{Operador de suavidad}} & & \mbox{\tiny{Permutaci\'on inversa}} & &\\
 	\z & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhat \\
 	\end{array}
+	\label{basic:scheme}
 \end{equation}
 
-\qquad 
+Se reordenan los elementos de $\z$ seg\'un $\P$, y a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes, los elementos de dicho resultado se permutan nuevamente a su pocioci\'on inicial mendiate $\P^{-1}$. Dicho vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
 
-Lo cual se puede expresar como:
 \begin{equation}
 \yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
+\label{basic:formula}
+\end{equation}
+
+Para comprender mejor lo que se quiere lograr con este procedimiento supongamos que contamos con la imagen real, la versi\'on de $\Z$ con la informaci\'on todos sus p\'ixeles. Aunque en la pr\'actica esta imagen no existe, la utilizaremos para reflejar de forma clara el funcionamiento del esquema principal (\ref{basic:scheme}).
+
+\begin{itemize}
+	\item $\Y$: matriz de la imagen original. 
+	\item $\y$: versión en forma de vector(o señal) de la matriz $\Y$.
+\end{itemize}
+
+Supongamos que la matriz de permutaci\'on $\P$ tiene la propiedad de que al ser aplicada a $\y$ se obtiene una señal suave $\y^p$. Entonces, dado que $\z^p$ y $\y^p$ solo difieren en los p\'ixeles faltantes de $\Z$, y que $\H(z^p)$ completa la señal, haciéndola suave; se puede esperar que $\yhat$ sea una aproximaci\'on de $\y$. Dicho formalmente:
+
+\begin{equation}
+	\def\arraystretch{2}
+	\begin{array}{llrl}
+	&                                        &     \H (\P\z ) &\approx \P\y        \\ 
+	&\Longrightarrow                         & P^{-1}\H(\P\z) &\approx \P^{-1}\P\y \\
+	&\overset{(\ref{basic:formula})}{\Longrightarrow} & \yhat &\approx \y          \\
+	\end{array}
 \end{equation}
 
 
