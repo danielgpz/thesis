@@ -1,6 +1,7 @@
-\chapter{Algoritmo de ordenamiento de parches}\label{chapter:PRA} %PRA = Patches reordering algorithm
+\chapter{Esquema de la recuperaci\'on de im\'agenes}\label{chapter:PRA} %PRA = Patches reordering algorithm
 
-Planteemos primeramente el esquema principal de este algoritmo. Para ellos consideremos la siguiente notaci\'on:
+\section{Esquema b\'asico}
+Planteemos primeramente el esquema principal de esta propuesta para la recuperaci\'on de im\'agenes. Para ello consideremos la siguiente notaci\'on:
 
 \begin{itemize}
 	\item $\Z$: matriz que representa la imagen incompleta a recuperar, con dimensiones $N_1 \times N_2$, $N_1N_2 = N$.
@@ -28,7 +29,7 @@ Se reordenan los elementos de $\z$ seg\'un $\P$, y a la señal resultante $\z^p$
 Para comprender mejor lo que se quiere lograr con este procedimiento supongamos que contamos con la imagen real, la versi\'on de $\Z$ con la informaci\'on todos sus p\'ixeles. Aunque en la pr\'actica esta imagen no existe, la utilizaremos para reflejar de forma clara el funcionamiento del esquema principal (\ref{basic:scheme}).
 
 \begin{itemize}
-	\item $\Y$: matriz de la imagen original. 
+	\item $\Y$: matriz de la imagen original, es igual a $\Z$ solo que si tiene el valor de sus p\'ixeles faltantes. 
 	\item $\y$: versión en forma de vector(o señal) de la matriz $\Y$.
 \end{itemize}
 
@@ -41,7 +42,36 @@ Supongamos que la matriz de permutaci\'on $\P$ tiene la propiedad de que al ser 
 	&\Longrightarrow                         & P^{-1}\H(\P\z) &\approx \P^{-1}\P\y \\
 	&\overset{(\ref{basic:formula})}{\Longrightarrow} & \yhat &\approx \y          \\
 	\end{array}
+	\label{P:explain}
 \end{equation}
+
+Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} hay varios en la literatura, ya sea los que se usan en interpolaci\'on o filtrado; por el momento dejemos este operador como un superpar\'ametro del algoritmo. Se explicar\'a entonces c\'omo hacer para obtener $\P$.
+
+\section{La matriz de permutaci\'on}
+
+El resultado (\ref{P:explain}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ según (referencia a la formula de suavidad) ser\'ia:
+
+\begin{equation}
+\|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y_j^{p} - \y_{j - 1}^{p}|
+\label{y:smoothness}
+\end{equation}
+
+La matriz $\P$ que buscamos es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y_j^{p} - \y_{j - 1}^{p}|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que conocemos su valor. Para encontrar la distancia entre dos p\'ixeles de $\Z$ (arbitrariamente de si se conoce su valor o no) usaremos sus parches de la siguiente manera:
+
+\begin{equation}
+|\y_j^{p} - \y_{j - 1}^{p}| \equiv \omega(\x_i^p,\; \x_{i - 1}^p)
+\label{patches:equiv}
+\end{equation}
+
+Donde $\x_i^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z_i^p$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, justo como se expresa en (\ref{patches:equiv}). Luego, el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ por (\ref{y:smoothness}) y (\ref{patches:equiv}) es equivalente a minimizar:
+
+\begin{equation}
+\|\X^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
+\end{equation}
+
+Donde $\X$ denota el vector de los parches de $\Z$ y $\X^p$ una permutaci\'on de $\X$ dada por una matriz $\P$. En conclusi\'on: la matriz $\P$ que buscamos es aquella  que minimiza $\|\X^p\|_{\mathit{TV}}$. Ahora bien, lo anterior se puede replantear de la siguiente forma. Si consideramos el grafo ponderado cuyos nodos son todos los parches de $\Z$ y la arista que une cada par de nodos $\x_i,\;\x_j$ tiene peso $\omega(\x_i,\; \x_j)$; debemos resolver una instancia del problema \textbf{NP}-completo del viajero, conocido como \TSP (del ingl\'es \textit{traveling salesman problem}) buscando un camino que comience en un parche cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
+
+\section{Algoritmo de reordenamiento de parches}
 
 
 \begin{equation}
