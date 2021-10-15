@@ -19,7 +19,7 @@ Para obtener la una señal recuperada $\yhat$ a partir de $\z$ se procede de la 
 	\label{basic:scheme}
 \end{equation}
 
-Se reordenan los elementos de $\z$ seg\'un $\P$, y a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes, los elementos de dicho resultado se permutan nuevamente a su pocioci\'on inicial mendiate $\P^{-1}$. Dicho vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
+Se reordenan los elementos de $\z$ seg\'un $\P$, y a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes, los elementos de dicho resultado se permutan nuevamente a su posici\'on inicial mediante $\P^{-1}$. Dicho vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
 
 \begin{equation}
 \yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
@@ -45,7 +45,7 @@ Supongamos que la matriz de permutaci\'on $\P$ tiene la propiedad de que al ser 
 	\label{P:explain}
 \end{equation}
 
-Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} hay varios en la literatura, ya sea los que se usan en interpolaci\'on o filtrado; por el momento dejemos este operador como un superpar\'ametro del algoritmo. Se explicar\'a entonces c\'omo hacer para obtener $\P$.
+Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} hay varios en la literatura, ya sea los que se usan en interpolaci\'on o filtrado; por el momento dejemos este operador como un superpar\'ametro del algoritmo. Se explicar\'a entonces c\'omo hacer para obtener la permutaci\'on $\P$.
 
 \section{La matriz de permutaci\'on}
 
@@ -59,11 +59,11 @@ El resultado (\ref{P:explain}) tiene como condici\'on que $\y^p$ sea una señal 
 La matriz $\P$ que buscamos es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y_j^{p} - \y_{j - 1}^{p}|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que conocemos su valor. Para encontrar la distancia entre dos p\'ixeles de $\Z$ (arbitrariamente de si se conoce su valor o no) usaremos sus parches de la siguiente manera:
 
 \begin{equation}
-|\y_j^{p} - \y_{j - 1}^{p}| \equiv \omega(\x_i^p,\; \x_{i - 1}^p)
+|\y_j^{p} - \y_{j - 1}^{p}| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
 \label{patches:equiv}
 \end{equation}
 
-Donde $\x_i^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z_i^p$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, justo como se expresa en (\ref{patches:equiv}). Luego, el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ por (\ref{y:smoothness}) y (\ref{patches:equiv}) es equivalente a minimizar:
+Donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z_j^p$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, justo como se expresa en (\ref{patches:equiv}). Luego, el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ por (\ref{y:smoothness}) y (\ref{patches:equiv}) es equivalente a minimizar:
 
 \begin{equation}
 \|\X^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
@@ -72,6 +72,62 @@ Donde $\x_i^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z
 Donde $\X$ denota el vector de los parches de $\Z$ y $\X^p$ una permutaci\'on de $\X$ dada por una matriz $\P$. En conclusi\'on: la matriz $\P$ que buscamos es aquella  que minimiza $\|\X^p\|_{\mathit{TV}}$. Ahora bien, lo anterior se puede replantear de la siguiente forma. Si consideramos el grafo ponderado cuyos nodos son todos los parches de $\Z$ y la arista que une cada par de nodos $\x_i,\;\x_j$ tiene peso $\omega(\x_i,\; \x_j)$; debemos resolver una instancia del problema \textbf{NP}-completo del viajero, conocido como \TSP (del ingl\'es \textit{traveling salesman problem}) buscando un camino que comience en un parche cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
 
 \section{Algoritmo de reordenamiento de parches}
+
+No se conoce ningún algoritmo con complejidad temporal polinomial para resolver \TSP, con lo cual en favor de lograr la eficiencia del esquema de la recuperaci\'on se tom\'o un algoritmo que encuentra una soluci\'on aproximada. El camino de parches que encuentra puede no ser el de m\'inima longitud, pero se garantiza que ser\'a de los menores. En cambio esta soluci\'on aproximada si se encuentra en un tiempo polinomial, que en este caso ser\'a lineal con respecto a la cantidad de parches o sea $O(\dim(\X))$.
+
+Primeramente, se selecciona aleatoriamente un parche $\x_{j_0}$ por el cual comienza el camino. Luego se va iterando poniendo en cada paso un parche hasta completar el camino. En la iteraci\'on $k$ se explora la vecindad de tamaño $\B \times \B$ en la matriz $\Z$ alrededor del parche $\x_{j_{k - 1}}$ (que es el \'ultimo que se ha puesto). Ahora bien, existen dos casos:
+
+\begin{itemize}
+\item Todos los parches en esta vecindad ya están en el camino: se busca fuera de la vecindad los dos parches $\x_a,\; \x_b$ que no pertenecen al camino y cuyas distancias $\omega$ a $\x_{j_{k - 1}}$ son las dos menores.
+
+\item Si existen parches disponibles en esa vecindad: se buscan de forma an\'aloga los parches $\x_a,\; \x_b$, esta vez dentro de la vecindad
+\end{itemize}
+
+Claramente si no es posible encontrar dos menores porque solo hay un parche disponible, entonces $\x_{j_k}$ ser\'ia ese \'unico parche. En cambio si se tienen $\x_a$ y $\x_b$ entonces:
+
+\begin{equation}
+\x_{j_k} = \left\{
+	\begin{array}{ccc}
+	\x_a &\mbox{con probabilidad}& p_a = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_a)}{\epsilon}}\\
+	\x_b &\mbox{con probabilidad}& p_b = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_b)}{\epsilon}}\\
+	\end{array}
+\right.
+\end{equation}
+
+Donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Finalmente el conjunto de \'indices $\{j_i\}$ del camino de parches define la permutaci\'on $\P$ que buscamos. El pseudoc\'odigo se muestra en el algoritmo \ref{PRA}.
+
+\begin{algorithm}
+	\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
+	\KwIn{Todos los parches de la imagen: $\{\mathbf{x}_i\}_{i = 1}^M$}
+	\KwOut{$\Omega$, reordenamiento del conjunto $ \{1,\;2,\;...,\;M\}$}
+	$\Omega(1) \gets$ Un entero aleatorio en el intervalo $[1,\; M]$\;
+	\For{$k \gets 1$ \textbf{to} $M - 1$} {
+		$A_k \gets $ Conjuto de los \'indices de los $B \times B$ parches alrededor de $\x_{\Omega(k)}$\;
+		\If{$|A_k \setminus \Omega| = 1$} {
+			$\Omega(k + 1) \gets A_i \setminus \Omega$\;
+		}
+		\Else{
+			\If{$|A_k \setminus \Omega| \ge 2$}{
+				Encontrar $\x_a, \x_b$ los parches m\'as ceranos a $\x_{\Omega(k)}$ tales que $a, b \in |A_k \setminus \Omega|$\;
+			}
+			\Else{
+				Encontrar $\x_a, \x_b$ los parches m\'as ceranos a $\x_{\Omega(k)}$ tales que $a, b \notin \Omega$\;
+			}
+			$\Omega(k + 1) \gets \left\{
+				\begin{array}{ccc}
+				\x_a &\mbox{con probabilidad}& p_a = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_a)}{\epsilon}}\\
+				\x_b &\mbox{con probabilidad}& p_b = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_b)}{\epsilon}}\\
+				\end{array}
+			\right.$\;
+		}
+	}
+	\Return{$\Omega$}\;
+	\SetAlgoRefName{1}
+	\caption{Reordenamiento de los parches}
+	\label{PRA}
+\end{algorithm}
+
+\section{Trabajo con subim\'agenes}
 
 
 \begin{equation}
