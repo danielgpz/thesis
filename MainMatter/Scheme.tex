@@ -17,8 +17,8 @@ Para obtener la una señal recuperada $\yhat$ a partir de $\z$ se procede de la 
 	\centering
 	\begin{equation*}
 		\begin{array}[t]{ccccccccc}
-		& & \mbox{\small{Permutaci\'on}} & & \mbox{\small{Operador de suavidad}} & & \mbox{\small{Permutaci\'on inversa}} & &\\
-		\z & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhat \\
+			& & \mbox{\small{Permutaci\'on}} & & \mbox{\small{Operador de suavidad}} & & \mbox{\small{Permutaci\'on inversa}} & &\\
+			\z & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhat \\
 		\end{array}
 	\end{equation*}
 	\caption{Esquema inicial}
@@ -27,12 +27,63 @@ Para obtener la una señal recuperada $\yhat$ a partir de $\z$ se procede de la 
 
 \qquad
 
-Se reordenan los elementos de $\z$ seg\'un $\P$, y a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes, los elementos de dicho resultado se permutan nuevamente a su posici\'on inicial mediante $\P^{-1}$. Dicho vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
+Se reordenan los elementos de $\z$ seg\'un $\P$, y a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes, los elementos de dicho resultado se permutan nuevamente a su posici\'on inicial mediante $\P^{-1}$, tal y como se muestra en el ejemplo de la figura \ref{ex:init_scheme}. Dicho vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
 
 \begin{equation}
-\yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
-\label{eq:yhat}
+	\yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
+	\label{eq:yhat}
 \end{equation}
+
+\begin{figure}
+	\[
+	\Z = \left(
+		\begin{matrix}
+			9 & \boxed{?} & 25\\
+			\boxed{?} &  1 & 81\\
+			16 &  4 & 36\\
+		\end{matrix}
+	\right)
+	\quad\longrightarrow\quad
+	\z = \left(
+		\begin{matrix}
+			9 & \boxed{?} & 25 & \boxed{?} &  1 & 81 & 16 &  4 & 36\\
+		\end{matrix}
+	\right)
+	\]
+	\[\begin{array}{c}\arrowvert\\ \boxed{\mbox{Permutaci\'on}}\\ \downarrow\\\end{array}\]
+	\[
+	\z^p = \left(
+		\begin{matrix}
+			1 & 4 & 9 & 16 & 25 & 36 & \boxed{?} & \boxed{?} & 81 \\
+		\end{matrix}
+	\right)
+	\]
+	\[\begin{array}{c}\arrowvert\\ \boxed{\mbox{Operador de suavidad}}\\ \downarrow\\\end{array}\]
+	\[
+	\H(\z^p) = \left(
+		\begin{matrix}
+			1 & 4 & 9 & 16 & 25 & 36 & \boxed{49} & \boxed{64} & 81 \\
+		\end{matrix}
+	\right)
+	\]
+	\[\begin{array}{c}\arrowvert\\ \boxed{\mbox{Permutaci\'on inversa}}\\ \downarrow\\\end{array}\]
+	\[
+	\yhat = \left(
+		\begin{matrix}
+			9 & \boxed{64} & 25 & \boxed{49} &  1 & 81 & 16 &  4 & 36\\
+		\end{matrix}
+	\right) \longrightarrow 
+	\Yhat = \left(
+		\begin{matrix}
+			9 & \boxed{64} & 25\\
+			\boxed{49} &  1 & 81\\
+			16 &  4 & 36\\
+		\end{matrix}
+	\right)
+	\]
+	\caption{Ejemplo del esquema (figura \ref{fig:init_scheme}) para una matriz de $3 \times 3$.}
+	\label{ex:init_scheme}
+\end{figure}
 
 Para comprender mejor lo que se quiere lograr con este procedimiento supongamos que contamos con la imagen real, la versi\'on de $\Z$ con la informaci\'on todos sus p\'ixeles. Aunque en la pr\'actica esta imagen no existe, la utilizaremos para reflejar de forma clara el funcionamiento del esquema inicial (figura \ref{fig:init_scheme}).
 
@@ -46,9 +97,9 @@ Supongamos que la matriz de permutaci\'on $\P$ tiene la propiedad de que al ser 
 \begin{equation}
 	\def\arraystretch{1.5}
 	\begin{array}{lrcl}
-	                                           &     \H (\P\z ) &\approx& \P\y        \\ 
-	\Longrightarrow                            & P^{-1}\H(\P\z) &\approx& \P^{-1}\P\y \\
-	\overset{(\ref{eq:yhat})}{\Longrightarrow} &          \yhat &\approx& \y          \\
+		                                           &     \H (\P\z ) &\approx& \P\y        \\ 
+		\Longrightarrow                            & P^{-1}\H(\P\z) &\approx& \P^{-1}\P\y \\
+		\overset{(\ref{eq:yhat})}{\Longrightarrow} &          \yhat &\approx& \y          \\
 	\end{array}
 	\label{eq:permutation_smoothness}
 \end{equation}
@@ -60,25 +111,56 @@ Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\
 El resultado (\ref{eq:permutation_smoothness}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ según (referencia a la formula de suavidad) ser\'ia:
 
 \begin{equation}
-\|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y_j^{p} - \y_{j - 1}^{p}|
-\label{eq:signal_smoothness}
+	\|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y_j^{p} - \y_{j - 1}^{p}|
+	\label{eq:signal_smoothness}
 \end{equation}
 
 La matriz $\P$ que buscamos es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y_j^{p} - \y_{j - 1}^{p}|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que conocemos su valor. Para encontrar la distancia entre dos p\'ixeles de $\Z$ (arbitrariamente de si se conoce su valor o no) usaremos sus parches de la siguiente manera:
 
 \begin{equation}
-|\y_j^{p} - \y_{j - 1}^{p}| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
-\label{eq:omega_mean}
+	|\y_j^{p} - \y_{j - 1}^{p}| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
+	\label{eq:omega_mean}
 \end{equation}
 
 Donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z_j^p$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, justo como se expresa en (\ref{eq:omega_mean}). Luego, el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ por (\ref{eq:signal_smoothness}) y (\ref{eq:omega_mean}) es equivalente a minimizar:
 
 \begin{equation}
-\|\X^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
-\label{eq:path_smoothness}
+	\|\X^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
+	\label{eq:path_smoothness}
 \end{equation}
 
-Donde $\X$ denota el vector de los parches de $\Z$ y $\X^p$ una permutaci\'on de $\X$ dada por una matriz $\P$. En conclusi\'on: la matriz $\P$ que buscamos es aquella  que minimiza $\|\X^p\|_{\mathit{TV}}$. Ahora bien, lo anterior se puede replantear de la siguiente forma. Si consideramos el grafo ponderado cuyos nodos son todos los parches de $\Z$ y la arista que une cada par de nodos $\x_i,\;\x_j$ tiene peso $\omega(\x_i,\; \x_j)$; debemos resolver una instancia del problema \textbf{NP}-completo del viajero, conocido como \TSP (del ingl\'es \textit{traveling salesman problem}) buscando un camino que comience en un parche cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
+Donde $\X$ denota el vector de los parches de $\Z$ (ver figura \ref{ex:vector_X}) y $\X^p$ una permutaci\'on de $\X$ dada por una matriz $\P$. En conclusi\'on: la matriz $\P$ que buscamos es aquella  que minimiza $\|\X^p\|_{\mathit{TV}}$. Ahora bien, lo anterior se puede replantear de la siguiente forma. Si consideramos el grafo ponderado cuyos nodos son todos los parches de $\Z$ y la arista que une cada par de nodos $\x_i,\;\x_j$ tiene peso $\omega(\x_i,\; \x_j)$; debemos resolver una instancia del problema \textbf{NP}-completo del viajero, conocido como \TSP (del ingl\'es \textit{traveling salesman problem}) buscando un camino que comience en un parche cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
+
+\begin{figure}[h]
+	\[\Z = \left(
+		\begin{matrix}
+			a & b & c & d\\\cline{2-3}
+			e & \multicolumn{1}{|c}{f} & \multicolumn{1}{c|}{g} & h\\
+			i & \multicolumn{1}{|c}{j} & \multicolumn{1}{c|}{k} & l\\\cline{2-3}
+			m & n & o & p\\
+		\end{matrix}
+	\right)
+	\qquad\z = \left(
+		\begin{array}{ccccc|cc|cc|cc|ccccc}
+			\cline{6-7}\cline{10-11}
+			a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p \\
+			\cline{6-7}\cline{10-11}
+		\end{array}
+	\right)
+	\]
+	\[
+	\X = \left(
+		\begin{matrix}\cline{5-5}
+			a & b & c & e & \multicolumn{1}{|c|}{f} & g & i & j & k\\
+			b & c & d & f & \multicolumn{1}{|c|}{g} & h & j & k & l\\
+			e & f & g & i & \multicolumn{1}{|c|}{j} & k & m & n & o\\
+			f & g & h & g & \multicolumn{1}{|c|}{k} & l & n & o & p\\\cline{5-5}
+		\end{matrix}
+	\right)
+	\]
+	\caption{Vector de parches $\X$ de una matriz $\Z$ de $4 \times 4$, y parches de $2 \times 2$. Resaltando el 5-to parche como ejemplo.}
+	\label{ex:vector_X}
+\end{figure}
 
 \section{Algoritmo de reordenamiento de parches}
 
@@ -95,12 +177,12 @@ Primeramente, se selecciona aleatoriamente un parche $\x_{j_0}$ por el cual comi
 Claramente si no es posible encontrar dos menores porque solo hay un parche disponible, entonces $\x_{j_k}$ ser\'ia ese \'unico parche. En cambio si se tienen $\x_a$ y $\x_b$ entonces:
 
 \begin{equation}
-\x_{j_k} = \left\{
-	\begin{array}{ccc}
-	\x_a &\mbox{con probabilidad}& p_a = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_a)}{\epsilon}}\\
-	\x_b &\mbox{con probabilidad}& p_b = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_b)}{\epsilon}}\\
-	\end{array}
-\right.
+	\x_{j_k} = \left\{
+		\begin{array}{ccc}
+		\x_a &\mbox{con probabilidad}& p_a = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_a)}{\epsilon}}\\
+		\x_b &\mbox{con probabilidad}& p_b = \alpha e^{-\frac{\omega(\x_{j_{k - 1}},\; \x_b)}{\epsilon}}\\
+		\end{array}
+	\right.
 \end{equation}
 
 Donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Finalmente el conjunto de \'indices $\{j_i\}$ del camino de parches define la permutaci\'on $\P$ que buscamos. El pseudoc\'odigo se muestra en el algoritmo \ref{al:PRA}.
@@ -140,94 +222,93 @@ Donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Fi
 Tomando como $n$ el tamaño de los parches en este procedimiento, tenemos por (referencia a cap 1) que la cantidad de parches de la matriz $\Z$ es: 
 
 \begin{equation}
-N_p = (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1)
-\label{eq:patches}
+	N_p = (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1)
+	\label{eq:patches}
 \end{equation}
 
 Es claro que $n > 1$, pues los parches cubren pequeñas zonas de p\'ixeles, con lo cual se cumple la siguiente desigualdad:
 
 \begin{equation}
 	\begin{array}{lrcl}
-	                &                 1 &<& n        \\ 
-	\Longrightarrow &                 1 &<& \sqrt{n} \\
-	\Longrightarrow &     -\sqrt{n} + 1 &<& 0        \\
-	\Longrightarrow & N_1 -\sqrt{n} + 1 &<& N_1      \\
+		                &                 1 &<& n        \\ 
+		\Longrightarrow &                 1 &<& \sqrt{n} \\
+		\Longrightarrow &     -\sqrt{n} + 1 &<& 0        \\
+		\Longrightarrow & N_1 -\sqrt{n} + 1 &<& N_1      \\
 	\end{array}
 \end{equation}
 
-An\'alogamente $N_2 -\sqrt{n} + 1 < N_2$, multiplicando estas dos desigualdades obtenemos que:
+An\'alogamente $N_2 -\sqrt{n} + 1 < N_2$, multiplicando las dos desigualdades obtenemos:
 
 \begin{equation}
 	\begin{array}{lrcl}
-	                & (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1) &<& N_1N_2 \\ 
-	\Longrightarrow &                                      N_p &<& N      \\
-	\label{eq:patches_ineq}
+		                & (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1) &<& N_1N_2 \\ 
+		\Longrightarrow &                                      N_p &<& N      \\
 	\end{array}
+	\label{eq:patches_ineq}
 \end{equation}
 
-La cantidad de parches $N_p$ de $\Z$ es menor que el tamaño del vector $\z$, luego las dimensiones de la matriz $\P$ obtenidas con algoritmo \ref{al:PRA} son de $N_p \times N_p$; lo que implica que el esquema inicial (figura \ref{fig:init_scheme}) solo ser\'ia aplicables a señales de tamaño $N_p \times 1$.
+La cantidad de parches $N_p$ de $\Z$ es menor que el tamaño del vector $\z$, luego las dimensiones de la matriz $\P$ obtenidas con algoritmo \ref{al:PRA} son de $N_p \times N_p$; lo que implica que el esquema inicial (figura \ref{fig:init_scheme}) solo ser\'ia aplicables a señales de tamaño $N_p \times 1$. Esto se aprecia claramente en el ejemplo de la figura \ref{ex:subimages}, donde $N = 16 > N_p = 9$.
 
 \begin{figure}[h]
 	\[\Z = \left(
-	\begin{matrix}
-	a & b & c & d\\\cline{2-3}
-	e & \multicolumn{1}{|c}{f} & \multicolumn{1}{c|}{g} & h\\
-	i & \multicolumn{1}{|c}{j} & \multicolumn{1}{c|}{k} & l\\\cline{2-3}
-	m & n & o & p\\
-	\end{matrix}
+		\;\begin{matrix}
+		\cline{2-4}
+			a & \multicolumn{1}{|c}{b} & c & \multicolumn{1}{c|}{d}\\
+			e & \multicolumn{1}{|c}{f} & g & \multicolumn{1}{c|}{h}\\
+			i & \multicolumn{1}{|c}{j} & k & \multicolumn{1}{c|}{l}\\\cline{2-4}
+			m & n & o & p\\
+		\end{matrix}\;\;\;
 	\right)
-	\qquad\X = \left(
-	\begin{matrix}\cline{5-5}
-	a & b & c & e & \multicolumn{1}{|c|}{f} & g & i & j & k\\
-	b & c & d & f & \multicolumn{1}{|c|}{g} & h & j & k & l\\
-	e & f & g & i & \multicolumn{1}{|c|}{j} & k & m & n & o\\
-	f & g & h & g & \multicolumn{1}{|c|}{k} & l & n & o & p\\\cline{5-5}
-	\end{matrix}
+	\qquad\z = \left(
+		\begin{array}{c|ccc|c|ccc|c|ccc|cccc}
+			\cline{2-4}\cline{6-8}\cline{10-12}
+			a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p \\
+			\cline{2-4}\cline{6-8}\cline{10-12}
+		\end{array}
 	\right)
 	\]
+	\[
+	\X = \left(
+		\;\begin{matrix}
+			a & b & c & e & f & g & i & j & k\\\hline
+			\multicolumn{1}{|c}{b} & c & d & f & g & h & j & k & \multicolumn{1}{c|}{l}\\\hline
+			e & f & g & i & j & k & m & n & o\\
+			f & g & h & g & k & l & n & o & p\\
+		\end{matrix}\;
+	\right)
+	\]
+	\caption{Ejemplo de subimagen tomando como centro de los parches su segundo p\'ixel.}
+	\label{ex:subimages}
 \end{figure}
 
-Tengamos en cuenta que la subimagen formada por los p\'ixeles centrales de cada parche es una señal de tamaño $N_p$, entonces podr\'iamos aplicarle el esquema (figura \ref{fig:init_scheme}) para recuperar por completo esa subimagen. Considerando todos los posibles centros para los parches, tendremos un total de $n$ subim\'agenes (referencia al capitulo 1). Si recuperamos cada una de estas usando el esquema inicial, podemos usar esas subim\'agenes recuperadas para colocarlas en su posición natural en $\Z$, est\'a claro que todas se solapan, pero para ello promediamos los p\'ixeles solapados, y así se formar\'ia una imagen completa recuperada.  
+Tengamos en cuenta que la subimagen formada por los p\'ixeles centrales de cada parche es una señal de tamaño $N_p$ (ver figura \ref{ex:subimages}), entonces podr\'iamos aplicarle el esquema inicial (figura \ref{fig:init_scheme}) para recuperar por completo esa subimagen. Considerando todos los posibles centros para los parches, tendremos un total de $n$ subim\'agenes (referencia al capitulo 1). Si recuperamos cada una de estas podemos colocarlas en su posición natural en $\Z$, est\'a claro que todas se solapan, pero para ello promediamos los p\'ixeles solapados, y así se formar\'ia una imagen completa recuperada. 
 
-Si vemos al vector de parches $X$ como una matriz, poniendo los parches como columnas, entonces cada fila de esta matriz es una submimagen en forma de vector. Tal y como muestra es siguiente ejemplo
+Denotemos por $\Ztilde_j$ a la subimagen formada por los centros de los parches, cuando el centro es tomado en la posici\'on $j$ del parche. Luego tendremos las $n$ subim\'agenes: $\Ztilde_1,\; \Ztilde_2,\; \dots,\; \Ztilde_n$. Si vemos al vector de parches $X$ como una matriz, poniendo los parches como columnas, entonces cada fila de esta matriz es una submimagen en forma de vector (figura \ref{ex:subimages}), luego la subimagen $\Ztilde_j$ se encuentra en su forma de vector $\ztilde_j$ en la fila $j$ de la matriz $\X$.
 
-\begin{equation}
-	\z\;\left\{
-	\def\arraystretch{2.2}
-	\begin{array}{ccccccccc}
-		\longrightarrow & \boxed{\P_1} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P_1^{-1}} & \longrightarrow \\
-		\longrightarrow & \boxed{\P_2} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P_2^{-1}} & \longrightarrow \\
-		\longrightarrow & \huge\vdots &  & \huge\vdots &  & \huge\vdots & \longrightarrow & \\
-		\longrightarrow & \boxed{\P_K} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P_K^{-1}} & \longrightarrow
-	\end{array}
-	\right\}\;\oplus\longrightarrow\boxed{\times\frac{1}{K}}\longrightarrow\yhat
-\end{equation}
+Modifiquemos el esquema inicial (figura \ref{fig:init_scheme}) para que se adapte al nuevo enfoque con subim\'agenes:
 
-%	Ejemplo de algoritmo:
-%	
-%	\begin{algorithm}
-%	    \caption{Algoritmo de Arnoldi para construir una base ortonormal del subespacio de Krylov $\mathcal{K}_\mf(\tau A,b)$}
-%	    \label{alg:Arnoldi}
-%	    \KwIn{Matriz $A\in \mathbb{R}^{d\times d}$, vector $b\in \mathbb{R}^{d}$ y constante $\tau$}
-%	    \KwOut{Base ortonormal $\{v_1,v_2,\ldots,v_\mf,v_{\mf+1}\}$ de $K_\mf(\tau A,b)$ y matriz de Hessenberg $H_\mf=V_\mf^{\intercal}\tau A V_\mf $,
-%	        donde $V_{\mf+1}=[v_1\,v_2\,\cdots \,v_\mf\,v_{\mf+1}]\in \mathbb{R}^{d\times \mf+1}$, $breakdown$ }
-%	    $breakdown=false$\\
-%	    $v_1=b/\lVert b \rVert_2$\\
-%	    \For{ $j=1,2,\ldots,\mf$ }{
-%	        $w_j=\tau A v_j$\\
-%	        \For{ $i=1,\ldots,j$}{ 
-%	            $\hf_{ij}=\langle w_j,v_i \rangle$\\
-%	            $w_j=w_j-\hf_{ij}v_i$       
-%	        }
-%	        $\hf_{j+1,i}=\lVert w_j \rVert_2$\\
-%	        \eIf(\tcp*[h] \emph{Break Down}\label{alg:breakdown}){$\hf_{j+1,i}<2\epsilon_{mach}$}{
-%	            $\mf_{cut}=j$\\
-%	             $breakdown=true$\\
-%	            Stop
-%	        }{
-%	            $v_{j+1}=w_j/\hf_{j+1,i}$
-%	        }
-%	    }
-%	\end{algorithm}
+\begin{figure}[h]
+	\begin{equation*}
+		\z\;\left\{
+		\def\arraystretch{2.2}
+		\begin{array}{ccccccccccc}
+			\ztilde_1 & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhattilde_1\\
+			\ztilde_2 & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhattilde_2\\
+			& & \huge\vdots &  & \huge\vdots &  & \huge\vdots & & & \\
+			\ztilde_n & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhattilde_n\\
+		\end{array}
+		\right\}\;\oplus\longrightarrow\yhat
+	\end{equation*}
+	\caption{Nuevo esquema con subim\'agenes}
+	\label{fig:subimage_scheme}
+\end{figure}
 
+Entonces el esquema hasta este punto sigue los siguientes pasos:
+
+\begin{itemize}
+	\item A partir de $\Z$ se genera la matriz $\X$ poniendo los parches en cada columna (figura \ref{ex:subimages}).
+	\item Usando el algoritmo \ref{al:PRA} se obtiene $\P$ a partir de $\X$.
+	\item A las señales de cada subimagen: $\ztilde_1,\; \ztilde_2,\; \dots,\; \ztilde_n$, que son los vectores fila de $\X$, les aplicamos el esquema inicial tal como se muestra en la figura \ref{fig:subimage_scheme}.
+	\item Colocamos cada elemento de las subim\'agenes recuperadas: $\yhattilde_1,\; \yhattilde_2,\; \dots,\; \yhattilde_n$ en su posici\'on natural en $\yhat$, para promediar los valores dentro de una misma posici\'on.
+\end{itemize}
 
