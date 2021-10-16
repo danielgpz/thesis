@@ -1,6 +1,6 @@
-\chapter{Esquema de la recuperaci\'on de im\'agenes}\label{chapter:SCHEME} %PRA = Patches reordering algorithm
+\chapter{Esquema de la recuperaci\'on de im\'agenes}\label{chapter:SCHEME}
 
-\section{Esquema b\'asico}
+\section{Esquema inicial}
 Planteemos primeramente el esquema principal de esta propuesta para la recuperaci\'on de im\'agenes. Para ello consideremos la siguiente notaci\'on:
 
 \begin{itemize}
@@ -11,22 +11,30 @@ Planteemos primeramente el esquema principal de esta propuesta para la recuperac
 
 Para obtener la una señal recuperada $\yhat$ a partir de $\z$ se procede de la siguiente forma:
 
-\begin{equation}
-	\begin{array}[t]{ccccccccc}
-	& & \mbox{\tiny{Permutaci\'on}} & & \mbox{\tiny{Operador de suavidad}} & & \mbox{\tiny{Permutaci\'on inversa}} & &\\
-	\z & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhat \\
-	\end{array}
-	\label{basic:scheme}
-\end{equation}
+\qquad
+
+\begin{figure}[h]
+	\centering
+	\begin{equation*}
+		\begin{array}[t]{ccccccccc}
+		& & \mbox{\small{Permutaci\'on}} & & \mbox{\small{Operador de suavidad}} & & \mbox{\small{Permutaci\'on inversa}} & &\\
+		\z & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhat \\
+		\end{array}
+	\end{equation*}
+	\caption{Esquema inicial}
+	\label{fig:init_scheme}
+\end{figure}
+
+\qquad
 
 Se reordenan los elementos de $\z$ seg\'un $\P$, y a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes, los elementos de dicho resultado se permutan nuevamente a su posici\'on inicial mediante $\P^{-1}$. Dicho vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
 
 \begin{equation}
 \yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
-\label{basic:formula}
+\label{eq:yhat}
 \end{equation}
 
-Para comprender mejor lo que se quiere lograr con este procedimiento supongamos que contamos con la imagen real, la versi\'on de $\Z$ con la informaci\'on todos sus p\'ixeles. Aunque en la pr\'actica esta imagen no existe, la utilizaremos para reflejar de forma clara el funcionamiento del esquema principal (\ref{basic:scheme}).
+Para comprender mejor lo que se quiere lograr con este procedimiento supongamos que contamos con la imagen real, la versi\'on de $\Z$ con la informaci\'on todos sus p\'ixeles. Aunque en la pr\'actica esta imagen no existe, la utilizaremos para reflejar de forma clara el funcionamiento del esquema inicial (figura \ref{fig:init_scheme}).
 
 \begin{itemize}
 	\item $\Y$: matriz de la imagen original, es igual a $\Z$ solo que si tiene el valor de sus p\'ixeles faltantes. 
@@ -36,37 +44,38 @@ Para comprender mejor lo que se quiere lograr con este procedimiento supongamos 
 Supongamos que la matriz de permutaci\'on $\P$ tiene la propiedad de que al ser aplicada a $\y$ se obtiene una señal suave $\y^p$. Entonces, dado que $\z^p$ y $\y^p$ solo difieren en los p\'ixeles faltantes de $\Z$, y que $\H(z^p)$ completa la señal, haciéndola suave; se puede esperar que $\yhat$ sea una aproximaci\'on de $\y$. Dicho formalmente:
 
 \begin{equation}
-	\def\arraystretch{2}
-	\begin{array}{llrl}
-	&                                        &     \H (\P\z ) &\approx \P\y        \\ 
-	&\Longrightarrow                         & P^{-1}\H(\P\z) &\approx \P^{-1}\P\y \\
-	&\overset{(\ref{basic:formula})}{\Longrightarrow} & \yhat &\approx \y          \\
+	\def\arraystretch{1.5}
+	\begin{array}{lrcl}
+	                                           &     \H (\P\z ) &\approx& \P\y        \\ 
+	\Longrightarrow                            & P^{-1}\H(\P\z) &\approx& \P^{-1}\P\y \\
+	\overset{(\ref{eq:yhat})}{\Longrightarrow} &          \yhat &\approx& \y          \\
 	\end{array}
-	\label{P:explain}
+	\label{eq:permutation_smoothness}
 \end{equation}
 
 Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} hay varios en la literatura, ya sea los que se usan en interpolaci\'on o filtrado; por el momento dejemos este operador como un superpar\'ametro del algoritmo. Se explicar\'a entonces c\'omo hacer para obtener la permutaci\'on $\P$.
 
 \section{La matriz de permutaci\'on}
 
-El resultado (\ref{P:explain}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ según (referencia a la formula de suavidad) ser\'ia:
+El resultado (\ref{eq:permutation_smoothness}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ según (referencia a la formula de suavidad) ser\'ia:
 
 \begin{equation}
 \|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y_j^{p} - \y_{j - 1}^{p}|
-\label{y:smoothness}
+\label{eq:signal_smoothness}
 \end{equation}
 
 La matriz $\P$ que buscamos es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y_j^{p} - \y_{j - 1}^{p}|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que conocemos su valor. Para encontrar la distancia entre dos p\'ixeles de $\Z$ (arbitrariamente de si se conoce su valor o no) usaremos sus parches de la siguiente manera:
 
 \begin{equation}
 |\y_j^{p} - \y_{j - 1}^{p}| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
-\label{patches:equiv}
+\label{eq:omega_mean}
 \end{equation}
 
-Donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z_j^p$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, justo como se expresa en (\ref{patches:equiv}). Luego, el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ por (\ref{y:smoothness}) y (\ref{patches:equiv}) es equivalente a minimizar:
+Donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z_j^p$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, justo como se expresa en (\ref{eq:omega_mean}). Luego, el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ por (\ref{eq:signal_smoothness}) y (\ref{eq:omega_mean}) es equivalente a minimizar:
 
 \begin{equation}
 \|\X^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
+\label{eq:path_smoothness}
 \end{equation}
 
 Donde $\X$ denota el vector de los parches de $\Z$ y $\X^p$ una permutaci\'on de $\X$ dada por una matriz $\P$. En conclusi\'on: la matriz $\P$ que buscamos es aquella  que minimiza $\|\X^p\|_{\mathit{TV}}$. Ahora bien, lo anterior se puede replantear de la siguiente forma. Si consideramos el grafo ponderado cuyos nodos son todos los parches de $\Z$ y la arista que une cada par de nodos $\x_i,\;\x_j$ tiene peso $\omega(\x_i,\; \x_j)$; debemos resolver una instancia del problema \textbf{NP}-completo del viajero, conocido como \TSP (del ingl\'es \textit{traveling salesman problem}) buscando un camino que comience en un parche cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
@@ -94,7 +103,7 @@ Claramente si no es posible encontrar dos menores porque solo hay un parche disp
 \right.
 \end{equation}
 
-Donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Finalmente el conjunto de \'indices $\{j_i\}$ del camino de parches define la permutaci\'on $\P$ que buscamos. El pseudoc\'odigo se muestra en el algoritmo \ref{PRA}.
+Donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Finalmente el conjunto de \'indices $\{j_i\}$ del camino de parches define la permutaci\'on $\P$ que buscamos. El pseudoc\'odigo se muestra en el algoritmo \ref{al:PRA}.
 
 \begin{algorithm}
 	\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
@@ -124,11 +133,63 @@ Donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Fi
 	\Return{$\Omega$}\;
 	\SetAlgoRefName{1}
 	\caption{Reordenamiento de los parches}
-	\label{PRA}
+	\label{al:PRA}
 \end{algorithm}
 
 \section{Trabajo con subim\'agenes}
+Tomando como $n$ el tamaño de los parches en este procedimiento, tenemos por (referencia a cap 1) que la cantidad de parches de la matriz $\Z$ es: 
 
+\begin{equation}
+N_p = (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1)
+\label{eq:patches}
+\end{equation}
+
+Es claro que $n > 1$, pues los parches cubren pequeñas zonas de p\'ixeles, con lo cual se cumple la siguiente desigualdad:
+
+\begin{equation}
+	\begin{array}{lrcl}
+	                &                 1 &<& n        \\ 
+	\Longrightarrow &                 1 &<& \sqrt{n} \\
+	\Longrightarrow &     -\sqrt{n} + 1 &<& 0        \\
+	\Longrightarrow & N_1 -\sqrt{n} + 1 &<& N_1      \\
+	\end{array}
+\end{equation}
+
+An\'alogamente $N_2 -\sqrt{n} + 1 < N_2$, multiplicando estas dos desigualdades obtenemos que:
+
+\begin{equation}
+	\begin{array}{lrcl}
+	                & (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1) &<& N_1N_2 \\ 
+	\Longrightarrow &                                      N_p &<& N      \\
+	\label{eq:patches_ineq}
+	\end{array}
+\end{equation}
+
+La cantidad de parches $N_p$ de $\Z$ es menor que el tamaño del vector $\z$, luego las dimensiones de la matriz $\P$ obtenidas con algoritmo \ref{al:PRA} son de $N_p \times N_p$; lo que implica que el esquema inicial (figura \ref{fig:init_scheme}) solo ser\'ia aplicables a señales de tamaño $N_p \times 1$.
+
+\begin{figure}[h]
+	\[\Z = \left(
+	\begin{matrix}
+	a & b & c & d\\\cline{2-3}
+	e & \multicolumn{1}{|c}{f} & \multicolumn{1}{c|}{g} & h\\
+	i & \multicolumn{1}{|c}{j} & \multicolumn{1}{c|}{k} & l\\\cline{2-3}
+	m & n & o & p\\
+	\end{matrix}
+	\right)
+	\qquad\X = \left(
+	\begin{matrix}\cline{5-5}
+	a & b & c & e & \multicolumn{1}{|c|}{f} & g & i & j & k\\
+	b & c & d & f & \multicolumn{1}{|c|}{g} & h & j & k & l\\
+	e & f & g & i & \multicolumn{1}{|c|}{j} & k & m & n & o\\
+	f & g & h & g & \multicolumn{1}{|c|}{k} & l & n & o & p\\\cline{5-5}
+	\end{matrix}
+	\right)
+	\]
+\end{figure}
+
+Tengamos en cuenta que la subimagen formada por los p\'ixeles centrales de cada parche es una señal de tamaño $N_p$, entonces podr\'iamos aplicarle el esquema (figura \ref{fig:init_scheme}) para recuperar por completo esa subimagen. Considerando todos los posibles centros para los parches, tendremos un total de $n$ subim\'agenes (referencia al capitulo 1). Si recuperamos cada una de estas usando el esquema inicial, podemos usar esas subim\'agenes recuperadas para colocarlas en su posición natural en $\Z$, est\'a claro que todas se solapan, pero para ello promediamos los p\'ixeles solapados, y así se formar\'ia una imagen completa recuperada.  
+
+Si vemos al vector de parches $X$ como una matriz, poniendo los parches como columnas, entonces cada fila de esta matriz es una submimagen en forma de vector. Tal y como muestra es siguiente ejemplo
 
 \begin{equation}
 	\z\;\left\{
