@@ -369,3 +369,30 @@ En cuanto a la funci\'on $\omega$ entre dos parches $\x_a$ y $\x_b$ se tomar\'a 
 Para el operador de suavidad $\H$ se tomar\'a como interpolaci\'on usando \textit{splines} c\'ubicos.
 
 \subsection{Costo computacional del esquema}
+
+Analicemos primeramente la complejidad temporal del esquema final:
+
+\begin{itemize}
+	\item Construir $\X$ se hace en $O(nN_p)$.
+	\item Ejecutar el algoritmo \ref{al:PRA} para obtener la matriz de permutaci\'on es $O(N_pB^2n)$, pues por cada parche se busca en su vecindad de $B \times B$ comparando con $\omega$, que en nuestro caso tiene un costo de evaluaci\'on de $O(n)$.
+	\item Aplicar la permutaci\'on a las $n$ subim\'agenes se realiza en $O(nN_p)$.
+	\item Aplicar el operador $\H$ a cada resultado anterior, igualmente es en $O(nN_p)$.
+	\item Aplicar la permutaci\'on inversa para obtener las $n$ señales recuperadas también se realiza en $O(nN_p)$.
+	\item Acoplar las $n$ subim\'agenes para obtener una imagen completa recuperada se realiza en $O(nN)$.
+	\item Hacer los 5 pasos anteriores $K$ veces distintas para obtener $K$ im\'agenes completas recuperadas: $K[O(N_pB^2n) + O(nN_p) + O(nN)]$
+	\item Promediar las $K$ im\'agenes recuperadas para obtener la final: $O(KN)$
+\end{itemize}
+
+Teniendo en cuenta todos estos costos intermedios y que $N_p < N$ podemos concluir que la complejidad temporal del esquema final es:
+
+\begin{equation}
+	O(nN) + K[O(NB^2n) + O(nN)] + O(KN) = \boxed{O(KNB^2n)}
+	\label{eq:temporal_complexity}
+\end{equation}
+
+La complejidad espacial depende de la cantidad de im\'agenes que vamos recuperando m\'as la matrices que usamos como $\X$ y $\P$, lo que resulta en:
+
+\begin{equation}
+	O(KN) + O(nN) = \boxed{O(N(K + n))}
+	\label{eq:spacial_complexity}
+\end{equation}
