@@ -219,35 +219,14 @@ Donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Fi
 \end{algorithm}
 
 \section{Trabajo con subim\'agenes}
-Tomando como $n$ el tamaño de los parches en este procedimiento, tenemos por (referencia a cap 1) que la cantidad de parches de la matriz $\Z$ es: 
+Tomando como $n$ el tamaño de los parches en este procedimiento, tenemos por el lema \ref{le:count_patches} que la cantidad de parches de la matriz $\Z$ es: 
 
 \begin{equation}
 	N_p = (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1)
 	\label{eq:patches}
 \end{equation}
 
-Es claro que $n > 1$, pues los parches cubren pequeñas zonas de p\'ixeles, con lo cual se cumple la siguiente desigualdad:
-
-\begin{equation}
-	\begin{array}{lrcl}
-		                &                 1 &<& n        \\ 
-		\Longrightarrow &                 1 &<& \sqrt{n} \\
-		\Longrightarrow &     -\sqrt{n} + 1 &<& 0        \\
-		\Longrightarrow & N_1 -\sqrt{n} + 1 &<& N_1      \\
-	\end{array}
-\end{equation}
-
-An\'alogamente $N_2 -\sqrt{n} + 1 < N_2$, multiplicando las dos desigualdades obtenemos:
-
-\begin{equation}
-	\begin{array}{lrcl}
-		                & (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1) &<& N_1N_2 \\ 
-		\Longrightarrow &                                      N_p &<& N      \\
-	\end{array}
-	\label{eq:patches_ineq}
-\end{equation}
-
-La cantidad de parches $N_p$ de $\Z$ es menor que el tamaño del vector $\z$, luego las dimensiones de la matriz $\P$ obtenidas con algoritmo \ref{al:PRA} son de $N_p \times N_p$; lo que implica que el esquema inicial (figura \ref{fig:init_scheme}) solo ser\'ia aplicables a señales de tamaño $N_p \times 1$. Esto se aprecia claramente en el ejemplo de la figura \ref{ex:subimages}, donde $N = 16 > N_p = 9$.
+De igual forma por el lema \ref{le:count_patches_ieq} la cantidad de parches $N_p$ de $\Z$ es menor que el tamaño del vector $\z$, luego las dimensiones de la matriz $\P$ obtenidas con algoritmo \ref{al:PRA} son de $N_p \times N_p$; lo que implica que el esquema inicial (figura \ref{fig:init_scheme}) solo ser\'ia aplicables a señales de tamaño $N_p \times 1$. Esto se aprecia claramente en el ejemplo de la figura \ref{ex:subimages}, donde $N = 16 > N_p = 9$.
 
 \begin{figure}[h]
 	\[\Z = \left(

@@ -14,7 +14,7 @@ Se ha de destacar que estamos en presencia de un problema mal planteado pues la 
 \section{Los parches de una imagen}
 
 \begin{definition}
-	Un parche  de una imagen (matriz) dada no es m\'as que una subimagen (submatriz) cuadrada de dimensiones $\sqrt{n} \times \sqrt{n}$. El tamaño del parche es $n$ y usualmente es muy peque\~no comparado con las dimensiones de la imagen mayor.
+	Un parche  de una imagen (matriz) dada no es m\'as que una subimagen (submatriz) cuadrada de dimensiones $\sqrt{n} \times \sqrt{n}$. El tamaño del parche es $n$ y usualmente es muy peque\~no comparado con las dimensiones de la imagen.
 \end{definition}
 
 \begin{figure}[h]
@@ -23,10 +23,49 @@ Se ha de destacar que estamos en presencia de un problema mal planteado pues la 
 	\hspace{1cm}
 	\includegraphics[width=4cm, height=4cm]{Graphics/diamon_sword_with_patches.png}
 	\caption{Una imagen de $16 \times 16$ y dos parches de esta tomando $n = 25$.}
+	\label{ex:patches}
 \end{figure}
 
+En la figura \ref{ex:patches} se ejemplifica visualmente el concepto de parches. Como vemos estos pueden solaparse sin ning\'un problema. Es de inter\'es en el siguiente cap\'itulo el conjunto de todos los parches, incluyendo con solapamientos.
+
+\begin{lemma}\label{le:count_patches}
+	La cantidad de parches de una matriz (imagen) incluyendo los solapamientos, para una matriz $A$ de dimensiones $a \times b$, y tomando los parches de $\sqrt{n} \times \sqrt{n}$, es igual a:
+	
+	\begin{equation}
+		(a - \sqrt{n} + 1)(b - \sqrt{n} + 1)
+		\label{eq:count_patches}
+	\end{equation}
+\end{lemma}
+
+
+\textbf{Demostraci\'on:} tomando como referencia la esquina superior izquierda de un parche, esta solo puede ser ubicada verticalmente en el intervalo de posiciones \\$[1,\; a - \sqrt{n} + 1]$, de lo contrario el parche sobresaldr\'ia de la imagen. An\'alogamente solo puede ser colocado horizontalmente en el intervalo de posiciones $[1,\; b - \sqrt{n} + 1]$. Aplicando el principio combinatorio de la multiplicaci\'on, un parche puede ser ubicado de $(a - \sqrt{n} + 1)(b - \sqrt{n} + 1)$ formas distintas $\blacksquare$.
+
+\begin{lemma}\label{le:count_patches_ieq}
+	La cantidad de parches con solapamiento de una matriz A, con $n > 1$, es menor que la cantidad de elementos de la misma.
+\end{lemma}
+
+\textbf{Demostraci\'on:} Sea $A$ de $a \times b$; dado que $n > 1$ se cumple la siguiente desigualdad:
+
+\begin{equation}
+	\begin{array}{lrcl}
+		                &               1 &<& n        \\ 
+		\Longrightarrow &               1 &<& \sqrt{n} \\
+		\Longrightarrow &   -\sqrt{n} + 1 &<& 0        \\
+		\Longrightarrow & a -\sqrt{n} + 1 &<& a        \\
+	\end{array}
+\end{equation}
+
+An\'alogamente $b -\sqrt{n} + 1 < b$, multiplicando las dos desigualdades obtenemos:
+
+\begin{equation}
+	(a - \sqrt{n} + 1)(b - \sqrt{n} + 1) < ab
+	\label{eq:count_patches_ieq}
+\end{equation}
+
+Por el lema \ref{le:count_patches} la cantidad de parches de A es $(a - \sqrt{n} + 1)(b - \sqrt{n} + 1)$ lo que es menor que $ab$ $\blacksquare$.
+
 \begin{definition}
-	El p\'ixel o elemento central de un parche se encuentra en una posici\'on fija, dicha posici\'on debe ser la misma para todos los parches de una misma imagen.
+	El p\'ixel o elemento central de un parche es aquel que se encuentra en una posici\'on prefijada, dicha posici\'on debe ser la misma para todos los parches de una misma imagen.
 \end{definition}
 
 \begin{figure}[h]
@@ -34,24 +73,8 @@ Se ha de destacar que estamos en presencia de un problema mal planteado pues la 
 	\includegraphics[width=4cm, height=4cm]{Graphics/diamon_sword_with_patches.png}
 	\hspace{1cm}
 	\includegraphics[width=4cm, height=4cm]{Graphics/diamon_sword_with_patches_and_centers.png}
-	\caption{Parches con centro situado en la posici\'on $16$.}
+	\caption{Parches con p\'ixel central (marcado en rojo) situado en la posici\'on $4$.}
+	\label{ex:patch_center}
 \end{figure}
 
-%	Ejemplo de definicion
-%	
-%	\begin{definition}
-%  \label{EXPM}\cite{Golub96} Sea $A$ una matriz de $n\times n$ real o compleja. La exponencial de $A$ denotada por 
-%  $ \me{A} $ o $\mathrm{exp}(A)$ es una matriz de $n\times n$ dada por la serie de potencias
-%  \[\me{A}=\sum_{k=0}^{\infty}\frac{1}{k!}A^{k}.\]
-%	\end{definition}
-
-%	Ejemplo de teorema
-%	\begin{theorem}\cite{IntroMatrix}
-%	    La serie de matrices definida en~(\ref{EXPM-SERIE}) existe para toda matriz $A$ para $t$ fijo y
-%	    para todo $t$ para $A$ fija. La serie converge uniformemente en cualquier regi\'on de t del plano complejo.
-%	\end{theorem}
-
-%	Ejemplo de ecuación
-%	\begin{equation}
-%	\me{tA}=I+tA+\frac{t^{2}A^{2}}{2!}+\cdots\label{EXPM-SERIE}
-%	\end{equation}
+En la figura \ref{ex:patch_center} se muestran los centros de los parches del ejemplo anterior. No debemos confundir el p\'ixel central con aquel que se encuentra en su centro geom\'etrico. La idea de este elemento es para tomarlo como punto de referencia o representativo. Un ejemplo se ve en el cap\'itulo \ref{chapter:SCHEME}, como para aquellos p\'ixles que no se conoce su valor, se usa en cambio el parche del cual ellos son su centro.
