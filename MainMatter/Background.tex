@@ -1,7 +1,7 @@
-\chapter{Recuperaci\'on de Imágenes}\label{chapter:ImIp} % II = Image Inpainting
+\chapter{Restauraci\'on de Imágenes}\label{chapter:ImIp} % II = Image Inpainting
 
-\begin{definition}
-El problema de \II, o en general el problema de \textit{inpainting} es el de recuperar una señal a partir de una versi\'on corrupta de la misma. Sea $\y$ un vector de dimensiones $m \times 1$ y $\z$ la versi\'on corrupta de $\y$ que le faltan algunos elementos, se tiene que:
+\begin{definition}\label{def:inpainting}
+El problema de \II\footnote{T\'ermino en ingl\'es cuyo equivalente en el \'ambito del procesamiento de im\'agenes es \textit{restauraci\'on}.}, o en general el problema de \textit{inpainting} es el de recuperar una señal a partir de una versi\'on corrupta de la misma. Sea $\y$ un vector de dimensiones $m \times 1$ y $\z$ la versi\'on corrupta de $\y$ que le faltan algunos elementos, se tiene que:
 \begin{equation}
 	z = My
 	\label{eq:inpainting}
@@ -9,7 +9,54 @@ El problema de \II, o en general el problema de \textit{inpainting} es el de rec
 donde $\mathbf{M}$ es una matriz diagonal de $m \times m$ con solo $0$'s y $1$'s la cual define las posiciones de los elementos faltantes. Se quiere encontrar el vector $\y$, cuando $\z$ y  $\mathbf{M}$ son conocidos. 
 \end{definition}
 
-Se ha de destacar que estamos en presencia de un problema mal planteado pues la $y$ buscada que satisface \ref{eq:inpainting} hay mas de una (en el caso del problema general sin restricciones hay infinitas). Entre las dis\'imiles soluciones se busca la que bajo criterios subjetivos del ojo humano es la que mejor rellena las partes faltantes. 
+Se ha de destacar que estamos en presencia de un problema mal planteado pues la $y$ buscada que satisface (\ref{eq:inpainting}) hay m\'as de una (en el caso del problema general sin restricciones, hay infinitas). Entre las dis\'imiles soluciones se busca la que bajo criterios subjetivos del ojo humano es la que mejor rellena las partes faltantes. La restauraci\'on en este trabajo se realiza sobre las im\'agenes digitales, en el siguiente ep\'igrafe se exponen sus principales características y como adaptarlas al problema anteriormente planteado. 
+
+\section{Las im\'agenes digitales}
+Una imagen digital \cite{solomon2011fundamentals,enwiki:di,eswiki:id} es una representaci\'on bidimensional de una imagen, compuesta por elementos usualmente llamados \textit{p\'ixeles} que contienen informaci\'on finita en valores discretos que representan num\'ericamente la intensidad de alg\'un color o su escala de gris. Estos valores son la salida de una funci\'on en dos dimensiones cuyo dominio son coordenadas espaciales. La resolución de una imagen digital son aquellos intervalos de valores admisibles para cada coordenada espacial. En dependencia de si estos intervalos son fijos o din\'amicos la im\'agenes digitales se clasifican respectivamente en:
+\begin{itemize}
+\item \textbf{Imagen matricial o mapa de bits} (conocido en ingl\'es como \textit{raster image} o \textit{bitmap}). Este tipo de imagen suele tener asociada una representaci\'on matricial, la cual es el resultado de tabular\footnote{Entiéndase por tabular una funci\'on $f$ al proceso de colocar en la posici\'on $i,\;j$ de la matriz el resultado de $f(i, j)$} la funci\'on que arroja el valor de los p\'ixeles. Comúnmente los píxeles contienen el valor de color o intensidad de la imagen que representa una muestra puntual de luz de una escena. La mayor\'ia de los formatos de archivos de im\'ages presentes en los diferentes dispositivos digitales hoy en d\'ia se usan para almacenar este tipo de im\'agenes \cite{eswiki:imp}.
+\item \textbf{Imagen o gr\'afico vectorial}. Basa su representaci\'on en el concepto geom\'etrico de vector y los elementos que contiene son tambi\'en otros conceptos geom\'etricos b\'asicos tales como los rectas, segmentos, pol\'igonos, circunferencias, arcos, elipses, \textit{etc}. Estos elementos traen consigo otros metadatos tales como el grosor de la linea y color del borde e interior. Este tipo de im\'agenes no se suele usar para capturar escenas reales, en cambio es m\'as \'util para representar logotipos, texto escrito, f\'ormulas y figuras matem\'aticas. Una de sus principales ventajas es su escalabilidad a cualquier tamaño de marco donde se muestre, pues su cencepci\'on geom\'etrica permite \textit{dibujarla} sin perder ning\'un nivel de detalle \cite{eswiki:igv}. 
+\end{itemize}
+
+Las imágenes digitales se pueden obtener de varias formas. Por medio de dispositivos de entrada conversión analógica-digital como los escáneres y las cámaras digitales. Directamente mediante programas informáticos editores de mapas de bits y dibujo vectorial, como por ejemplo realizando dibujos con el ratón o tableta digitalizadora gráfica incluyendo el lápiz óptico, por otro lado mediante un programa de renderización 3D a mapa de bits. Luego de que se obtienen su informaci\'on pasa usualmente por un proceso de serializaci\'on y luego compresi\'on que se almacena en determinado formato digital. La mayoría de formatos de imágenes digitales están compuestos por una cabecera que contiene atributos (dimensiones de la imagen, tipo de codificación, \textit{etc}.), seguida de los datos de la imagen en sí misma. La estructura de los atributos y de los datos de la imagen es distinto en cada formato. Además, los formatos actuales añaden a menudo una zona de metadatos (escala de sensibilidad, flash, \textit{etc}.) Estos metadatos se utilizan muy a menudo en el formato extensión para cámaras digitales y videocámaras.
+
+\subsection{Las im\'agenes matriciales}
+
+Tal y como se expresa en la definici\'on del problema de restauraci\'on de im\'agenes (definici\'on \ref{def:inpainting}), se trata de im\'agenes representables como una señal o vector. El caso m\'as conveniente son las im\'agenes matriciales pues se pueden vectorizar de manera trivial. En este trabajo no se tratar\'a el caso de las im\'agenes vectoriales debido a que no est\'a claro su adaptaci\'on para el problema de la restauraci\'on. El análisis ir\'a enfocado en aquellas im\'agenes digitales con alg\'un tipo de representaci\'on matricial.
+
+La imagen matricial o mapa de bits est\'a compuesta por una matriz $\I_{a \times b}$ con $a$ filas y $b$ columnas. Cada elemento o p\'ixel de dicha matriz suele ser un valor escalar o una tupla de escalares, que como se ha mencionado anteriormente representan la intensidad de un color o de la luz en sus coordenadas. En el caso más simple, cada píxel contiene un único valor numérico que representa el nivel de intensidad de la señal en ese punto de la imagen. Para convertir estos escalares a un elemento visual se usa un mapa de colores, el cual asigna un tono de color especifico a cada uno de los valores en un intervalo discreto y finito. Dicho intervalo contiene todos los valores v\'alidos que pueden tomar los p\'ixeles de la imagen.
+
+El mapa de colores más comúnmente usado es la escala de grises, que asigna todos los matices de gris desde el negro (valor $0$) hasta el blanco (máximo valor del intervalo) según el nivel de la señal. El intervalo de valores estándar es $[0,\; 255]$, considerando solo los n\'umeros enteros. Son un total de $256$ n\'umeros en ese intervalo, que es justamente la m\'axima cantidad de enteros que se puede almacenar en 8 bits. La escala de grises se adapta especialmente bien a las imágenes que expresan sólo la intensidad de la señal como un valor único en cada punto de la región.
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+		\node (image) at (0,0) {\includegraphics[width=0.75\textwidth,height=1cm]{Graphics/colormap_gray.png}};
+		\coordinate (a) at ($(image.south west)+(0.15, 0)$);
+		\coordinate (b) at ($(image.south east)+(-0.15, 0)$);
+		\draw[-] (a) -- (b);
+		\draw[-] (a) -- ++(0, -.25) node[below]{0};
+		\draw[-] ($(a)!0.25!(b)$) -- ++(0, -.25) node[below]{63};
+		\draw[-] ($(a)!0.50!(b)$) -- ++(0, -.25) node[below]{127};
+		\draw[-] ($(a)!0.75!(b)$) -- ++(0, -.25) node[below]{191};
+		\draw[-] (b) -- ++(0, -.25) node[below]{255};
+	\end{tikzpicture}
+	\caption{Mapa de color de la escala de grises}
+\end{figure}
+
+\subsection{Mapa de color RGB}
+
+Además de las imágenes en escala de grises, existen imágenes en color en las que el espectro completo de colores puede representarse como una terna de escalares. La forma est\'andar es mediante los componentes \RGB\footnote{Por sus siglas en ingl\'es \textit{red, green and blue}: rojo, verde y azul} en cada píxel. El color se representa como una combinación lineal de los colores primarios de la luz, cada elemento de la terna indica la intensidad de rojo, verde o azul necesarios para formar el color en cuesti\'on. Las im\'agenes \RGB pueden ser vistas de tres formas distintas:
+\begin{itemize}
+\item Como un arreglo tridimensional.
+\item Como una matriz cuyos elementos son ternas.
+\item Como una terna de matrices de igual dimensi\'on.
+\end{itemize}
+En el \'ultimo caso a cada matriz se le llama \textit{canal}, por ejemplo el \textit{canal rojo} es la matriz que contiene los valores de las intensidades de rojo.
+
+El espacio de color \RGB se basa en la porción del espectro electromagnético perceptible por los humanos para cada una de las longitudes de onda de los colores rojo, verde y azul. An\'alogo a la escala de grises las intensidades en cada canal toman valores enteros en el intervalo $[0,\; 255]$ y a mayor es el valor mayor es la intensidad en el color resultante. De modo que el rojo se obtiene con $(255,0,0)$, el verde con $(0,255,0)$ y el azul con $(0,0,255)$
+
+Para este trabajo se tomar\'a como convenio que cuando se trata de la imagen como matriz se refiere en el caso de la escala de grises a su matriz de intensidades. En el caso de im\'agenes como las \RGB se refiere a alguno de sus canales. Si se quiere realizar la restauraci\'on a una imagen representada en varios canales de color, se aplica la restauraci\'on a cada uno de estos de forma independiente, luego la imagen final restaurada tendr\'a como canales esos que se restauraron.
+
 
 \section{Los parches de una imagen}\label{sec:patches}
 
