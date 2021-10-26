@@ -308,7 +308,7 @@ Se modifica entonces el esquema inicial (figura \ref{fig:init_scheme}) para que 
 	\label{fig:subimage_scheme}
 \end{figure}
 
-\section{Esquema final}
+\section{Esquema final}\label{sec:final_scheme}
 
 Con el esquema presentado anteriormente (figura \ref{fig:subimage_scheme}) ya es posible realizar la recuperaci\'on de im\'agenes. Como esquema final se propone el uso de $K$ matrices de permutaci\'on diferentes, esto es posible debido a que el algoritmo \ref{al:PRA} no tiene un resultado \'unico para un $\X$ fijo. El mismo depende de algunas variables aleatorias que hacen que dos ejecuciones con los mismos par\'ametros generen dos matrices $\P$ distintas. El objetivo de usar varias matrices de permutaci\'on es realizar el esquema de la figura \ref{fig:subimage_scheme} con cada una de las $K$ matrices $\P_i$, obteniendo las im\'agenes recuperadas: $\yhat_1,\; \yhat_2,\; \dots,\; \yhat_K$. La imagen recuperada final $\yhat$ ser\'ia el promedio de las anteriores:
 \begin{equation}
