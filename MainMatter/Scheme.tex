@@ -1,9 +1,9 @@
 \chapter{Esquema de la restauraci\'on de im\'agenes}\label{chapter:SCHEME}
 
 \section{Esquema inicial}
-Primeramente se introduce el esquema principal de esta propuesta para la restauraci\'on de im\'agenes. Para ello se considera la siguiente notaci\'on:
+Primeramente se introduce el esquema principal de esta propuesta para la restauraci\'on de im\'agenes presentada en \cite{ram2013image}. Para ello se considera la siguiente notaci\'on:
 \begin{itemize}
-	\item $\Z$: matriz que representa la imagen incompleta a recuperar, de dimensi\'on\\ $N_1 \times N_2$, $N_1N_2 = N$.
+	\item $\Z$: matriz que representa la imagen incompleta a recuperar (ver epígrafe \ref{sec:digital_images}), de dimensi\'on $N_1 \times N_2$, $N_1N_2 = N$.
 	\item $\z$: versión en forma de vector(o señal) de la matriz $\Z$, de dimensi\'on $N \times 1$.
 	\item $\P$: matriz de permutaci\'on de dimensi\'on $N \times N$.
 \end{itemize}
@@ -101,7 +101,7 @@ Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dic
 Para comprender mejor lo que se quiere lograr con este procedimiento supongamos que contamos con la imagen real, la versi\'on de $\Z$ con la informaci\'on todos sus p\'ixeles. Aunque en la pr\'actica esta imagen no existe, la utilizaremos para reflejar de forma clara el funcionamiento del esquema inicial (figura \ref{fig:init_scheme}). Se consideran los siguientes elementos:
 \begin{itemize}
 	\item $\Y$: matriz de la imagen original, es igual a $\Z$ y adem\'as tiene el valor de sus p\'ixeles faltantes. 
-	\item $\y$: versión en forma de vector(o señal) de la matriz $\Y$.
+	\item $\y$: versión en forma de vector (o señal) de la matriz $\Y$.
 \end{itemize}
 Supongamos adem\'as que la matriz de permutaci\'on $\P$ tiene la propiedad de que al premultiplicarse por $\y$ se obtiene una señal suave $\y^p$. Por otro lado, se tiene que $\z^p$ y $\y^p$ solo difieren en los p\'ixeles faltantes de $\Z$, y que $\H(\z^p)$ completa la señal, haciéndola suave. Se puede esperar entonces que $\yhat$ sea una aproximaci\'on de $\y$. Lo anterior expresado formalmente:
 \begin{equation}
@@ -276,7 +276,7 @@ De igual forma por el lema \ref{le:count_patches_ieq} la cantidad de parches $N_
 	\label{ex:subimages}
 \end{figure}
 
-Téngase en cuenta que la subimagen formada por los p\'ixeles centrales de cada parche es una señal de tamaño $N_p$ (ver figura \ref{ex:subimages}), entonces es posible aplicarle el esquema inicial (figura \ref{fig:init_scheme}) para recuperar por completo esa subimagen. Considerando todos los posibles centros para los parches, se tiene un total de $n$ subim\'agenes (referencia al capitulo 1). Si se recupera cada una de estas y se colocan en su posición natural en $\Z$, est\'a claro que todas se solapar\'ian, para ello se promedian los p\'ixeles solapados, y así se formar\'ia una imagen completa recuperada. 
+Téngase en cuenta que la subimagen formada por los p\'ixeles centrales de cada parche es una señal de tamaño $N_p$ (ver figura \ref{ex:subimages}), entonces es posible aplicarle el esquema inicial (figura \ref{fig:init_scheme}) para recuperar por completo esa subimagen. Considerando todos los posibles centros para los parches, se tiene un total de $n$ subim\'agenes. Si se recupera cada una de estas y se colocan en su posición natural en $\Z$, est\'a claro que todas se solapar\'ian, para ello se promedian los p\'ixeles solapados, y así se formar\'ia una imagen completa recuperada. 
 
 Se denota por $\Ztilde_j$ a la subimagen formada por los centros de los parches, cuando el centro se encuentra en la posici\'on $j$ en cada parche. Luego se tienen las $n$ subim\'agenes: $\Ztilde_1,\; \Ztilde_2,\; \dots,\; \Ztilde_n$. Si se representa el vector de parches $X$ como una matriz, poniendo los parches como columnas, entonces cada fila de esta matriz es una submimagen en forma de vector (figura \ref{ex:subimages}). Por lo tanto la subimagen $\Ztilde_j$ se encuentra en su forma de vector $\ztilde_j$ en la fila $j$ de la matriz $\X$. Cada una de estas señales se restauran usando $\ztilde_j$ en (\ref{eq:init_yhat}) en cambio de $\z$:
 \begin{equation}
