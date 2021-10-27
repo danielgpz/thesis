@@ -4,8 +4,8 @@
 Primeramente se introduce el esquema principal de esta propuesta para la restauraci\'on de im\'agenes presentada en \cite{ram2013image}. Para ello se considera la siguiente notaci\'on:
 \begin{itemize}
 	\item $\Z$: matriz que representa la imagen incompleta a recuperar (ver epígrafe \ref{sec:digital_images}), de dimensi\'on $N_1 \times N_2$, $N_1N_2 = N$.
-	\item $\z$: versión en forma de vector(o señal) de la matriz $\Z$, de dimensi\'on $N \times 1$.
-	\item $\P$: matriz de permutaci\'on de dimensi\'on $N \times N$.
+	\item $\z$: versión en forma de vector (o señal) de la matriz $\Z$, de dimensi\'on $N \times 1$.
+	\item $\P$: matriz de permutaci\'on (ver epigrafe \ref{sec:permutation_matrices}) de dimensi\'on $N \times N$.
 \end{itemize}
 Para obtener la señal recuperada $\yhat$ a partir de $\z$ se procede de la siguiente forma:
 \begin{figure}[H]
@@ -20,7 +20,7 @@ Para obtener la señal recuperada $\yhat$ a partir de $\z$ se procede de la sigu
 	\label{fig:init_scheme}
 \end{figure}
 
-Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dicha permutaci\'on. Luego a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes. Finalmente el vector resultante se permuta mediante $\P^{-1}$, \footnote{La matriz inversa de $\P$, $\P^{-1} = \P^\intercal$ (referencia al cap 1)} colocando todos sus elementos en su posici\'on inicial en $\z$. Tal y como se muestra en el ejemplo de la figura \ref{ex:init_scheme}. El vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
+Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dicha permutaci\'on. Luego a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes. Finalmente el vector resultante se permuta mediante $\P^{-1}$, \footnote{La matriz inversa de $\P$, $\P^{-1} = \P^\intercal$ (lema \ref{lm:inverse_permutation})} colocando todos sus elementos en su posici\'on inicial en $\z$. Tal y como se muestra en el ejemplo de la figura \ref{ex:init_scheme}. El vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
 \begin{equation}
 	\yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
 	\label{eq:init_yhat}
@@ -234,7 +234,7 @@ Claramente si no es posible encontrar dos menores porque solo hay un parche disp
 	\right.
 	\label{eq:choosing_patch}
 \end{equation}
-donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Finalmente el conjunto de \'indices $\{j_i\}$ del camino de parches define la permutaci\'on $\P$ que se busca. El pseudoc\'odigo se muestra en el algoritmo \ref{al:PRA}.
+donde $\alpha$ es tal que $p_a + p_b = 1$ y $\epsilon$ es un valor ajustable. Finalmente el conjunto de \'indices $\{j_i\}$ del camino de parches define la permutaci\'on $\P$ (ver definici\'on \ref{def:permutation}) que se busca. El pseudoc\'odigo se muestra en el algoritmo \ref{al:PRA}.
 
 \section{Trabajo con subim\'agenes}
 Tomando como $n$ el tamaño de los parches en este procedimiento, se tiene por el lema \ref{le:count_patches} que la cantidad de parches de la matriz $\Z$ es: 
