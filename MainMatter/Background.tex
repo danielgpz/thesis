@@ -126,6 +126,75 @@ Por el lema \ref{le:count_patches} la cantidad de parches de A es $(a - \sqrt{n}
 
 En la figura \ref{ex:patch_center} se muestran los centros de los parches del ejemplo anterior. No debemos confundir el p\'ixel central con aquel que se encuentra en su centro geom\'etrico. La idea de este elemento es para tomarlo como punto de referencia o representativo. Un ejemplo se ve en el cap\'itulo \ref{chapter:SCHEME}, como para aquellos p\'ixles que no se conoce su valor, se usa en cambio el parche del cual ellos son su centro.
 
+\section{Señales y vectorizaci\'on de matrices}\label{sec:signals}
+
+Para adaptar las im\'agenes con representaci\'on matricial al problema de la restauraci\'on (definición \ref{def:inpainting}) es necesario transformar su respectiva matriz a un vector o señal. En el entorno matem\'atico, específicamente en \'algebra linear \cite{enwiki:la} la vectorizaci\'on de una matriz es una transformaci\'on linear la cual convierte una matriz a un vector columna.
+\begin{definition}
+	Sea la matriz $A_{m \times n} = \{a_{i,j}\}$, se define como su vectorizaci\'on al vector denotado por $vec(A)$, de dimensi\'on $mn \times 1$ que resulta de apilar las columnas de $A$ de la siguiente forma:
+	\begin{equation*}
+		vec(A) = \left(
+		\begin{array}{ccccccc}
+		a_{1,1}&a_{2,1}\;\cdots\;a_{m,1}&a_{1,2}&a_{2,2}\;\cdots\;a_{m,2}&\cdots&a_{1,n}&a_{2,n}\;\cdots\;a_{m,n}\\
+		\end{array} \right)^\intercal
+	\end{equation*}
+\end{definition}
+Para obtener la vectorizaci\'on de las filas de $A$, se debe simplemente vectorizar su transpuesta: $vec(A^\intercal)$. El siguiente ejemplo muestra tanto vectorizaci\'on por columnas, como por filas.
+\begin{figure}[h]
+	\[
+		A = \left(
+		\begin{matrix}
+			23 & 14 & 9\\
+			90 & -54 & -2\\
+		\end{matrix}\right)
+		\qquad
+		vec(A) = \left(
+		\begin{matrix}
+			23\\
+			90\\
+			14\\
+			-54\\
+			9\\
+			-2\\
+		\end{matrix}\right)
+		\qquad
+		vec(A^\intercal) = \left(
+		\begin{matrix}
+			23\\
+			14\\
+			9\\
+			90\\
+			-54\\
+			-2\\
+		\end{matrix}\right)
+	\]
+	\label{ex:vectorization}
+	\caption{Vectorizaci\'on para una matriz de $2 \times 3$}
+\end{figure}
+
+Los conceptos de vector y señal son muy similares, y en este trabajo se usan ambos t\'erminos indistintamente para referirse a lo mismo. A continuaci\'on se expone su equivalencia.
+\begin{definition}
+	Una señal se define como una secuencia de n\'umeros reales ordenados en el tiempo de forma discreta. En otras palabras una señal es una función $s$:
+	\begin{equation}
+		s : \mathbb{N}^\ast \rightarrow \mathbb{R}
+	\end{equation}
+	donde $s(t)$ es el $t$-\'esimo elemento de la señal y $t$ su tiempo representado como un entero. 
+\end{definition}
+\begin{definition}
+	Una señal finita $s$ de tamaño $m$ es aquella cuyo dominio se restringe al intervalo de los primeros $m$ enteros positivos:
+	\begin{equation}
+		s : [1,\;m] \rightarrow \mathbb{R}
+	\end{equation}
+\end{definition}
+La equivalencia entre vectores y señales es trivial. Sea $V = \{v_i\}$ un vector, su señal equivalente $S_V$ es aquella tal que $S_V(i) = v_i$ para todo $i$. Por lo tanto el conjunto de las señales finitas de tamaño $m$ coincide con el espacio vectorial de dimensi\'on $m$, y el conjunto de las señales infinitas coincide con el espacio vectorial de dimensi\'on infinita. Luego para los prop\'sitos de este trabajo tanto \textit{vector} como \textit{señal} significan lo mismo.
+
+Finalmente se hace necesario tratar el tema de la suavidad de una señal, pues se usar\'a m\'as adelante en el cap\'itulo \ref{chapter:SCHEME}. Este concepto no es m\'as que la percepci\'on visual de que tan suave es la gr\'afica de la señal en el plano cartesiano. Como se trata de algo subjetivo se usa en su lugar medidas aceptadas en la literatura, para este trabajo se usa la medida de varianza total: \textbf{TV}\footnote{Por sus siglas en ingl\'es: \textit{total variance}}.
+\begin{definition}
+	La varianza total de una señal $s$ se define como:
+	\begin{equation}
+		\|s\|_{TV} = \sum_{i}|s(i) - s(i - 1)|
+	\end{equation}
+\end{definition}
+
 \section{Matrices de permutaci\'on}\label{sec:permutation_matrices}
 
 La permutación de filas y/o columnas de una matriz es una operación muy frecuente en la implementación de técnicas directas o iterativas sobre estas. En este trabajo se hace uso de las matrices de permutaci\'on, de ah\'i la relevancia de las siguientes definiciones:
