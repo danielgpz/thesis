@@ -188,7 +188,7 @@ Los conceptos de vector y señal son muy similares, y en este trabajo se usan am
 La equivalencia entre vectores y señales es trivial. Sea $V = \{v_i\}$ un vector, su señal equivalente $S_V$ es aquella tal que $S_V(i) = v_i$ para todo $i$. Por lo tanto el conjunto de las señales finitas de tamaño $m$ coincide con el espacio vectorial de dimensi\'on $m$, y el conjunto de las señales infinitas coincide con el espacio vectorial de dimensi\'on infinita. Luego para los prop\'sitos de este trabajo tanto \textit{vector} como \textit{señal} significan lo mismo.
 
 Finalmente se hace necesario tratar el tema de la suavidad de una señal, pues se usar\'a m\'as adelante en el cap\'itulo \ref{chapter:SCHEME}. Este concepto no es m\'as que la percepci\'on visual de que tan suave es la gr\'afica de la señal en el plano cartesiano. Como se trata de algo subjetivo se usa en su lugar medidas aceptadas en la literatura, para este trabajo se usa la medida de varianza total: \textbf{TV}\footnote{Por sus siglas en ingl\'es: \textit{total variance}}.
-\begin{definition}
+\begin{definition}\label{def:tv}
 	La varianza total de una señal $s$ se define como:
 	\begin{equation}
 		\|s\|_{TV} = \sum_{i}|s(i) - s(i - 1)|

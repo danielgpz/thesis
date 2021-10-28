@@ -4,7 +4,7 @@
 Primeramente se introduce el esquema principal de esta propuesta para la restauraci\'on de im\'agenes presentada en \cite{ram2013image}. Para ello se considera la siguiente notaci\'on:
 \begin{itemize}
 	\item $\Z$: matriz que representa la imagen incompleta a recuperar (ver epígrafe \ref{sec:digital_images}), de dimensi\'on $N_1 \times N_2$, $N_1N_2 = N$.
-	\item $\z$: versión en forma de vector (o señal) de la matriz $\Z$, de dimensi\'on $N \times 1$.
+	\item $\z$: versión en forma de vector (o señal) de la matriz $\Z$ (ver epigrafe \ref{sec:signals}), de dimensi\'on $N \times 1$.
 	\item $\P$: matriz de permutaci\'on (ver epigrafe \ref{sec:permutation_matrices}) de dimensi\'on $N \times N$.
 \end{itemize}
 Para obtener la señal recuperada $\yhat$ a partir de $\z$ se procede de la siguiente forma:
@@ -38,21 +38,21 @@ Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dic
 	\longrightarrow
 	\z = \left(
 		\begin{matrix}
-			9 \\ \boxed{?} \\ 25 \\ \boxed{?} \\ 1 \\ 81 \\ 16 \\ 4 \\ 36\\
+			9 \\ \boxed{?} \\ 16 \\ \boxed{?} \\ 1 \\ 4 \\ 25 \\ 81 \\ 36\\
 		\end{matrix}
 	\right)
 	\qquad
 	\P = \left(
 		\begin{matrix}
 			0&0&0&0&1&0&0&0&0\\
-			0&0&0&0&0&0&0&1&0\\
-			1&0&0&0&0&0&0&0&0\\
-			0&0&0&0&0&0&1&0&0\\
-			0&0&1&0&0&0&0&0&0\\
-			0&0&0&0&0&0&0&0&1\\
-			0&0&0&1&0&0&0&0&0\\
-			0&1&0&0&0&0&0&0&0\\
 			0&0&0&0&0&1&0&0&0\\
+			1&0&0&0&0&0&0&0&0\\
+			0&0&1&0&0&0&0&0&0\\
+			0&0&0&0&0&0&1&0&0\\
+			0&0&0&0&0&0&0&0&1\\
+			0&1&0&0&0&0&0&0&0\\
+			0&0&0&1&0&0&0&0&0\\
+			0&0&0&0&0&0&0&1&0\\
 		\end{matrix}
 	\right)
 	\]
@@ -63,27 +63,27 @@ Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dic
 		\longrightarrow
 		\overset{\mbox{Operador de suavidad}}{\H(\z^p) = \left(\begin{matrix}1\\4\\9\\16\\25\\36\\\boxed{49}\\\boxed{64}\\81\end{matrix}\right)}
 		\longrightarrow
-		\overset{\mbox{Permutaci\'on inversa}}{ \P^{-1}\H(\z^p) = \left(\begin{matrix}9\\\boxed{64}\\25\\\boxed{49}\\1\\81\\16\\4\\36\end{matrix}\right) = \yhat}
+		\overset{\mbox{Permutaci\'on inversa}}{ \P^{-1}\H(\z^p) = \left(\begin{matrix}9\\\boxed{49}\\16\\\boxed{64}\\1\\4\\25\\81\\36\end{matrix}\right) = \yhat}
 	\]
 	
 	\[
 	\P^{-1} = \P^\intercal = \left(
 		\begin{matrix}
 			0&0&1&0&0&0&0&0&0\\
-			0&0&0&0&0&0&0&1&0\\
-			0&0&0&0&1&0&0&0&0\\
 			0&0&0&0&0&0&1&0&0\\
-			1&0&0&0&0&0&0&0&0\\
-			0&0&0&0&0&0&0&0&1\\
 			0&0&0&1&0&0&0&0&0\\
+			0&0&0&0&0&0&0&1&0\\
+			1&0&0&0&0&0&0&0&0\\
 			0&1&0&0&0&0&0&0&0\\
+			0&0&0&0&1&0&0&0&0\\
+			0&0&0&0&0&0&0&0&1\\
 			0&0&0&0&0&1&0&0&0\\
 		\end{matrix}
 	\right)
 	\quad
 	\yhat = \left(
 		\begin{matrix}
-			9\\\boxed{64}\\25\\\boxed{49}\\1\\81\\16\\4\\36
+			9\\\boxed{49}\\16\\\boxed{64}\\1\\4\\25\\81\\36
 		\end{matrix}
 	\right) \longrightarrow 
 	\Yhat = \left(
@@ -119,19 +119,19 @@ Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\
 
 \section{La matriz de permutaci\'on}
 
-El resultado (\ref{eq:permutation_smoothness}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ según (referencia a la formula de suavidad) ser\'ia:
+El resultado (\ref{eq:permutation_smoothness}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ se usa la varianza total (definici\'on \ref{def:tv}), que en este caso resulta:
 \begin{equation}
-	\|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y_j^{p} - \y_{j - 1}^{p}|
+	\|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y^{p}(j) - \y^{p}(j - 1)|
 	\label{eq:signal_smoothness}
 \end{equation}
-La matriz $\P$ que se busca es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y_j^{p} - \y_{j - 1}^{p}|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que conocemos su valor.
+La matriz $\P$ que se busca es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y^{p}(j) - \y^{p}(j - 1)|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que conocemos su valor.
 
 Para encontrar la distancia entre dos p\'ixeles de $\Z$ (independientemente de si se conoce su valor o no) usaremos sus parches (ver epígrafe \ref{sec:patches}) de la siguiente manera:
 \begin{equation}
-	|\y_j^{p} - \y_{j - 1}^{p}| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
+	|\y^{p}(j) - \y^{p}(j - 1)| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
 	\label{eq:omega_mean}
 \end{equation}
-donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z_j^p$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, tal como se expresa en (\ref{eq:omega_mean}). Luego, usando (\ref{eq:omega_mean}) en (\ref{eq:signal_smoothness}), el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ es equivalente a minimizar:
+donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z^p(j)$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, tal como se expresa en (\ref{eq:omega_mean}). Luego, usando (\ref{eq:omega_mean}) en (\ref{eq:signal_smoothness}), el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ es equivalente a minimizar:
 \begin{equation}
 	\|\X^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
 	\label{eq:path_smoothness}
@@ -154,19 +154,19 @@ Sobre el grafo $G_\X$ se quiere resolver una instancia del problema \textit{\tex
 			m & n & o & p\\
 		\end{matrix}
 	\right)
-	\qquad\z^\intercal = \left(
+	\qquad\z = \left(
 		\begin{array}{ccccc|cc|cc|cc|ccccc}
 			\cline{6-7}\cline{10-11}
-			a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p \\
+			a & e & i & m & b & f & j & n & c & g & k & o & d & h & l & p \\
 			\cline{6-7}\cline{10-11}
 		\end{array}
-	\right)\]
+	\right)^\intercal\]
 	\[\X = \left(
 		\begin{matrix}\cline{5-5}
-			a & b & c & e & \multicolumn{1}{|c|}{f} & g & i & j & k\\
-			b & c & d & f & \multicolumn{1}{|c|}{g} & h & j & k & l\\
-			e & f & g & i & \multicolumn{1}{|c|}{j} & k & m & n & o\\
-			f & g & h & g & \multicolumn{1}{|c|}{k} & l & n & o & p\\\cline{5-5}
+			a & e & i & b & \multicolumn{1}{|c|}{f} & j & c & g & k\\
+			e & i & m & f & \multicolumn{1}{|c|}{j} & n & g & k & o\\
+			b & f & j & c & \multicolumn{1}{|c|}{g} & k & d & h & l\\
+			f & j & n & g & \multicolumn{1}{|c|}{k} & o & h & l & p\\\cline{5-5}
 		\end{matrix}
 	\right)\]
 	\caption{Vector de parches $\X$ de una matriz $\Z$ de $4 \times 4$, y parches de $2 \times 2$. Se resalta el $5^{to}$ parche como ejemplo.}
@@ -254,25 +254,25 @@ De igual forma por el lema \ref{le:count_patches_ieq} la cantidad de parches $N_
 			m & n & o & p\\
 		\end{matrix}\;\;\;
 	\right)
-	\qquad\z^\intercal = \left(
-		\begin{array}{c|ccc|c|ccc|c|ccc|cccc}
-			\cline{2-4}\cline{6-8}\cline{10-12}
-			a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p \\
-			\cline{2-4}\cline{6-8}\cline{10-12}
+	\qquad\z = \left(
+		\begin{array}{cccc|ccc|c|ccc|c|ccc|c}
+			\cline{5-7}\cline{9-11}\cline{13-15}
+			a & e & i & m & b & f & j & n & c & g & k & o & d & h & l & p\\
+			\cline{5-7}\cline{9-11}\cline{13-15}
 		\end{array}
-	\right)
+	\right)^\intercal
 	\]
 	\[
 	\X = \left(
 		\;\begin{matrix}
-			a & b & c & e & f & g & i & j & k\\\hline
-			\multicolumn{1}{|c}{b} & c & d & f & g & h & j & k & \multicolumn{1}{c|}{l}\\\hline
-			e & f & g & i & j & k & m & n & o\\
-			f & g & h & g & k & l & n & o & p\\
+			a & e & i & b & f & j & c & g & k\\
+			e & i & m & f & j & n & g & k & o\\\hline
+			\multicolumn{1}{|c}{b} & f & j & c & g & k & d & h & \multicolumn{1}{c|}{l}\\\hline
+			f & j & n & g & k & o & h & l & p\\
 		\end{matrix}\;
 	\right)
 	\]
-	\caption{Ejemplo de subimagen tomando como centro de los parches su segundo p\'ixel.}
+	\caption{Ejemplo de subimagen tomando como centro de los parches su tercer p\'ixel.}
 	\label{ex:subimages}
 \end{figure}
 
