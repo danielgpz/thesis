@@ -1,7 +1,7 @@
 \chapter{Preliminares}\label{chapter:background}
 
 \begin{definition}\label{def:inpainting}
-	El problema de \II\footnote{T\'ermino en ingl\'es cuyo equivalente en el \'ambito del procesamiento de im\'agenes es \textit{restauraci\'on}.}, o en general el problema de \textit{inpainting} es el de recuperar una señal a partir de una versi\'on corrupta de la misma. Sea $\y$ un vector de dimensiones $m \times 1$ y $\z$ la versi\'on corrupta de $\y$ que le faltan algunos elementos, se tiene que:
+	El problema de \II\footnote{T\'ermino en ingl\'es cuyo equivalente en el \'ambito del procesamiento de im\'agenes es \textit{restauraci\'on}}, o en general el problema de \textit{inpainting} es el de recuperar una señal a partir de una versi\'on corrupta de la misma. Sea $\y$ un vector de dimensiones $m \times 1$ y $\z$ la versi\'on corrupta de $\y$ que le faltan algunos elementos, se tiene que:
 	\begin{equation}
 		z = My
 		\label{eq:inpainting}
@@ -9,13 +9,13 @@
 	donde $\mathbf{M}$ es una matriz diagonal de $m \times m$ con solo $0$'s y $1$'s la cual define las posiciones de los elementos faltantes. Se quiere encontrar el vector $\y$, cuando $\z$ y  $\mathbf{M}$ son conocidos. 
 \end{definition}
 
-Se ha de destacar que estamos en presencia de un \textit{problema mal planteado} pues la $y$ buscada no cumple con la segunda condición de la definición de \textit{problema bien planteado}\footnote{En ingl\'es \textit{wel-posed problem}. En caso contrario \textit{il-posed problem}.} \cite{enwiki:wpp} dada por Hadamart. Dicha definición pone las siguientes condicionantes a la soluci\'on  del problema en cuestión:
+Se ha de destacar que estamos en presencia de un \textit{problema mal planteado} pues la variable $y$ buscada no cumple con la segunda condición de la definición de \textit{problema bien planteado}\footnote{En ingl\'es \textit{well-posed problem}. En caso contrario \textit{il-posed problem}} \cite{enwiki:wpp} dada por \textit{Hadamart}. Dicha definición pone las siguientes condicionantes a la soluci\'on  del problema en cuestión:
 \begin{itemize}
 	\item La soluci\'on existe.
 	\item La soluci\'on es \'unica.
 	\item La soluci\'on depende continuamente de las condiciones iniciales del problema.
 \end{itemize}
-La unicidad de la soluci\'on se incumple pues existen infinitas $y$ que satisfacen (\ref{eq:inpainting}). Por lo tanto entre las dis\'imiles soluciones se busca la que bajo criterios subjetivos del ojo humano es la que mejor completa las partes faltantes. La restauraci\'on en este trabajo se realiza sobre las im\'agenes digitales, en el siguiente ep\'igrafe se exponen sus principales características y c\'omo adaptarlas al problema anteriormente planteado. 
+La unicidad de la soluci\'on se incumple pues existen infinitas $y$ que satisfacen (\ref{eq:inpainting}). Por lo tanto entre las dis\'imiles soluciones se busca la que, bajo criterios subjetivos del ojo humano, mejor completa las partes faltantes. La restauraci\'on en este trabajo se realiza sobre las im\'agenes digitales, en el siguiente ep\'igrafe se exponen sus principales características y c\'omo adaptarlas al problema anteriormente planteado. 
 
 \section{Las im\'agenes digitales}\label{sec:digital_images}
 Una imagen digital \cite{solomon2011fundamentals,enwiki:di,eswiki:id} es una representaci\'on bidimensional de una imagen, compuesta por elementos usualmente llamados \textit{p\'ixeles} que contienen informaci\'on finita en valores discretos que representan num\'ericamente la intensidad de alg\'un color o su escala de gris. Estos valores constituyen la salida de una funci\'on en dos dimensiones cuyo dominio son coordenadas espaciales. La resolución de una imagen digital son aquellos intervalos de valores admisibles para cada coordenada espacial. En dependencia de si estos intervalos son fijos o din\'amicos la im\'agenes digitales se clasifican respectivamente en:
