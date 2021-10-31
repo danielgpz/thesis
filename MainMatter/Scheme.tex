@@ -1,4 +1,4 @@
-\chapter{Esquema de la restauraci\'on de im\'agenes}\label{chapter:SCHEME}
+\chapter{Esquema de la restauraci\'on de im\'agenes}\label{chapter:scheme}
 
 \section{Esquema inicial}
 Primeramente se introduce el esquema principal de esta propuesta para la restauraci\'on de im\'agenes presentada en \cite{ram2013image}. Para ello se considera la siguiente notaci\'on:
@@ -20,7 +20,7 @@ Para obtener la señal recuperada $\yhat$ a partir de $\z$ se procede de la sigu
 	\label{fig:init_scheme}
 \end{figure}
 
-Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dicha permutaci\'on. Luego a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes. Finalmente el vector resultante se permuta mediante $\P^{-1}$, \footnote{La matriz inversa de $\P$, $\P^{-1} = \P^\intercal$ (lema \ref{lm:inverse_permutation})} colocando todos sus elementos en su posici\'on inicial en $\z$. Tal y como se muestra en el ejemplo de la figura \ref{ex:init_scheme}. El vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
+Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dicha permutaci\'on. Luego a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes. Finalmente el vector resultante se permuta mediante $\P^{-1}=\P^\intercal$ (lema \ref{lm:inverse_permutation}), colocando todos sus elementos en su posici\'on inicial en $\z$. Tal y como se muestra en el ejemplo de la figura \ref{ex:init_scheme}. El vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
 \begin{equation}
 	\yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
 	\label{eq:init_yhat}
@@ -115,7 +115,7 @@ Supongamos adem\'as que la matriz de permutaci\'on $\P$ tiene la propiedad de qu
 \end{equation}
 El objetivo de la restauraci\'on no es m\'as que encontrar una aproximaci\'on de esa imagen real que desconocemos, por lo tanto este resultado valida el funcionamiento del esquema (figura \ref{fig:init_scheme}).
 
-Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} se conocen varios en la literatura, por ejemplo los que se usan para interpolaci\'on o filtrado. Por el momento consideremos este operador como un superpar\'ametro del esquema. Para el caso de $\P$, en el siguiente ep\'igrafe se expone c\'omo hacer para obtener esta permutaci\'on.
+Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} se conocen varios en la literatura, por ejemplo, los que se usan para interpolaci\'on o filtrado. Por el momento consideremos este operador como un superpar\'ametro del esquema. Para el caso de $\P$, en el siguiente ep\'igrafe se expone c\'omo hacer para obtener esta permutaci\'on.
 
 \section{La matriz de permutaci\'on}
 
@@ -124,27 +124,21 @@ El resultado (\ref{eq:permutation_smoothness}) tiene como condici\'on que $\y^p$
 	\|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y^{p}(j) - \y^{p}(j - 1)|
 	\label{eq:signal_smoothness}
 \end{equation}
-La matriz $\P$ que se busca es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y^{p}(j) - \y^{p}(j - 1)|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que conocemos su valor.
+La matriz $\P$ que se busca es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, recordemos que no se cuenta con la señal  $\y$, entonces calcular $|\y^{p}(j) - \y^{p}(j - 1)|$ solo es posible cuando ambos elementos est\'an en la imagen incompleta $\Z$, lo que significa que se conoce su valor.
 
 Para encontrar la distancia entre dos p\'ixeles de $\Z$ (independientemente de si se conoce su valor o no) usaremos sus parches (ver epígrafe \ref{sec:patches}) de la siguiente manera:
 \begin{equation}
 	|\y^{p}(j) - \y^{p}(j - 1)| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
 	\label{eq:omega_mean}
 \end{equation}
-donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z^p(j)$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, tal como se expresa en (\ref{eq:omega_mean}). Luego, usando (\ref{eq:omega_mean}) en (\ref{eq:signal_smoothness}), el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ es equivalente a minimizar:
+donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z^p(j)$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, tal como se expresa en (\ref{eq:omega_mean}). Luego, usando (\ref{eq:omega_mean}) en (\ref{eq:signal_smoothness}), el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ es equivalente a:
 \begin{equation}
-	\|\X^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
+	\begin{array}{ccc}
+		\displaystyle\min_\P \|\X^p\|_{\mathit{TV}} & \mbox{donde} & \|\X^p\|_{\mathit{TV}}  = \displaystyle\sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
+	\end{array}
 	\label{eq:path_smoothness}
 \end{equation}
-donde $\X$ denota el vector de los parches de $\Z$ (ver figura \ref{ex:vector_X}) y $\X^p$ una permutaci\'on de $\X$ dada por una matriz $\P$. Como consecuencia la matriz $\P$ que se busca es aquella  que minimiza $\|\X^p\|_{\mathit{TV}}$. 
-
-Ahora bien, el problema de optimizaci\'on anterior se puede reformular de la siguiente forma:
-\begin{itemize}
-\item Sea $G_\X \langle\X,\;E\rangle$ un grafo ponderado y completo, cuyos nodos son todos los parches de $\Z$.
-\item Cada arista en $E$ que une los nodos $\x_i$ y $\x_j$ tiene peso $\omega(\x_i,\; \x_j)$.
-\end{itemize} 
-Sobre el grafo $G_\X$ se quiere resolver una instancia del problema \textit{\textbf{NP}-completo} del viajero, conocido como \TSP\footnote{\textbf{TSP}: por sus siglas en ingl\'es \textit{traveling salesman problem}} \cite{cormen2009introduction,enwiki:tsp} buscando un camino que comience en un parche (nodo) cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
-
+tal que $\X$ denota el vector de los parches de $\Z$ (ver figura \ref{ex:vector_X}) y $\X^p$ una permutaci\'on de $\X$ dada por una matriz $\P$. La soluci\'on de este problema de optimizacion es la matriz $\P$ que se busca.
 \begin{figure}[H]
 	\[\Z = \left(
 		\begin{matrix}
@@ -173,9 +167,16 @@ Sobre el grafo $G_\X$ se quiere resolver una instancia del problema \textit{\tex
 	\label{ex:vector_X}
 \end{figure}
 
+Ahora bien, el problema de optimizaci\'on anterior se puede reformular de la siguiente forma. Sea $G_\X \langle V,\;E,\;f\rangle$ un grafo ponderado y completo \cite{west2001introduction} tal que:
+\begin{itemize}
+	\item Sus nodos son los parches de $\Z$, $V = \{\x_i\}$.
+	\item Cada arista que une los nodos $\x_a$ y $\x_b$ tiene peso $\omega(\x_a,\; \x_b)$, $f = \omega$.
+\end{itemize} 
+Sobre $G_\X$ se quiere resolver una instancia del problema \textit{\textbf{NP}-completo} del viajero, conocido como \TSP\footnote{\textbf{TSP}: por sus siglas en ingl\'es \textit{traveling salesman problem}} \cite{cormen2009introduction,enwiki:tsp} buscando un camino que comience en un parche (nodo) cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
+
 \section{Algoritmo de reordenamiento de parches}
 
-No se conoce ningún algoritmo con complejidad temporal polinomial para resolver \TSP, con lo cual en favor de lograr la eficiencia del esquema de la recuperaci\'on se seleccion\'o un algoritmo que encuentra una soluci\'on aproximada. El camino de parches que encuentra puede no ser el de m\'inima longitud, pero se garantiza que ser\'a de las menores. En cambio, esta soluci\'on aproximada si se encuentra en un tiempo polinomial, que en este caso ser\'a lineal con respecto a la cantidad de parches o sea $O(\dim(\X))$.
+No se conoce ningún algoritmo con complejidad temporal polinomial para resolver el \TSP, con lo cual en favor de lograr la eficiencia del esquema de la recuperaci\'on se seleccion\'o un algoritmo que encuentra una soluci\'on aproximada. El camino de parches que encuentra puede no ser el de m\'inima longitud, pero se garantiza que ser\'a de las menores. En cambio, esta soluci\'on aproximada si se encuentra en un tiempo polinomial, que en este caso ser\'a lineal con respecto a la cantidad de parches o sea $O(\dim(\X))$.
 
 \SetAlgorithmName{Algoritmo}{Algortimo}{Lista de algoritmos}
 \SetKwInput{KwIn}{\underline{Entrada}}
@@ -183,7 +184,7 @@ No se conoce ningún algoritmo con complejidad temporal polinomial para resolver
 \SetKwInput{KwInit}{Inicializaci\'on}
 \SetKwFor{For}{Para}{hacer}{Fin}
 \SetKw{KwTo}{hasta}
-\SetKwIF{If}{ElseIf}{Else}{Si}{entonces}{Sino y si}{Sino}{Fin}
+\SetKwIF{If}{ElseIf}{Else}{Si}{entonces}{Si no y}{Si no}{Fin}
 \SetKw{Return}{Retornar}
 
 %\SetAlCapHSkip{2ex}
@@ -222,7 +223,7 @@ No se conoce ningún algoritmo con complejidad temporal polinomial para resolver
 Primeramente, se selecciona aleatoriamente un parche $\x_{j_0}$ por el cual comienza el camino. Luego se itera colocando en cada paso un parche hasta completar el camino. En la iteraci\'on $k$ se explora la vecindad de tamaño $\B \times \B$ en la matriz $\Z$ alrededor del parche $\x_{j_{k - 1}}$ (que es el \'ultimo que se ha puesto). Ahora bien, existen dos casos:
 \begin{itemize}
 \item Todos los parches en esta vecindad ya están en el camino: se busca fuera de la vecindad los dos parches $\x_a,\; \x_b$ que no pertenecen al camino y cuyas distancias $\omega$ a $\x_{j_{k - 1}}$ son las dos menores.
-\item Si existen parches disponibles en esa vecindad: se buscan de forma an\'aloga los parches $\x_a,\; \x_b$, esta vez dentro de la vecindad
+\item Si existen parches disponibles en esa vecindad: se buscan de forma an\'aloga los parches $\x_a,\; \x_b$, esta vez dentro de la vecindad.
 \end{itemize}
 Claramente si no es posible encontrar dos menores porque solo hay un parche disponible, entonces $\x_{j_k}$ ser\'ia ese \'unico parche. En cambio si se tienen $\x_a$ y $\x_b$ entonces:
 \begin{equation}
@@ -334,15 +335,12 @@ Con esta t\'ecnica se suaviza mejor la imagen recuperada, lo cual se asemeja al 
 	\resizebox{\textwidth}{!}{$
 		\left.
 		\begin{array}{c}
-			\subimageScheme{1}\\
-			\vspace{0.3cm}\\
-			\subimageScheme{2}\\
-			\vspace{0.3cm}\\
-			\huge\vdots\\
-			\vspace{0.3cm}\\
+			\subimageScheme{1}\\\\
+			\subimageScheme{2}\\\\
+			\huge\vdots\\\\
 			\subimageScheme{K}\\
 		\end{array}
-		\right\}\oplus\longrightarrow\boxed{\times \frac{1}{K}}\longrightarrow\yhat
+		\right\}\overset{(\ref{eq:final_yhat})}{\xrightarrow{\hspace{1.5cm}}}\yhat
 	$}
 	\caption{Esquema final con $K$ matrices de permutaci\'on}
 	\label{fig:final_scheme}
@@ -356,14 +354,14 @@ Con esta t\'ecnica se suaviza mejor la imagen recuperada, lo cual se asemeja al 
 \end{enumerate}
 
 \subsection{Superpar\'ametros del esquema}
-Las \'unicas incógnitas pendientes de este esquema son: el operador de suavidad $\H$, la funci\'on de distancia $\omega$ y el valor ajustable $\epsilon$. Este \'ultimo es un valor que no es fijo y se usa para evitar errores num\'ericos en el momento de realizar la exponenciaci\'on en (\ref{eq:choosing_patch}). Es conocido que los n\'umeros de coma flotante no son representables en su totalidad en una computadora, sino que en cambio se representa un subconjunto finito de los mismos. Los problemas m\'as comunes son asociados a la precisión limitada\footnote{En la mayoria de los lenguajes de programacion la precision de los n\'umeros flotantes no excede las 15 cifras despu\'es de la coma} tales como las operaciones que resultan en valores muy cercanos a cero. En el caso espec\'ifico de (\ref{eq:choosing_patch}), debemos evitar que el exponente no sea muy grande, para ello se divide $\omega$ por un valor lo suficientemente grande para cualquiera de sus evaluaciones, ese ser\'ia el valor adecuado de $\epsilon$. Ahora bien, tanto $\H$ como $\omega$ pueden quedar a elecci\'on del usuario, no obstante se definen a continuaci\'on los usados para el cap\'itulo \ref{chapter:RESULTS}.
+Las \'unicas incógnitas pendientes de este esquema son: el operador de suavidad $\H$, la funci\'on de distancia $\omega$ y el valor ajustable $\epsilon$. Este \'ultimo es un valor que no es fijo y se usa para evitar errores num\'ericos en el momento de realizar la exponenciaci\'on en (\ref{eq:choosing_patch}). Es conocido que el universo de números representables en una aritmética de punto flotante es finito \cite{conte2017elementary}. Los problemas m\'as comunes son asociados a la precisión limitada\footnote{En la mayoria de los lenguajes de programacion la precision de los n\'umeros flotantes no excede las 15 cifras despu\'es de la coma} tales como las operaciones que resultan en valores muy cercanos a cero. En el caso espec\'ifico de (\ref{eq:choosing_patch}), debemos evitar que el exponente no sea muy grande, para ello se divide $\omega$ por un valor lo suficientemente grande para cualquiera de sus evaluaciones, ese ser\'ia el valor adecuado de $\epsilon$. Ahora bien, tanto $\H$ como $\omega$ pueden quedar a elecci\'on del usuario, no obstante se definen a continuaci\'on los usados para el Cap\'itulo \ref{chapter:RESULTS}.
 
-En cuanto a la funci\'on $\omega$ entre dos parches $\x_a$ y $\x_b$ se asume como el promedio de los cuadrados de las diferencias entre los p\'ixeles que est\'an en la misma posici\'on en ambos parches y que ambos son p\'ixeles con valor. Escrito formalmente: sea $S_i$ el conjunto de \'indices de los p\'ixeles conocidos del parche $\x_i$ para todo $1 \le i \le N_p$ entonces
+En cuanto a la funci\'on $\omega$ entre dos parches $\x_a$ y $\x_b$ se asume como el promedio de los cuadrados de las diferencias entre los p\'ixeles que est\'an en la misma posici\'on en ambos parches y que ambos son p\'ixeles con valor conocido. Escrito formalmente: sea $S_i$ el conjunto de \'indices de los p\'ixeles conocidos del parche $\x_i$ para todo $1 \le i \le N_p$ entonces
 \begin{equation}
 \omega(\x_a, \x_b) = \frac{\sum_{t \in S_a \cap S_b} (\x_a[t] - \x_b[t])^2}{|S_a \cap S_b|}
 \end{equation}
 
-Para el operador de suavidad $\H$ se escoge la interpolaci\'on usando \textit{splines} c\'ubicos. Este tipo de interpolaci\'on polinomial es m\'as suave y tiene un error menor a otros polinomios de interpolaci\'on tales como el polinomio de \textit{Lagrange} y el polinomio de \textit{Newton}.
+Como operador de suavidad $\H$ se escoge la interpolaci\'on usando \textit{splines} c\'ubicos. Es una interpolaci\'on por tramos que utiliza polinomios de a lo sumo grado $3$ en cada tramo y con condiciones de suavidad en los extremos de los mismos \cite{burden1996analisis}. Este tipo de interpolaci\'on evita el conocido fen\'omeno de \textit{Runge} cuando se usan polinomios de alto grado. Por lo tanto el resultado que se obtiene es m\'as suave y tiene un error menor a otros polinomios de interpolaci\'on tales como el polinomio de \textit{Lagrange} y el polinomio de \textit{Newton}.
 
 \subsection{Costo computacional del esquema}
 
@@ -385,7 +383,7 @@ Teniendo en cuenta todos estos costos intermedios y que $N_p < N$ se concluye qu
 	O(nN) + K[O(NB^2n) + O(nN)] + O(KN) = \boxed{O(KNB^2n)}
 	\label{eq:temporal_complexity}
 \end{equation}
-Los valores de $K$ y $n$ son usualmente pequeños y no incrementan de forma drástica el tiempo de ejecuci\'on de la recuperaci\'on. El tamaño de la imagen $N$ es algo con lo que pr\'acticamente no se puede lidiar, im\'agenes de mucha resoluci\'on afectan de forma considerable la complejidad temporal. Finalmente, en el caso de $B$ el tamaño de la vecindad que se explora, como se puede notar este est\'a al cuadrado, lo que sugiere usar valores bastante pequeños. Sin duda este par\'ametro es el m\'as cr\'itico con respecto a la complejidad temporal, en los casos que se necesite aumentar su valor para una mejor calidad de la restauraci\'on limitar\'ia mucho rango de tamaños de im\'agenes a procesar.
+Los valores de $K$ y $n$ son usualmente pequeños y no incrementan de forma drástica el tiempo de ejecuci\'on de la recuperaci\'on. El tamaño de la imagen $N$ es algo con lo que pr\'acticamente no se puede lidiar, im\'agenes de mucha resoluci\'on afectan de forma considerable la complejidad temporal. Finalmente, en el caso de $B$ el tamaño de la vecindad que se explora, como se puede notar este se eleva al cuadrado, lo que sugiere usar valores bastante pequeños. Sin duda este par\'ametro es el m\'as cr\'itico con respecto a la complejidad temporal, en los casos que se necesite aumentar su valor para una mejor calidad de la restauraci\'on limitar\'ia mucho el rango de tamaños de im\'agenes a procesar.
 
 Por otro lado la complejidad espacial depende de la cantidad de im\'agenes que se restauran m\'as la matrices de apoyo tales como $\X$ y $\P$, lo que resulta en:
 
