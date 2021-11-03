@@ -3,8 +3,117 @@
 En este capítulo se discutirá acerca de la implementación del algoritmo \ref{al:PRA} presentado en el capítulo \ref{chapter:scheme} y del esquema final de la restauraci\'on presentado en el epígrafe \ref{sec:final_scheme}.
 
 \section{Tecnolog\'ias utilizadas}
-Todos los algoritmos y el c\'odigo fuente en general ha sido implementado en el lenguaje de programaci\'on \texttt{Python} \textbf{3}, específicamente en su versi\'on \texttt{python 3.7.3}. Para el trabajo con los archivos de im\'agenes digitales, como son las operaciones de \textit{lectura}\footnote{Operaci\'on de cargar determinados datos en un disco duro o dispositivo de almacenamiento hacia la memoria \textbf{RAM}} y \textit{escritura}\footnote{Operaci\'on inversa de la lectura, copiar determinados datos de la memoria hacia el dispositivo de almacenamiento} se us\'o la librer\'ia \texttt{Pillow} en su versi\'on \texttt{Pillow 6.2.1}. Se trata de un \textit{framework} no oficial sucesor de la librería \texttt{PIL} (\textit{Python Imaging Library}) para el procesamiento de im\'agenes. \texttt{Pillow} tiene un mantenimiento activo y es una alternativa c\'omoda para los usuarios de \texttt{Python} \textbf{3}. Con la clase \texttt{Image} de esta librer\'ia se modela lo que es una imagen digital y permite mediante sus funciones obtener la representaci\'on matricial asociada. Esta clase soporta el uso de la mayor\'ia de los formatos para imágenes de mapa de bits como son \texttt{.jpg}, \texttt{.jpeg}, \texttt{.png}, \texttt{.gif}, \textit{etc}. Adem\'as cuenta con la opción de interpretar una imagen ya sea en \RGB o en escala de grises.
+Todos los algoritmos y el c\'odigo fuente en general ha sido implementado en el lenguaje de programaci\'on \texttt{Python3}, específicamente en su versi\'on \texttt{python 3.7.3}. Para el trabajo con los archivos de im\'agenes digitales, como son las operaciones de \textit{lectura}\footnote{Operaci\'on de cargar determinados datos en un disco duro o dispositivo de almacenamiento hacia la memoria \textbf{RAM}} y \textit{escritura}\footnote{Operaci\'on inversa de la lectura, copiar determinados datos de la memoria hacia el dispositivo de almacenamiento} se us\'o la librer\'ia \texttt{OpenCV}\footnote{Por sus siglas en ingles \textit{Open Source Computer Vision Library}: librer\'ia para visi\'on por computadoras de c\'odigo abierto} en su versi\'on \texttt{cv2 4.2.0}. \texttt{OpenCV} es un \textit{software} librer\'ia de c\'odigo abierto\footnote{D\'igase de aquellos programas cuyo c\'odigo fuente no est\'a oculto o encriptado. Cualquier usuario es libre de verificarlo y contribuir al mismo} que se utiliza para visi\'on por computadoras e Inteligencia Artificial. La misma contiene m\'as de $2500$ algoritmos optimizados que comprenden tanto los cl\'asicos como los del estado del arte en los dos campos anteriormente mencionados. Utilizando los m\'etodos \fbox{\texttt{cv2.imread}} y \fbox{\texttt{cv2.imwrite}} de esta librer\'ia se logra la lectura y la escritura respectivamente de las im\'agenes digitales, y permiten adem\'as obtener la representaci\'on matricial asociada. Ambas funciones soportan el uso de la mayor\'ia de los formatos para imágenes de mapa de bits como son \texttt{.jpg}, \texttt{.jpeg}, \texttt{.png}, \texttt{.tif}, \textit{etc}. Tambi\'en cuenta con la opción de interpretar una imagen ya sea en \RGB o en escala de grises.
 
-Para el trabajo con matrices, vectores y otros elementos y operaciones matem\'aticas se hizo uso de librer\'ia \texttt{NumPy} en su versi\'on \texttt{numpy 1.17.4}. Quizás es considerada la librer\'ia m\'as ampliamente usada del paquete científico de \texttt{Python}. La misma provee las herramientas para tratar con las matrices obtenidas mediante \texttt{Pillow} y adem\'as facilita realizar transformaciones y operaciones tanto elementales como avanzadas. Adem\'as de las matrices, se usa tambi\'en el m\'odulo \texttt{numpy.random} \'util para el trabajo con variables aleatorias. \texttt{Numpy} es r\'apida y eficiente, conocida por estar mayormente implementada en el lenguaje \texttt{C} lo que ayuda a evitar los procesos lentos y cargados en memoria t\'ipicos de \texttt{Python}.
+Para el trabajo con matrices, vectores y otros elementos y operaciones matem\'aticas se hizo uso de librer\'ia \texttt{NumPy} en su versi\'on \texttt{numpy 1.17.4}. Quizás es considerada la librer\'ia m\'as ampliamente usada del paquete científico de \texttt{Python}. La misma provee las herramientas para tratar con las matrices obtenidas mediante \texttt{OpenCV} y adem\'as facilita realizar transformaciones y operaciones tanto elementales como avanzadas. Adem\'as de las matrices, se usa tambi\'en el m\'odulo \fbox{\texttt{numpy.random}} \'util para el trabajo con variables aleatorias. \texttt{Numpy} es r\'apida y eficiente, conocida por estar mayormente implementada en el lenguaje \texttt{C} lo que ayuda a evitar los procesos lentos y cargados en memoria t\'ipicos de \texttt{Python}.
 
-Se hace uso tambi\'en de otra de las librer\'ias m\'as famosas del paquete científico, es el caso de \texttt{SciPy}. La versión usada es \texttt{scipy 1.3.2}. De esta se toma el m\'odulo \texttt{scipy.interpolate} el cual contiene, entre otras, una funci\'on para realizar la interpolaci\'on por \textit{splines} c\'ubicos.
+Se hace uso tambi\'en de otra de las librer\'ias m\'as famosas del paquete científico, es el caso de \texttt{SciPy}. La versión usada es \texttt{scipy 1.3.2}. De esta se toma el m\'odulo \fbox{\texttt{scipy.interpolate}} el cual contiene, entre otras, una funci\'on para realizar la interpolaci\'on por \textit{splines} c\'ubicos. Finalmente, con el objetivo de optimizar el tiempo de ejecuci\'on de los esquemas y algoritmos presentados en el Cap\'itulo \ref{chapter:scheme} se utiliza el m\'odulo \texttt{multiprocessing}. Este paquete soporta la ejecuci\'on de procesos concurrentes, de una forma similar al m\'odulo \texttt{threading}, con la gran diferencia de que estos procesos s\'i corren en diferentes n\'ucleos de la \textbf{CPU}\footnote{Por sus siglas en ingl\'es \textit{Central Processing Unit}: unidad central de procesamiento} \cite{enwiki:cpu}. Resulta de utilidad este m\'odulo para lograr la paralelizaci\'on de los esquemas de restauraci\'on presentados, que tal como sus gr\'aficos muestran (figuras \ref{fig:subimage_scheme} y \ref{fig:final_scheme}), sus partes pueden ser realizadas de forma independiente.
+
+\section{El m\'odulo \texttt{ImageInpainting}}
+
+Para lograr una mejor organizaci\'on y diseño de la implementaci\'on del esquema de restauraci\'on, la misma se creo en forma de m\'odulo local de \texttt{Python}, el cual se nombr\'o \texttt{ImageInpainting}. Cada una de sus funcionalidades fueron encapsuladas en 3 archivos distintos:
+\begin{itemize}
+	\item \texttt{images.py}: este archivo contiene los m\'etodos para la lectura y escritura de las im\'agenes digitales y su conversi\'on a matrices de tipo \texttt{numpy.ndarray}.
+	\item \texttt{pra.py}: solo contiene un \'unico m\'etodo con la implementaci\'on del algoritmo \ref{al:PRA}.
+	\item \texttt{inpainting.py}: el mismo contiene la implementaci\'on de una clase para modelar el concepto de imagen corrupta o con p\'ixeles faltantes. Adem\'as contiene las implentaciones del operador $\H$ y la funci\'on de distancia $\omega$. 
+\end{itemize}
+
+A continuaci\'on se da una explicaci\'on m\'as en profundidad por cada uno de los archivos. Comenzando por \texttt{images.py}, en este se encuentran las siguientes funciones con sus respectivas características:
+\begin{itemize}
+	\item M\'etodo que por medio de \texttt{cv2.imread} lee la imagen digital del disco duro, y la transforma a uno o tres arreglos bidimensionales de \texttt{numpy}.
+	
+	\fbox{\lstinline|read_image_as_arrays(location: str, rgb=False, dtype=int)|}
+	\begin{itemize}
+		\item \texttt{location}: tipo \texttt{str}, direcci\'on donde se almacena la im\'agen a leer en el disco.
+		\item \texttt{rgb}: tipo \texttt{bool}, indica si la imagen debe ser le\'ida como \RGB o escala de grises. En el primer caso, se generar\'an 3 arreglos uno por cada canal. En el caso de la escala de grises, un \'unico arreglo. Valor por defecto: \texttt{False}.
+		\item \texttt{dtype}: tipo \texttt{type}, tipo datos con que se interpretar\'an los p\'ixeles. Usar \texttt{int} para el intervalo usual de $[0,\; 255]$. Usar \texttt{bool} para interpretar la imagen como una m\'ascara. Valor por defecto: \texttt{int}.
+	\end{itemize}
+	\underline{Retorna}: una tupla de arreglos, cada arreglo representando uno de los canales de la imagen, 3 para \texttt{rgb=True} y 1 para \texttt{rgb=False}.
+	
+	\item 	M\'etodo opuesto al anterior, usando \texttt{cv2.imwrite}, se almacena la imagen digital en el disco duro. Dicha imagen es la representada por el par\'ametro \texttt{arrays}.
+	
+	\fbox{\lstinline|save_arrays_as_image(arrays: tuple, location: str, rgb=False)|}
+	\begin{itemize}
+		\item \texttt{arrays}: tipo \texttt{tuple}, tupla de uno o tres arreglos bidimensionales que representan los canales de la imagen a alamacenar.
+		\item \texttt{location}: tipo \texttt{str}, direcci\'on que indica donde debe ser almacenada la imagen en el disco duro.
+		\item \texttt{rgb}: tipo \texttt{bool}, tipo de imagen a almacenar, en caso de \texttt{True} se usan los tres arreglos representando en ese orden cada uno de los canales \RGB. Si no, se toma solo el primero. Valor por defecto: \texttt{False}. 
+	\end{itemize}
+	\underline{Retorna}: \texttt{None}. No tiene valor de retorno, se considera un m\'etodo \textit{void}.
+\end{itemize}
+
+En el caso del archivo \texttt{pra.py}, como se mencion\'o, este contiene la implementaci\'on del algoritmo \ref{al:PRA}. El cual tiene la signatura siguiente:
+\begin{itemize}
+	\item M\'etodo implementado a partir del pseudoc\'odigo del algoritmo \ref{al:PRA}.
+	
+	\fbox{\lstinline|patch_reordering(shape: tuple, patches, B: int, epsilon: float, omega)|}
+	\begin{itemize}
+		\item \texttt{shape}: tipo \texttt{tuple}, tupla de 2 elementos que denota la dimensi\'on de cada subimagen, en otras palabras ($N_1 - \sqrt{n} + 1)$ y $(N_2 - \sqrt{n} + 1)$.
+		\item \texttt{patches}: tipo \texttt{numpy.ndarray}, arreglo bidimensional que representa la matriz $X^\intercal$, cada fila es un parche vectorizado. Los parches se toman columna por columna de arriba hacia abajo.
+		\item \texttt{B}: tipo \texttt{int}, entero que representa el tamaño de la vecindad a explorar en cada iteraci\'on.
+		\item \texttt{epsilon}: tipo \texttt{float}, n\'umero de punto flotante que se atribuye a $\epsilon$.
+		\item \texttt{omega}: tipo \texttt{function}, funci\'on que toma 2 par\'ametros de tipo \texttt{numpy.array} y retorna un \texttt{float} que es la distancia entre esos 2 arreglos que contienen los elementos de 2 parches vectorizados. Equivalente de la funci\'on $\omega$.
+	\end{itemize}
+	\underline{Retorna}: una tupla de 2 arreglos, el primero contiene los \'indices que definen la permutaci\'on generada y el segundo los de la permutaci\'on inversa.
+\end{itemize}
+
+Finalmente el archivo principal \texttt{inpainting.py}, el cual contiene las funcionalidades para realizar el esquema completo de la restauraci\'on, haciendo uso de los m\'etodos implementados en \texttt{images.py} y \texttt{pra.py}. En el mismo se encuentran las implementaciones para el operador $\H$ y la funci\'on de distancia entre parches $\omega$.
+\begin{itemize}
+	\item M\'etodo para calcular la distancia entre dos parches seg\'un (\ref{eq:omega}).
+	
+	\fbox{\lstinline|mean_of_squared_differences(patch1: array, patch2: array)|}
+	\begin{itemize}
+		\item \texttt{patch1}, \texttt{patch2}: tipo \texttt{numpy.array}, arreglos que representan un parche en forma de vector
+	\end{itemize}
+	\underline{Retorna}: un flotante, la distancia entre \texttt{parch1} y \texttt{patch2}, \texttt{-1} en caso de ser disjuntos en cuanto a sus p\'ixeles no faltantes.
+	
+	\item M\'etodo para aplicar el operador de suavidad usando un \textit{spline} c\'ubico.
+	
+	\fbox{\lstinline|cubic_spline(signal: array, mask: array)|}
+	\begin{itemize}
+		\item \texttt{signal}: tipo \texttt{numpy.array}, arreglo de elementos que representa una señal a interpolar.
+		\item \texttt{mask}: tipo \texttt{numpy.array}, arreglo de elementos booleanos, de mismo tamaño que \texttt{signal} y contiene \texttt{False} en aquella posiciones donde ocurre un elemento faltante de \texttt{signal}.
+	\end{itemize}
+	\underline{Retorna}: un arreglo de mismo tamaño que \texttt{signal} resultado de la interpolaci\'on en cada una de las posciones del arreglo \texttt{signal}.
+\end{itemize}
+Para modelar el concepto de una imagen con p\'ixeles faltantes se implement\'o:
+\begin{lstlisting}
+class CorruptedImage:
+	def __init__(self, location: str, mask=None, rgb=False, 
+				corrupt_prob=4/5): ...
+	
+	def save(self, location: str): ...
+	
+	def inpainting(self, K=10, sqrt_n=16, B=9, epsilon=10**4,
+				H=cubic_spline, omega=mean_of_squared_differences): ...
+\end{lstlisting}
+\begin{itemize}
+	\item M\'etodo inicializador de una instancia de la clase \texttt{CorruptedImage}
+	
+	\fbox{\lstinline|__init__(self, location: str, mask=None, rgb=False, corrupt_prob=4/5)|}
+	\begin{itemize}
+		\item \texttt{location}: tipo \texttt{str}, direcci\'on en el disco duro de la imagen digital a recuperar. Los canales de la misma se obtienen mediante \texttt{read\_image\_as\_arrays} y se almacenan en el atributo \texttt{self.channels}.
+		\item \texttt{mask}: tipo \texttt{numpy.ndarray}, arreglo booleano bidimensional de mimas dimensi\'on que la imagen cargada. M\'ascara que indica con \texttt{False} los p\'ixeles faltantes. Se almacena en el atributo \texttt{self.mask}. Valor por defecto: \texttt{None}.
+		\item \texttt{rgb}: tipo \texttt{bool}, par\'ametro que indica si la imagen debe ser cargada como \RGB o escala de grises. Valor por defecto: \texttt{False}.
+		\item \texttt{corrupt\_prob}: tipo \texttt{float}, valor en el intervalo $[0,\; 1]$. En caso de que \texttt{mask} sea \texttt{None}, se genera una m\'ascara de forma aleatoria asignando \texttt{False} en cada posici\'on con probabilidad de dicho valor. Valor por defecto: \texttt{4/5}. 
+	\end{itemize}
+	\underline{Retorna}: la instancia creada.
+	
+	\item M\'etodo de instancia ...
+	
+	\fbox{\lstinline|save(self, location: str)|}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	\underline{Retorna}:
+	
+	\item M\'etodo de instancia ...
+	
+	\begin{lstlisting}
+inpainting(self, K=10, sqrt_n=16, B=9, epsilon=10**4, H=cubic_spline,
+			omega=mean_of_squared_differences)
+	\end{lstlisting}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	\underline{Retorna}:
+\end{itemize}

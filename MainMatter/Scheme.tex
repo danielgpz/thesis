@@ -129,9 +129,9 @@ La matriz $\P$ que se busca es tal que minimiza $\|\y^p\|_{\mathit{TV}}$, record
 Para encontrar la distancia entre dos p\'ixeles de $\Z$ (independientemente de si se conoce su valor o no) usaremos sus parches (ver epígrafe \ref{sec:patches}) de la siguiente manera:
 \begin{equation}
 	|\y^{p}(j) - \y^{p}(j - 1)| \equiv \omega(\x_j^p,\; \x_{j - 1}^p)
-	\label{eq:omega_mean}
+	\label{eq:omega_measure}
 \end{equation}
-donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z^p(j)$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, tal como se expresa en (\ref{eq:omega_mean}). Luego, usando (\ref{eq:omega_mean}) en (\ref{eq:signal_smoothness}), el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ es equivalente a:
+donde $\x_j^p$ denota el parche de $\Z$ cuyo p\'ixel central es denotado por $\z^p(j)$. Y $\omega$ es una funci\'on de distancia definida sobre los parches la cual cumple que para cualesquiera dos parches, proximidad entre ellos sugiere proximidad entre sus p\'ixeles centrales, tal como se expresa en (\ref{eq:omega_measure}). Luego, usando (\ref{eq:omega_mean}) en (\ref{eq:signal_smoothness}), el problema de minimizar $\|\y^p\|_{\mathit{TV}}$ es equivalente a:
 \begin{equation}
 	\begin{array}{ccc}
 		\displaystyle\min_\P \|\X^p\|_{\mathit{TV}} & \mbox{donde} & \|\X^p\|_{\mathit{TV}}  = \displaystyle\sum_{j = 2}^{N}\omega(\x_j^{p},\; \x_{j - 1}^{p})
@@ -358,7 +358,8 @@ Las \'unicas incógnitas pendientes de este esquema son: el operador de suavidad
 
 En cuanto a la funci\'on $\omega$ entre dos parches $\x_a$ y $\x_b$ se asume como el promedio de los cuadrados de las diferencias entre los p\'ixeles que est\'an en la misma posici\'on en ambos parches y que ambos son p\'ixeles con valor conocido. Escrito formalmente: sea $S_i$ el conjunto de \'indices de los p\'ixeles conocidos del parche $\x_i$ para todo $1 \le i \le N_p$ entonces
 \begin{equation}
-\omega(\x_a, \x_b) = \frac{\sum_{t \in S_a \cap S_b} (\x_a[t] - \x_b[t])^2}{|S_a \cap S_b|}
+	\omega(\x_a, \x_b) = \frac{\sum_{t \in S_a \cap S_b} (\x_a[t] - \x_b[t])^2}{|S_a \cap S_b|}
+	\label{eq:omega}
 \end{equation}
 
 Como operador de suavidad $\H$ se escoge la interpolaci\'on usando \textit{splines} c\'ubicos. Es una interpolaci\'on por tramos que utiliza polinomios de a lo sumo grado $3$ en cada tramo y con condiciones de suavidad en los extremos de los mismos \cite{burden1996analisis}. Este tipo de interpolaci\'on evita el conocido fen\'omeno de \textit{Runge} cuando se usan polinomios de alto grado. Por lo tanto el resultado que se obtiene es m\'as suave y tiene un error menor a otros polinomios de interpolaci\'on tales como el polinomio de \textit{Lagrange} y el polinomio de \textit{Newton}.
