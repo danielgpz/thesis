@@ -30,7 +30,16 @@ A continuaci\'on se da una explicaci\'on m\'as en profundidad por cada uno de lo
 	\end{itemize}
 	\underline{Retorna}: una tupla de arreglos, cada arreglo representando uno de los canales de la imagen, 3 para \texttt{rgb=True} y 1 para \texttt{rgb=False}.
 	
-	\item 	M\'etodo opuesto al anterior, usando \texttt{cv2.imwrite}, se almacena la imagen digital en el disco duro. Dicha imagen es la representada por el par\'ametro \texttt{arrays}.
+	\item M\'etodo que por medio de \texttt{cv2.imread} lee la imagen digital del disco duro, y la interpreta como una m\'ascara.
+	
+	\fbox{\lstinline|read_image_as_mask(location, true_value=0):|}
+	\begin{itemize}
+		\item \texttt{location}: tipo \texttt{str}, direcci\'on donde se almacena la im\'agen m\'ascara en el disco.
+		\item \texttt{true\_value}: tipo \texttt{int}, indica el valor de los p\'ixeles que se tomar\'an como \texttt{True} en la m\'ascara que se retorna. Valor por defecto \texttt{0}.
+	\end{itemize}
+	\underline{Retorna}: un arreglo bidimensional de booleanos, la m\'ascara leída.
+	
+	\item 	M\'etodo que, usando \texttt{cv2.imwrite}, almacena la imagen digital en el disco duro. Dicha imagen es la representada por el par\'ametro \texttt{arrays}.
 	
 	\fbox{\lstinline|save_arrays_as_image(arrays: tuple, location: str, rgb=False)|}
 	\begin{itemize}
@@ -98,22 +107,78 @@ class CorruptedImage:
 	\end{itemize}
 	\underline{Retorna}: la instancia creada.
 	
-	\item M\'etodo de instancia ...
+	\item M\'etodo de instancia para almacenar el estado actual de la imagen en el disco duro.
 	
 	\fbox{\lstinline|save(self, location: str)|}
 	\begin{itemize}
-		\item 
+		\item \texttt{location}: tipo \texttt{str}, direcci\'on en el disco duro d\'onde almacenar la imagen. 
 	\end{itemize}
-	\underline{Retorna}:
+	\underline{Retorna}: \texttt{None}, es un m\'etodo \textit{void}.
 	
-	\item M\'etodo de instancia ...
+	\item M\'etodo para realizar el esquema de restauraci\'on (figura \ref{fig:final_scheme}) a cada uno de los canales almacenados en el atributo de la instancia \texttt{self.channels}.
 	
 	\begin{lstlisting}
 inpainting(self, K=10, sqrt_n=16, B=9, epsilon=10**4, H=cubic_spline,
 			omega=mean_of_squared_differences)
 	\end{lstlisting}
 	\begin{itemize}
-		\item 
+		\item \texttt{K}: tipo \texttt{int}, cantidad de permutaci\'ones diferentes a usar en el esquema, las cuales se obtienen usando el m\'etodo \texttt{patch\_reordering}. Valor por defecto \texttt{10}.
+		\item \texttt{sqrt\_n}: tipo \texttt{int}, valor de $\sqrt{n}$ que indica que los parches tienen dimensi\'on $\sqrt{n} \times \sqrt{n}$. Valor por defecto \texttt{16}.
+		\item \texttt{B}: tipo \texttt{int}, tamaño de la vecindad a usar en los llamados al m\'etodo \texttt{patch\_reordering}. Valor por defecto \texttt{9}.
+		\item \texttt{epsilon}: tipo \texttt{float}, valor de $\epsilon$ a usar en los llamados al m\'etodo \\\texttt{patch\_reordering}. Valor por defecto \texttt{10000}.
+		\item \texttt{H}:tipo \texttt{function}, m\'etodo que recibe dos arreglos y retorna una tercero, todos de igual tamaño. El arreglo retornado debe ser el resultado de aplicarle determinado operador de suavidad a la señal representada por el primero, usando el segundo como m\'ascara para definir los elementos corruptos. Valor por defecto, m\'etodo \texttt{cubic\_spline}.
+		\item \texttt{omega}: tipo \texttt{function}, m\'etodo que representa la funci\'on $\omega$ a usar en los llamados al m\'etodo \texttt{patch\_reordering}. Valor por defecto, el m\'etodo \texttt{mean\_of\_squared\_differences}.
 	\end{itemize}
-	\underline{Retorna}:
+	\underline{Retorna}: \texttt{None}, es un m\'etodo \textit{void}.
 \end{itemize}
+
+\textquestiondown C\'omo usar el m\'odulo \texttt{ImageInpainting}? Supongamos que contamos con la imagen \texttt{woman\_blonde.tif} y otra de igual dimensiones en forma de m\'ascara \texttt{mask.tif}. Ver figura \ref{fig:woman_blonde}.
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{cc}
+		\includegraphics[width=0.2\linewidth]{Graphics/Examples/woman_blonde.png}&
+		\includegraphics[width=0.2\linewidth]{Graphics/Examples/mask.tif}\\
+		\tiny\texttt{woman\_blonde.tif}&\tiny\texttt{mask.tif}\\
+	\end{tabular}
+	
+	\caption{La imagen y su m\'ascara.}
+	\label{fig:woman_blonde}
+\end{figure}
+Para realizar la restauraci\'on de la imagen se procede como el en siguiente ejemplo:
+\begin{lstlisting}
+from ImageInpainting import CorruptedImage, read_image_as_mask
+
+# Leyendo la m'ascara y la imagen, luego guardando la imagen corrupta
+mask = read_image_as_mask('mask.tif')
+im = CorruptedImage('woman_blonde.tif', mask)
+im.save('woman_blonde_c.tif')
+
+# Primera restauraci'on con K=10, sqrt_n=5, B=6, epsilon=10000 
+im.inpainting(sqrt_n=5, B=6, epsilon=10**4)
+im.save('woman_blonde_r1.tif')
+
+# Secunda restauraci'on con K=10, sqrt_n=4, B=7, epsilon=1000000
+im.inpainting(sqrt_n=4, B=7, epsilon=10**6)
+im.save('woman_blonde_r2.tif')
+
+# Tercera restauraci'on con K=10, sqrt_n=4, B=8, epsilon=100000000 
+im.inpainting(sqrt_n=4, B=8, epsilon=10**8)
+im.save('woman_blonde_r3.tif')
+\end{lstlisting}
+La ejecuci\'on de lo anterior genera la versi\'on de la imagen original corrupta seg\'un la m\'ascara, y 3 im\'agenes restauradas usando los par\'ametros que se indican.
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\includegraphics[width=0.2\linewidth]{Graphics/Examples/woman_blonde_corrupted.tif}&
+		\includegraphics[width=0.2\linewidth]{Graphics/Examples/woman_blonde_iteration_1.tif}&
+		\includegraphics[width=0.2\linewidth]{Graphics/Examples/woman_blonde_iteration_2.tif}&
+		\includegraphics[width=0.2\linewidth]{Graphics/Examples/woman_blonde_iteration_3.tif}\\
+		\tiny\texttt{woman\_blonde\_c.tif}&\tiny\texttt{woman\_blonde\_r1.tif}&
+		\tiny\texttt{woman\_blonde\_r2.tif}&\tiny\texttt{woman\_blonde\_r3.tif}\\
+	\end{tabular}
+	\caption{En ese orden: imagen corrupta y las im\'agenes restauradas.}
+	\label{fig:inpainting_woman_blonde}
+\end{figure}
+Finalmente, se ha de destacar que el diseño de la clase \texttt{CorruptedImage} favorece a poder realizar restauraciones consecutivas, cada una usando los resultados de la anterior. Recordemos que cada vez que se llama al m\'etodo de instancia \texttt{inpainting}, el mismo actualiza cada canal de la imagen con los nuevos p\'ixeles restaurados. Esto tiene como consecuencia que en la mayor\'ia de los casos una segunda restauraci\'on tiene mejor calidad que una primera con los mismos par\'ametros. N\'otese que en el ejemplo anterior se realizan 3 restauraciones consecutivas, m\'as adelante se demuestra la efectividad de esta estrategia.
+
+\section{Paralelizaci\'on y herramientas para la experimentaci\'on} 

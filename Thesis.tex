@@ -7,6 +7,9 @@
 \usepackage{caption,booktabs}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{epstopdf}
+\epstopdfDeclareGraphicsRule{.tif}{png}{.png}{magick #1 \OutputFile}
+\AppendGraphicsExtensions{.tif}
 \usepackage{tikz}
 \usetikzlibrary{calc}
 \usepackage{listings}
@@ -14,6 +17,8 @@
 language=Python, % lenguaje
 basicstyle=\small\ttfamily,
 keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{orange},
 tabsize=4,
 columns=flexible,
 showstringspaces=false,
