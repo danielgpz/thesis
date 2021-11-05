@@ -1,0 +1,145 @@
+{
+    "im11.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 24.552019333068245,
+                "duration": "0:00:06"
+            },
+            "NS": {
+                "psnr": 26.044479591238886,
+                "duration": "0:00:09"
+            }
+        },
+        "duration": "0:00:15"
+    },
+    "im15.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 19.998704750967292,
+                "duration": "0:00:08"
+            },
+            "NS": {
+                "psnr": 20.170552513397123,
+                "duration": "0:00:08"
+            }
+        },
+        "duration": "0:00:17"
+    },
+    "im16.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 18.624731367060495,
+                "duration": "0:00:08"
+            },
+            "NS": {
+                "psnr": 18.73385575158067,
+                "duration": "0:00:09"
+            }
+        },
+        "duration": "0:00:18"
+    },
+    "im18.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 21.809922491593937,
+                "duration": "0:00:11"
+            },
+            "NS": {
+                "psnr": 22.96157815076857,
+                "duration": "0:00:13"
+            }
+        },
+        "duration": "0:00:24"
+    },
+    "im19.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 24.238513898183257,
+                "duration": "0:00:11"
+            },
+            "NS": {
+                "psnr": 24.657310358409696,
+                "duration": "0:00:09"
+            }
+        },
+        "duration": "0:00:20"
+    },
+    "im24.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 26.07217256453479,
+                "duration": "0:00:09"
+            },
+            "NS": {
+                "psnr": 28.519968227434216,
+                "duration": "0:00:08"
+            }
+        },
+        "duration": "0:00:17"
+    },
+    "im25.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 24.735190680803015,
+                "duration": "0:00:08"
+            },
+            "NS": {
+                "psnr": 26.32700470647855,
+                "duration": "0:00:09"
+            }
+        },
+        "duration": "0:00:18"
+    },
+    "im26.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 21.287732632637404,
+                "duration": "0:00:09"
+            },
+            "NS": {
+                "psnr": 21.720650383184825,
+                "duration": "0:00:08"
+            }
+        },
+        "duration": "0:00:17"
+    },
+    "im28.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 19.92186767130037,
+                "duration": "0:00:09"
+            },
+            "NS": {
+                "psnr": 21.42862251726434,
+                "duration": "0:00:09"
+            }
+        },
+        "duration": "0:00:18"
+    },
+    "im29.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 23.950999511855397,
+                "duration": "0:00:08"
+            },
+            "NS": {
+                "psnr": 25.416234167372224,
+                "duration": "0:00:08"
+            }
+        },
+        "duration": "0:00:17"
+    },
+    "im30.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 19.407221064834026,
+                "duration": "0:00:08"
+            },
+            "NS": {
+                "psnr": 20.252721873443605,
+                "duration": "0:00:09"
+            }
+        },
+        "duration": "0:00:17"
+    }
+}

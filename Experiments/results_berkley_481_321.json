@@ -1,0 +1,233 @@
+{
+    "im11.jpg": {
+        "corrupted": {
+            "file": "im11_corrupted.jpg",
+            "psnr": 9.833566578954528
+        },
+        "iterations": {
+            "1": {
+                "psnr": 25.339308284295083,
+                "duration": "0:14:35"
+            },
+            "2": {
+                "psnr": 26.33614099722745,
+                "duration": "0:19:09"
+            },
+            "3": {
+                "psnr": 26.916667564336603,
+                "duration": "0:30:33"
+            }
+        },
+        "duration": "1:04:18"
+    },
+    "im15.jpg": {
+        "corrupted": {
+            "file": "im15_corrupted.jpg",
+            "psnr": 6.791790995064213
+        },
+        "iterations": {
+            "1": {
+                "psnr": 19.929230781586963,
+                "duration": "0:17:52"
+            },
+            "2": {
+                "psnr": 20.246001453770685,
+                "duration": "0:24:34"
+            },
+            "3": {
+                "psnr": 20.30343240513547,
+                "duration": "0:40:22"
+            }
+        },
+        "duration": "1:22:49"
+    },
+    "im16.jpg": {
+        "corrupted": {
+            "file": "im16_corrupted.jpg",
+            "psnr": 5.062544624037243
+        },
+        "iterations": {
+            "1": {
+                "psnr": 18.488190112505333,
+                "duration": "0:21:39"
+            },
+            "2": {
+                "psnr": 18.726956025697106,
+                "duration": "0:25:55"
+            },
+            "3": {
+                "psnr": 18.709847768392358,
+                "duration": "0:37:03"
+            }
+        },
+        "duration": "1:24:38"
+    },
+    "im18.jpg": {
+        "corrupted": {
+            "file": "im18_corrupted.jpg",
+            "psnr": 3.14054349094394
+        },
+        "iterations": {
+            "1": {
+                "psnr": 22.45241491216418,
+                "duration": "0:15:03"
+            },
+            "2": {
+                "psnr": 22.931703201421122,
+                "duration": "0:19:13"
+            },
+            "3": {
+                "psnr": 23.322577174261852,
+                "duration": "0:32:04"
+            }
+        },
+        "duration": "1:06:22"
+    },
+    "im19.jpg": {
+        "corrupted": {
+            "file": "im19_corrupted.jpg",
+            "psnr": 6.707577621520199
+        },
+        "iterations": {
+            "1": {
+                "psnr": 24.21856194951879,
+                "duration": "0:15:06"
+            },
+            "2": {
+                "psnr": 24.697567771617194,
+                "duration": "0:21:06"
+            },
+            "3": {
+                "psnr": 24.562292879472352,
+                "duration": "0:39:00"
+            }
+        },
+        "duration": "1:15:13"
+    },
+    "im24.jpg": {
+        "corrupted": {
+            "file": "im24_corrupted.jpg",
+            "psnr": 3.665288668109704
+        },
+        "iterations": {
+            "1": {
+                "psnr": 27.41301055641909,
+                "duration": "0:18:44"
+            },
+            "2": {
+                "psnr": 29.088450839034216,
+                "duration": "0:23:58"
+            },
+            "3": {
+                "psnr": 29.769195313133437,
+                "duration": "0:32:30"
+            }
+        },
+        "duration": "1:15:13"
+    },
+    "im25.jpg": {
+        "corrupted": {
+            "file": "im25_corrupted.jpg",
+            "psnr": 8.683318383736335
+        },
+        "iterations": {
+            "1": {
+                "psnr": 25.735524751885887,
+                "duration": "0:15:12"
+            },
+            "2": {
+                "psnr": 26.53066692734278,
+                "duration": "0:18:24"
+            },
+            "3": {
+                "psnr": 26.970194684498377,
+                "duration": "0:28:41"
+            }
+        },
+        "duration": "1:02:18"
+    },
+    "im26.jpg": {
+        "corrupted": {
+            "file": "im26_corrupted.jpg",
+            "psnr": 5.7793275921147105
+        },
+        "iterations": {
+            "1": {
+                "psnr": 21.381868179920104,
+                "duration": "0:14:22"
+            },
+            "2": {
+                "psnr": 21.873658033699684,
+                "duration": "0:18:20"
+            },
+            "3": {
+                "psnr": 21.90981273890886,
+                "duration": "0:38:17"
+            }
+        },
+        "duration": "1:11:00"
+    },
+    "im28.jpg": {
+        "corrupted": {
+            "file": "im28_corrupted.jpg",
+            "psnr": 7.305132030973907
+        },
+        "iterations": {
+            "1": {
+                "psnr": 20.82366370819825,
+                "duration": "0:14:46"
+            },
+            "2": {
+                "psnr": 22.018120245166557,
+                "duration": "0:18:42"
+            },
+            "3": {
+                "psnr": 22.3689180750096,
+                "duration": "0:30:16"
+            }
+        },
+        "duration": "1:03:45"
+    },
+    "im29.jpg": {
+        "corrupted": {
+            "file": "im29_corrupted.jpg",
+            "psnr": 14.703877917129605
+        },
+        "iterations": {
+            "1": {
+                "psnr": 24.9690846675637,
+                "duration": "0:15:14"
+            },
+            "2": {
+                "psnr": 26.53453476344849,
+                "duration": "0:19:20"
+            },
+            "3": {
+                "psnr": 27.381121518769277,
+                "duration": "0:29:06"
+            }
+        },
+        "duration": "1:03:41"
+    },
+    "im30.jpg": {
+        "corrupted": {
+            "file": "im30_corrupted.jpg",
+            "psnr": 7.8101747296301305
+        },
+        "iterations": {
+            "1": {
+                "psnr": 19.72854886429656,
+                "duration": "0:15:10"
+            },
+            "2": {
+                "psnr": 20.714730925000996,
+                "duration": "0:19:35"
+            },
+            "3": {
+                "psnr": 21.105989185035444,
+                "duration": "0:31:42"
+            }
+        },
+        "duration": "1:06:28"
+    }
+}

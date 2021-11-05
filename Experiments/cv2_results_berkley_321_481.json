@@ -1,0 +1,41 @@
+{
+    "im12.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 19.288339144746985,
+                "duration": "0:00:08"
+            },
+            "NS": {
+                "psnr": 19.69208658334548,
+                "duration": "0:00:08"
+            }
+        },
+        "duration": "0:00:16"
+    },
+    "im17.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 18.639003893366255,
+                "duration": "0:00:08"
+            },
+            "NS": {
+                "psnr": 19.871982966565675,
+                "duration": "0:00:10"
+            }
+        },
+        "duration": "0:00:19"
+    },
+    "im20.jpg": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 21.320916312613694,
+                "duration": "0:00:07"
+            },
+            "NS": {
+                "psnr": 22.217245999564653,
+                "duration": "0:00:07"
+            }
+        },
+        "duration": "0:00:14"
+    }
+}

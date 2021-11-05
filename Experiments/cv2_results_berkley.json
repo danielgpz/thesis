@@ -1,0 +1,158 @@
+{
+    "cameraman.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 24.05235193592555,
+                "duration": "0:00:42"
+            },
+            "NS": {
+                "psnr": 27.334019195413934,
+                "duration": "0:00:35"
+            }
+        },
+        "duration": "0:01:17"
+    },
+    "house.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 26.476763978759934,
+                "duration": "0:00:55"
+            },
+            "NS": {
+                "psnr": 31.791329972880547,
+                "duration": "0:00:45"
+            }
+        },
+        "duration": "0:01:41"
+    },
+    "jetplane.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 23.63009813575998,
+                "duration": "0:00:46"
+            },
+            "NS": {
+                "psnr": 26.621832704696843,
+                "duration": "0:00:43"
+            }
+        },
+        "duration": "0:01:29"
+    },
+    "lake.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 22.33069994807412,
+                "duration": "0:00:42"
+            },
+            "NS": {
+                "psnr": 24.862972332476648,
+                "duration": "0:00:44"
+            }
+        },
+        "duration": "0:01:27"
+    },
+    "lena.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 25.36733375181914,
+                "duration": "0:00:41"
+            },
+            "NS": {
+                "psnr": 28.32861567378144,
+                "duration": "0:00:35"
+            }
+        },
+        "duration": "0:01:16"
+    },
+    "livingroom.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 23.527391596674875,
+                "duration": "0:00:30"
+            },
+            "NS": {
+                "psnr": 25.455855614488797,
+                "duration": "0:00:31"
+            }
+        },
+        "duration": "0:01:02"
+    },
+    "mandril.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 22.703889148302526,
+                "duration": "0:00:31"
+            },
+            "NS": {
+                "psnr": 24.082853175682317,
+                "duration": "0:00:31"
+            }
+        },
+        "duration": "0:01:02"
+    },
+    "peppers.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 24.850448654929558,
+                "duration": "0:00:32"
+            },
+            "NS": {
+                "psnr": 28.010088532477578,
+                "duration": "0:00:31"
+            }
+        },
+        "duration": "0:01:04"
+    },
+    "pirate.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 24.249687785973943,
+                "duration": "0:00:31"
+            },
+            "NS": {
+                "psnr": 26.506965724131838,
+                "duration": "0:00:31"
+            }
+        },
+        "duration": "0:01:02"
+    },
+    "walkbridge.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 21.70537510971223,
+                "duration": "0:00:31"
+            },
+            "NS": {
+                "psnr": 23.324619166718957,
+                "duration": "0:00:27"
+            }
+        },
+        "duration": "0:00:59"
+    },
+    "woman_blonde.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 24.513253413826178,
+                "duration": "0:00:32"
+            },
+            "NS": {
+                "psnr": 26.369232694656745,
+                "duration": "0:00:39"
+            }
+        },
+        "duration": "0:01:11"
+    },
+    "woman_darkhair.tif": {
+        "iterations": {
+            "TELEA": {
+                "psnr": 28.885274896093026,
+                "duration": "0:00:39"
+            },
+            "NS": {
+                "psnr": 33.685775437213096,
+                "duration": "0:00:39"
+            }
+        },
+        "duration": "0:01:19"
+    }
+}

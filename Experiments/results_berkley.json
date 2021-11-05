@@ -1,0 +1,254 @@
+{
+    "cameraman.tif": {
+        "corrupted": {
+            "file": "cameraman_corrupted.tif",
+            "psnr": 6.583914299459482
+        },
+        "iterations": {
+            "1": {
+                "psnr": 26.972538080642945,
+                "duration": "0:26:53"
+            },
+            "2": {
+                "psnr": 29.67615256192643,
+                "duration": "0:32:09"
+            },
+            "3": {
+                "psnr": 30.6277155765342,
+                "duration": "0:51:35"
+            }
+        },
+        "duration": "1:50:39"
+    },
+    "house.tif": {
+        "corrupted": {
+            "file": "house_corrupted.tif",
+            "psnr": 5.675045276012809
+        },
+        "iterations": {
+            "1": {
+                "psnr": 31.916122805239308,
+                "duration": "0:26:42"
+            },
+            "2": {
+                "psnr": 35.63261673486603,
+                "duration": "0:31:14"
+            },
+            "3": {
+                "psnr": 36.0704810089912,
+                "duration": "0:50:59"
+            }
+        },
+        "duration": "1:48:56"
+    },
+    "jetplane.tif": {
+        "corrupted": {
+            "file": "jetplane_corrupted.tif",
+            "psnr": 3.8063972023284083
+        },
+        "iterations": {
+            "1": {
+                "psnr": 26.23763749674783,
+                "duration": "0:27:19"
+            },
+            "2": {
+                "psnr": 28.42888035955702,
+                "duration": "0:31:01"
+            },
+            "3": {
+                "psnr": 29.20234393256814,
+                "duration": "0:49:18"
+            }
+        },
+        "duration": "1:47:39"
+    },
+    "lake.tif": {
+        "corrupted": {
+            "file": "lake_corrupted.tif",
+            "psnr": 6.141232898871452
+        },
+        "iterations": {
+            "1": {
+                "psnr": 24.41837705893966,
+                "duration": "0:26:09"
+            },
+            "2": {
+                "psnr": 25.990673247817924,
+                "duration": "0:29:18"
+            },
+            "3": {
+                "psnr": 26.476769525486837,
+                "duration": "0:50:33"
+            }
+        },
+        "duration": "1:46:01"
+    },
+    "lena.tif": {
+        "corrupted": {
+            "file": "lena_corrupted.tif",
+            "psnr": 6.623815628407575
+        },
+        "iterations": {
+            "1": {
+                "psnr": 28.190994927590665,
+                "duration": "0:29:43"
+            },
+            "2": {
+                "psnr": 30.257009236625404,
+                "duration": "0:31:28"
+            },
+            "3": {
+                "psnr": 31.00645357948059,
+                "duration": "0:51:15"
+            }
+        },
+        "duration": "1:52:26"
+    },
+    "livingroom.tif": {
+        "corrupted": {
+            "file": "livingroom_corrupted.tif",
+            "psnr": 6.901504515589016
+        },
+        "iterations": {
+            "1": {
+                "psnr": 25.183190140745715,
+                "duration": "0:27:54"
+            },
+            "2": {
+                "psnr": 26.800727869209112,
+                "duration": "0:30:51"
+            },
+            "3": {
+                "psnr": 27.531836765688425,
+                "duration": "0:50:22"
+            }
+        },
+        "duration": "1:49:08"
+    },
+    "mandril.tif": {
+        "corrupted": {
+            "file": "mandril_corrupted.tif",
+            "psnr": 6.523693150868871
+        },
+        "iterations": {
+            "1": {
+                "psnr": 23.380167592384616,
+                "duration": "0:26:30"
+            },
+            "2": {
+                "psnr": 24.30670960328623,
+                "duration": "0:30:40"
+            },
+            "3": {
+                "psnr": 24.529409836823675,
+                "duration": "0:51:02"
+            }
+        },
+        "duration": "1:48:14"
+    },
+    "peppers.tif": {
+        "corrupted": {
+            "file": "peppers_corrupted.tif",
+            "psnr": 6.914718905039851
+        },
+        "iterations": {
+            "1": {
+                "psnr": 27.710084472567182,
+                "duration": "0:31:38"
+            },
+            "2": {
+                "psnr": 29.674896369156627,
+                "duration": "0:32:17"
+            },
+            "3": {
+                "psnr": 30.53805173531206,
+                "duration": "0:48:16"
+            }
+        },
+        "duration": "1:52:13"
+    },
+    "pirate.tif": {
+        "corrupted": {
+            "file": "pirate_corrupted.tif",
+            "psnr": 7.42074165787865
+        },
+        "iterations": {
+            "1": {
+                "psnr": 26.14477015197982,
+                "duration": "0:25:38"
+            },
+            "2": {
+                "psnr": 27.67037358697717,
+                "duration": "0:29:11"
+            },
+            "3": {
+                "psnr": 28.322518513281615,
+                "duration": "0:48:03"
+            }
+        },
+        "duration": "1:42:53"
+    },
+    "walkbridge.tif": {
+        "corrupted": {
+            "file": "walkbridge_corrupted.tif",
+            "psnr": 7.066596408741854
+        },
+        "iterations": {
+            "1": {
+                "psnr": 22.940461417752317,
+                "duration": "0:25:37"
+            },
+            "2": {
+                "psnr": 23.883560584533203,
+                "duration": "0:29:15"
+            },
+            "3": {
+                "psnr": 24.228577011066108,
+                "duration": "0:48:02"
+            }
+        },
+        "duration": "1:42:56"
+    },
+    "woman_blonde.tif": {
+        "corrupted": {
+            "file": "woman_blonde_corrupted.tif",
+            "psnr": 6.081353361109148
+        },
+        "iterations": {
+            "1": {
+                "psnr": 26.486598238694,
+                "duration": "0:25:35"
+            },
+            "2": {
+                "psnr": 27.87298923145878,
+                "duration": "0:29:05"
+            },
+            "3": {
+                "psnr": 28.415735627416407,
+                "duration": "0:47:55"
+            }
+        },
+        "duration": "1:42:36"
+    },
+    "woman_darkhair.tif": {
+        "corrupted": {
+            "file": "woman_darkhair_corrupted.tif",
+            "psnr": 7.21653118937049
+        },
+        "iterations": {
+            "1": {
+                "psnr": 33.079617056992255,
+                "duration": "0:25:32"
+            },
+            "2": {
+                "psnr": 35.36280212916549,
+                "duration": "0:29:09"
+            },
+            "3": {
+                "psnr": 35.769404052051044,
+                "duration": "0:48:10"
+            }
+        },
+        "duration": "1:42:52"
+    }
+}

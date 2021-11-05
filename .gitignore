@@ -33,6 +33,11 @@ Thesis.pdf
 *-blx.bib
 *.run.xml
 
+# Python Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
 ## Build tool auxiliary files:
 *.fdb_latexmk
 *.synctex

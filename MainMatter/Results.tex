@@ -1,3 +1,99 @@
-\chapter{Experimentaci\'on}\label{chapter:results}
+\chapter{Experimentaci\'on y resultados}\label{chapter:results}
+[General sobre la experimentaci\'on]
 
-[Capitulo para exponer los resultados de la experimentaci\'on del algoritmo con bd confiables]
+\section{Caso de estudio 1: Restauraci\'on conociendo la imagen original}
+
+Descripci\'on general del experimento:
+\begin{itemize}
+	\item Las im\'agenes a utilizar son tomadas de la conocida colecci\'on de \textit{Berkley}. Todas en escala de grises y con mediana o pequeña resoluci\'on.
+	\item Se consideraron 26 im\'agenes, de ellas:
+	\begin{itemize}
+		\item Conforman el grupo (A): 12 im\'agenes de dimensi\'on $512 \times 512$.
+		\item Conforman el grupo (B): 14 im\'agenes, 11 de dimensi\'on $418 \times 312$, y 3 de $312 \times 418$.
+	\end{itemize}
+	\item Se realizaron 3 tipos diferentes de restauraciones, de la siguiente manera:
+	\begin{itemize}
+		\item Restauraci\'on con el esquema final propuesto en este trabajo:
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|cccc|}
+				\hline
+				Iteraci\'on & $K$ & $\sqrt{n}$ & $B$ & $\epsilon$ \\\hline
+				1 & $10$ & $5$ & $6$ & $10^4$\\
+				2 & $10$ & $4$ & $7$ & $10^6$\\
+				3 & $10$ & $4$ & $8$ & $10^8$\\\hline
+			\end{tabular}
+			\caption{Par\'ametros para el grupo (A)}
+		\end{table}
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|cccc|}
+				\hline
+				Iteraci\'on & $K$ & $\sqrt{n}$ & $B$ & $\epsilon$ \\\hline
+				1 & $10$ & $6$ & $6$ & $10^4$\\
+				2 & $10$ & $5$ & $7$ & $10^6$\\
+				3 & $10$ & $5$ & $8$ & $10^8$\\\hline
+			\end{tabular}
+			\caption{Par\'ametros para el grupo (B)}
+		\end{table}
+		\item Restauraci\'on usando \texttt{NS} con radio de vecindad $8$, para ambos grupos (A) y (B).
+		\item Restauraci\'on usando \texttt{TELEA} con radio de vecindad $8$, para ambos grupos (A) y (B).
+	\end{itemize}
+	\item La m\'etrica a usar para compara los resultados de las diferentes restauraciones es la medida \textbf{PSNR} \cite{enwiki:psnr}.
+\end{itemize}
+
+\input{Experiments/prberkley}
+\input{Experiments/cvberkley}
+\newcommand{\berkley}[1]{
+\texttt{\detokenize{#1}} &
+\prberkley[#1][iterations][1][psnr] &
+\prberkley[#1][iterations][2][psnr] &
+\prberkley[#1][iterations][3][psnr] &
+\cvberkley[#1][iterations][TELEA][psnr] &
+\cvberkley[#1][iterations][NS][psnr] \\
+}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{4cm}ccccc}\hline
+		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \textbf{NS} & \textbf{TELEA} \\\hline
+		\berkley{cameraman.tif}
+		\berkley{house.tif}
+		\berkley{jetplane.tif}
+		\berkley{lake.tif}
+		\berkley{lena.tif}
+		\berkley{livingroom.tif}
+		\berkley{mandril.tif}
+		\berkley{peppers.tif}
+		\berkley{pirate.tif}
+		\berkley{walkbridge.tif}
+		\berkley{woman_blonde.tif}
+		\berkley{woman_darkhair.tif}\hline
+	\end{tabular}
+	\caption{Resultados de los tres tipos de restauraciones para el grupo (A)}
+	\label{tab:berkleyA}
+\end{table}
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{4cm}ccccc}\hline
+		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \textbf{NS} & \textbf{TELEA} \\\hline
+		\berkley{im11.jpg}
+		\berkley{im15.jpg}
+		\berkley{im16.jpg}
+		\berkley{im18.jpg}
+		\berkley{im19.jpg}
+		\berkley{im24.jpg}
+		\berkley{im25.jpg}
+		\berkley{im26.jpg}
+		\berkley{im28.jpg}
+		\berkley{im29.jpg}
+		\berkley{im30.jpg}
+		\berkley{im12.jpg}
+		\berkley{im17.jpg}
+		\berkley{im20.jpg}\hline
+	\end{tabular}
+	\caption{Resultados de los tres tipos de restauraciones para el grupo (B)}
+	\label{tab:berkleyB}
+\end{table}
