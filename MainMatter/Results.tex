@@ -1,5 +1,23 @@
 \chapter{Experimentaci\'on y resultados}\label{chapter:results}
-[General sobre la experimentaci\'on]
+En este cap\'itulo se muestran los resultados de la experimentaci\'on realizada con el esquema de restauraci\'on propuesto en el Cap\'itulo \ref{chapter:scheme}, sobre una serie de im\'agenes digitales tomadas de ciertas colecciones de inter\'es. La implementaci\'on usada es la presentada en el Cap\'itulo \ref{chapter:code}, donde adem\'as se sugiri\'o la estrategia de realizar restauraciones consecutivas que aprovechan la restauraci\'on anterior. De dicha estrategia se medir\'a su efectividad de conjunto con la calidad de las restauraciones. Con el objetivo de tener referentes a partir de los cuales establecer comparativas, se realizaron otros dos tipos de restauraciones sobre las mismas im\'agenes.
+
+Como primera restauraci\'on de referencia se cuenta con el trabajo realizado por Alexandru Telea en \cite{telea2004image} durante 2004. El cual, como se mencion\'o brevemente en la Introducci\'on, se basa en el m\'etodo de \textit{fast marching}. La idea principal es propagar la informaci\'on desde la frontera de las zonas incompletas. De forma tal que cada p\'ixel en el interior se completa usando un promedio con pesos de los p\'ixeles en su vecindad con un radio dado. Una vez se restaura un p\'ixel, se mueve al siguiente usando el m\'etodo de \textit{fast marching}. Ahora bien, para abreviar el nombre de esta restauraci\'on se usan las siglas \TELEA en su lugar.
+
+El segundo tipo de restauraci\'on se trata del desarrollado por los autores Bertalmio, Marcelo, Andrea L. Bertozzi, y Guillermo Sapiro en \cite{bertalmio2001navier} alrededor del año 2001. Se debe recordar que este trabajo est\'a basado en las ecuaciones de derivadas parciales (\textbf{PDP}) de la din\'amica de fluidos. Considerándose una heur\'istica, la estrategia es viajar por los bordes de las zonas completas hacia las zonas incompletas. Se siguen las \textit{isofotos}\footnote{Curvas o contornos que conectan puntos con igual brillo o intensidad} en la medida que coincidan con los vectores gradientes de la frontera de la subregi\'on que se va a restaurar. Para ello se emplean algunos m\'etodos de la din\'amica de fluidos. Una vez obtenido el conjunto de puntos a restaurar, los mismos se completan con valores que reducen la varianza m\'inima en su vecindad de radio dado. An\'alogamente, para abreviar el nombre de este esquema, se usa \NS en su lugar.
+
+Las implementaciones de ambas se encuentran en forma de herramienta de \texttt{OpenCV} lo que facilit\'o su aplicaci\'on. Mediante el m\'etodo de \texttt{OpenCV}, \texttt{cv2.inpainting}, el cual recibe 4 par\'ametros, la imagen a restaurar, la m\'ascara que define los p\'ixeles faltantes, el param\'etro entero \texttt{radius} y el par\'ametro \texttt{flag}. Para realizar una restauraci\'on del tipo \TELEA se usa \texttt{cv2.INPAINT\_TELEA} como valor del par\'ametro \texttt{flag}. En cambio si se desea usar \NS debe asignarse \texttt{cv2.INPAINT\_NS}. El valor del par\'ametro \texttt{radius} define el valor del radio a usar en \TELEA o \NS tal como se resumi\'o en sus breves descripciones.
+
+La experimentaci\'on se divide en dos casos de estudio. En el primer caso se trabaja con im\'agenes conocidas. Es decir, cada imagen original se corrompe intencionalmente, y se realizan las restauraciones sobre las im\'agenes corruptas. Finalmente tomando las imagenes restauradas, cada una de ellas se compara con la original usando determinada m\'etrica. La m\'etrica a usar es la medida \PSNR \cite{enwiki:psnr}. Para dos im\'agenes $I$ y $C$ la misma se define como sigue:
+\begin{equation}
+	\PSNR(I, C) = 10 \log_{10} \left(\frac{\textbf{MAX}_I}{\textbf{MCE}(I, C)}\right)
+\end{equation}
+donde $\textbf{MAX}_I$ define el mayor valor que puede tomar alg\'un p\'ixel de la imagen $I$ (por lo general es 255), y la funci\'on $\textbf{MCE}$ es el error cuadr\'atico medio que se calcula como:
+\begin{equation}
+	\textbf{MCE}(I, C) = \frac{1}{ab}\sum_{i=1}^{a}\sum_{j=1}^{b}[I(i, j) - C(i, j)]^2
+\end{equation}
+donde $a \times b$ son las dimensiones de ambas im\'agenes. Esta medida tambi\'en se encuentra implementada de forma eficiente en \texttt{OpenCV}, mediante la funci\'on \texttt{cv2.PSNR} que recibe como par\'ametros las matrices de las im\'agenes.
+
+En el segundo caso de estudio se trabaja con im\'agenes que inicialmente cuentan con zonas incompletas, con lo cual se desconoce la imagen real. En este escenario no es posible usar ninguna m\'etrica para medir la calidad de las restauraciones. Por lo tanto todo tipo de consideraciones sobre los resultados ser\'an meramente visuales y subjetivos. Por otro lado, las restauraciones \TELEA y \NS que ya son conocidas y han sido utilizadas para resolver dis\'imiles problem\'aticas, ser\'an una refrerencia clave en esta situaci\'on. Sin embargo, la intenci\'on en este caso de estudio es ver la utilidad de la restauraci\'on basada en el ordenamiento suaves de los parches, con determinadas im\'agenes que surgen en la pr\'actica, por ejemplo, en el campo de la medicina.
 
 \section{Caso de estudio 1: Restauraci\'on conociendo la imagen original}
 
@@ -9,11 +27,22 @@ Descripci\'on general del experimento:
 	\item Se consideraron 26 im\'agenes, de ellas:
 	\begin{itemize}
 		\item Conforman el grupo (A): 12 im\'agenes de dimensi\'on $512 \times 512$.
-		\item Conforman el grupo (B): 14 im\'agenes, 11 de dimensi\'on $418 \times 312$, y 3 de $312 \times 418$.
+		\item Conforman el grupo (B): 14 im\'agenes, 11 de dimensi\'on $312 \times 418$, y 3 de $418 \times 312$.
 	\end{itemize}
-	\item Se realizaron 3 tipos diferentes de restauraciones, de la siguiente manera:
-	\begin{itemize}
-		\item Restauraci\'on con el esquema final propuesto en este trabajo:
+	\item Las m\'ascaras utilizadas para generar las im\'agenes corruptas son las mismas para las im\'agenes de igual dimension.
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|l|ccc|}\hline
+		Resoluci\'on & $512 \times 512$ & $321 \times 481$ & $481 \times 321$ \\
+		M\'ascara &
+		\includegraphics[scale=0.2]{Experiments/mask_512_512.tif} &
+		\includegraphics[scale=0.2]{Experiments/mask_481_321.jpg} &
+		\includegraphics[scale=0.2]{Experiments/mask_321_481.jpg} \\\hline
+		\end{tabular}
+	\end{table}
+	\item Se realizaron los 3 tipos diferentes de restauraciones, de la siguiente manera:
+	\begin{enumerate}
+		\item Restauraci\'on con el esquema final del epígrafe \ref{sec:final_scheme}, utilizando restauraciones consecutivas, como se sugiere en epígrafe \ref{sec:imageinpainting_module}.
 		\begin{table}[H]
 			\centering
 			\begin{tabular}{|c|cccc|}
@@ -36,10 +65,10 @@ Descripci\'on general del experimento:
 			\end{tabular}
 			\caption{Par\'ametros para el grupo (B)}
 		\end{table}
-		\item Restauraci\'on usando \texttt{NS} con radio de vecindad $8$, para ambos grupos (A) y (B).
-		\item Restauraci\'on usando \texttt{TELEA} con radio de vecindad $8$, para ambos grupos (A) y (B).
-	\end{itemize}
-	\item La m\'etrica a usar para compara los resultados de las diferentes restauraciones es la medida \textbf{PSNR} \cite{enwiki:psnr}.
+		\item Restauraci\'on usando \TELEA con radio de vecindad $8$, para ambos grupos (A) y (B).
+		\item Restauraci\'on usando \NS con radio de vecindad $8$, para ambos grupos (A) y (B).
+	\end{enumerate}
+	\item La m\'etrica a usar para compara los resultados de las diferentes restauraciones es la medida \textbf{PSNR}.
 \end{itemize}
 
 \input{Experiments/prberkley}
@@ -56,7 +85,7 @@ Descripci\'on general del experimento:
 \begin{table}[H]
 	\centering
 	\begin{tabular}{p{4cm}ccccc}\hline
-		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \textbf{NS} & \textbf{TELEA} \\\hline
+		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \TELEA & \NS \\\hline
 		\berkley{cameraman.tif}
 		\berkley{house.tif}
 		\berkley{jetplane.tif}
@@ -78,7 +107,7 @@ Descripci\'on general del experimento:
 \begin{table}[H]
 	\centering
 	\begin{tabular}{p{4cm}ccccc}\hline
-		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \textbf{NS} & \textbf{TELEA} \\\hline
+		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \TELEA & \NS \\\hline
 		\berkley{im11.jpg}
 		\berkley{im15.jpg}
 		\berkley{im16.jpg}

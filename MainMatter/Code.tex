@@ -9,7 +9,7 @@ Para el trabajo con matrices, vectores y otros elementos y operaciones matem\'at
 
 Se hace uso tambi\'en de otra de las librer\'ias m\'as famosas del paquete científico, es el caso de \texttt{SciPy}. La versión usada es \texttt{scipy 1.3.2}. De esta se toma el m\'odulo \fbox{\texttt{scipy.interpolate}} el cual contiene, entre otras, una funci\'on para realizar la interpolaci\'on por \textit{splines} c\'ubicos. Finalmente, con el objetivo de optimizar el tiempo de ejecuci\'on de los esquemas y algoritmos presentados en el Cap\'itulo \ref{chapter:scheme} se utiliza el m\'odulo \texttt{multiprocessing}. Este paquete soporta la ejecuci\'on de procesos concurrentes, de una forma similar al m\'odulo \texttt{threading}, con la gran diferencia de que estos procesos s\'i corren en diferentes n\'ucleos de la \textbf{CPU}\footnote{Por sus siglas en ingl\'es \textit{Central Processing Unit}: unidad central de procesamiento} \cite{enwiki:cpu}. Resulta de utilidad este m\'odulo para lograr la paralelizaci\'on de los esquemas de restauraci\'on presentados, que tal como sus gr\'aficos muestran (figuras \ref{fig:subimage_scheme} y \ref{fig:final_scheme}), sus partes pueden ser realizadas de forma independiente.
 
-\section{El m\'odulo \texttt{ImageInpainting}}
+\section{El m\'odulo \texttt{ImageInpainting}}\label{sec:imageinpainting_module}
 
 Para lograr una mejor organizaci\'on y diseño de la implementaci\'on del esquema de restauraci\'on, la misma se creo en forma de m\'odulo local de \texttt{Python}, el cual se nombr\'o \texttt{ImageInpainting}. Cada una de sus funcionalidades fueron encapsuladas en 3 archivos distintos:
 \begin{itemize}
