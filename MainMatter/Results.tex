@@ -17,7 +17,7 @@ donde $\textbf{MAX}_I$ define el mayor valor que puede tomar alg\'un p\'ixel de 
 \end{equation}
 donde $a \times b$ son las dimensiones de ambas im\'agenes. Esta medida tambi\'en se encuentra implementada de forma eficiente en \texttt{OpenCV}, mediante la funci\'on \texttt{cv2.PSNR} que recibe como par\'ametros las matrices de las im\'agenes.
 
-En el segundo caso de estudio se trabaja con im\'agenes que inicialmente cuentan con zonas incompletas, con lo cual se desconoce la imagen real. En este escenario no es posible usar ninguna m\'etrica para medir la calidad de las restauraciones. Por lo tanto todo tipo de consideraciones sobre los resultados ser\'an meramente visuales y subjetivos. Por otro lado, las restauraciones \TELEA y \NS que ya son conocidas y han sido utilizadas para resolver dis\'imiles problem\'aticas, ser\'an una refrerencia clave en esta situaci\'on. Sin embargo, la intenci\'on en este caso de estudio es ver la utilidad de la restauraci\'on basada en el ordenamiento suaves de los parches, con determinadas im\'agenes que surgen en la pr\'actica, por ejemplo, en el campo de la medicina.
+En el segundo caso de estudio se trabaja con im\'agenes que inicialmente cuentan con zonas incompletas, con lo cual se desconoce la imagen real. En este escenario no es posible usar ninguna m\'etrica para medir la calidad de las restauraciones. Por lo tanto todo tipo de consideraciones sobre los resultados ser\'an meramente visuales y subjetivas. Por otro lado, las restauraciones \TELEA y \NS que ya son conocidas y han sido utilizadas para resolver dis\'imiles problem\'aticas, ser\'an una referencia clave en esta situaci\'on. Sin embargo, la intenci\'on en este caso de estudio es ver la utilidad de la restauraci\'on basada en el ordenamiento suaves de los parches, con determinadas im\'agenes que surgen en la pr\'actica, por ejemplo, en el campo de la medicina.
 
 \section{Caso de estudio 1: Restauraci\'on conociendo la imagen original}
 
@@ -29,7 +29,7 @@ Descripci\'on general del experimento:
 		\item Conforman el grupo (A): 12 im\'agenes de dimensi\'on $512 \times 512$.
 		\item Conforman el grupo (B): 14 im\'agenes, 11 de dimensi\'on $312 \times 418$, y 3 de $418 \times 312$.
 	\end{itemize}
-	\item Las m\'ascaras utilizadas para generar las im\'agenes corruptas son las mismas para las im\'agenes de igual dimension.
+	\item Las m\'ascaras utilizadas para generar las im\'agenes corruptas son las mismas para las im\'agenes de igual dimensión. Cada una contiene un aproximado de 80\% de p\'ixeles que indican que debe realizarse la restauraci\'on en ellos. Por lo tanto despu\'es de aplicada la m\'ascara, la imagen corrupta resultante solo contiene un 20\% de la informaci\'on original.
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{|l|ccc|}\hline
@@ -71,58 +71,8 @@ Descripci\'on general del experimento:
 	\item La m\'etrica a usar para compara los resultados de las diferentes restauraciones es la medida \textbf{PSNR}.
 \end{itemize}
 
-\input{Experiments/prberkley}
-\input{Experiments/cvberkley}
-\newcommand{\berkley}[1]{
-\texttt{\detokenize{#1}} &
-\prberkley[#1][iterations][1][psnr] &
-\prberkley[#1][iterations][2][psnr] &
-\prberkley[#1][iterations][3][psnr] &
-\cvberkley[#1][iterations][TELEA][psnr] &
-\cvberkley[#1][iterations][NS][psnr] \\
-}
+\input{Experiments/berkleyA}
+\berkleyA{Resultados de los tres tipos de restauraciones para el grupo (A)}{tab:berkleyA}{teal}{red}
 
-\begin{table}[H]
-	\centering
-	\begin{tabular}{p{4cm}ccccc}\hline
-		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \TELEA & \NS \\\hline
-		\berkley{cameraman.tif}
-		\berkley{house.tif}
-		\berkley{jetplane.tif}
-		\berkley{lake.tif}
-		\berkley{lena.tif}
-		\berkley{livingroom.tif}
-		\berkley{mandril.tif}
-		\berkley{peppers.tif}
-		\berkley{pirate.tif}
-		\berkley{walkbridge.tif}
-		\berkley{woman_blonde.tif}
-		\berkley{woman_darkhair.tif}\hline
-	\end{tabular}
-	\caption{Resultados de los tres tipos de restauraciones para el grupo (A)}
-	\label{tab:berkleyA}
-\end{table}
-
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{p{4cm}ccccc}\hline
-		Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \TELEA & \NS \\\hline
-		\berkley{im11.jpg}
-		\berkley{im15.jpg}
-		\berkley{im16.jpg}
-		\berkley{im18.jpg}
-		\berkley{im19.jpg}
-		\berkley{im24.jpg}
-		\berkley{im25.jpg}
-		\berkley{im26.jpg}
-		\berkley{im28.jpg}
-		\berkley{im29.jpg}
-		\berkley{im30.jpg}
-		\berkley{im12.jpg}
-		\berkley{im17.jpg}
-		\berkley{im20.jpg}\hline
-	\end{tabular}
-	\caption{Resultados de los tres tipos de restauraciones para el grupo (B)}
-	\label{tab:berkleyB}
-\end{table}
+\input{Experiments/berkleyB}
+\berkleyB{Resultados de los tres tipos de restauraciones para el grupo (B)}{tab:berkleyB}{teal}{red}
