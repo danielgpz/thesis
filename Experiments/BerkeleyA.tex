@@ -1,17 +1,26 @@
-\makeatletter\newcommand\BerkeleyA[4]{
+\makeatletter
+\newcommand\BerkeleyA[3]{
 \begin{table}[H]\centering\begin{tabular}{p{4cm}ccccc}\hline
 Imagen & Iteraci\'on 1 & Iteraci\'on 2 & Iteraci\'on 3 & \textbf{TELEA} & \textbf{NS} \\\hline
-\texttt{\detokenize{cameraman.tif}} & 26.97 & 29.68 & \textcolor{#3}{30.63} & \textcolor{#4}{24.05} & 27.33\\
-\texttt{\detokenize{house.tif}} & 31.92 & 35.63 & \textcolor{#3}{36.07} & \textcolor{#4}{26.48} & 31.79\\
-\texttt{\detokenize{jetplane.tif}} & 26.24 & 28.43 & \textcolor{#3}{29.20} & \textcolor{#4}{23.63} & 26.62\\
-\texttt{\detokenize{lake.tif}} & 24.42 & 25.99 & \textcolor{#3}{26.48} & \textcolor{#4}{22.33} & 24.86\\
-\texttt{\detokenize{lena.tif}} & 28.19 & 30.26 & \textcolor{#3}{31.01} & \textcolor{#4}{25.37} & 28.33\\
-\texttt{\detokenize{livingroom.tif}} & 25.18 & 26.80 & \textcolor{#3}{27.53} & \textcolor{#4}{23.53} & 25.46\\
-\texttt{\detokenize{mandril.tif}} & 23.38 & 24.31 & \textcolor{#3}{24.53} & \textcolor{#4}{22.70} & 24.08\\
-\texttt{\detokenize{peppers.tif}} & 27.71 & 29.67 & \textcolor{#3}{30.54} & \textcolor{#4}{24.85} & 28.01\\
-\texttt{\detokenize{pirate.tif}} & 26.14 & 27.67 & \textcolor{#3}{28.32} & \textcolor{#4}{24.25} & 26.51\\
-\texttt{\detokenize{walkbridge.tif}} & 22.94 & 23.88 & \textcolor{#3}{24.23} & \textcolor{#4}{21.71} & 23.32\\
-\texttt{\detokenize{woman_blonde.tif}} & 26.49 & 27.87 & \textcolor{#3}{28.42} & \textcolor{#4}{24.51} & 26.37\\
-\texttt{\detokenize{woman_darkhair.tif}} & 33.08 & 35.36 & \textcolor{#3}{35.77} & \textcolor{#4}{28.89} & 33.69\\\hline
-\end{tabular}\caption{#1}\label{#2}\end{table}
-}\makeatother
+\texttt{\detokenize{cameraman.tif}} & 26.97 & 29.68 & \textcolor{#2}{30.63} & \textcolor{#3}{24.05} & 27.33\\
+\texttt{\detokenize{house.tif}} & 31.92 & 35.63 & \textcolor{#2}{36.07} & \textcolor{#3}{26.48} & 31.79\\
+\texttt{\detokenize{jetplane.tif}} & 26.24 & 28.43 & \textcolor{#2}{29.20} & \textcolor{#3}{23.63} & 26.62\\
+\texttt{\detokenize{lake.tif}} & 24.42 & 25.99 & \textcolor{#2}{26.48} & \textcolor{#3}{22.33} & 24.86\\
+\texttt{\detokenize{lena.tif}} & 28.19 & 30.26 & \textcolor{#2}{31.01} & \textcolor{#3}{25.37} & 28.33\\
+\texttt{\detokenize{livingroom.tif}} & 25.18 & 26.80 & \textcolor{#2}{27.53} & \textcolor{#3}{23.53} & 25.46\\
+\texttt{\detokenize{mandril.tif}} & 23.38 & 24.31 & \textcolor{#2}{24.53} & \textcolor{#3}{22.70} & 24.08\\
+\texttt{\detokenize{peppers.tif}} & 27.71 & 29.67 & \textcolor{#2}{30.54} & \textcolor{#3}{24.85} & 28.01\\
+\texttt{\detokenize{pirate.tif}} & 26.14 & 27.67 & \textcolor{#2}{28.32} & \textcolor{#3}{24.25} & 26.51\\
+\texttt{\detokenize{walkbridge.tif}} & 22.94 & 23.88 & \textcolor{#2}{24.23} & \textcolor{#3}{21.71} & 23.32\\
+\texttt{\detokenize{woman_blonde.tif}} & 26.49 & 27.87 & \textcolor{#2}{28.42} & \textcolor{#3}{24.51} & 26.37\\
+\texttt{\detokenize{woman_darkhair.tif}} & 33.08 & 35.36 & \textcolor{#2}{35.77} & \textcolor{#3}{28.89} & 33.69\\\hline
+Promedio & 26.89 & 28.80 & 29.39 & 24.36 & 27.20\\\hline
+\end{tabular}\caption{#1}\label{tab:BerkeleyA}\end{table}
+}
+\newcommand\BerkeleyAdiffs[1]{
+\begin{table}[H]\centering\begin{tabular}{|c|c|c|c|c|}\hline
+Iters. 2 y 1 & Iters. 3 y 2 & Iters. 3 y 1 & Iter. 3 y \textbf{NS} & \textbf{NS} e Iter. 1 \\\hline
+1.91 & 0.60 & 2.50 & 2.20 & 0.31\\\hline
+\end{tabular}\caption{#1}\label{tab:BerkeleyA_diffs}\end{table}
+}
+\makeatother

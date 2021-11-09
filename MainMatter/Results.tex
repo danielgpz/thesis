@@ -1,7 +1,7 @@
 \chapter{Experimentaci\'on y resultados}\label{chapter:results}
-En este cap\'itulo se muestran los resultados de la experimentaci\'on realizada con el esquema de restauraci\'on propuesto en el Cap\'itulo \ref{chapter:scheme}, sobre una serie de im\'agenes digitales tomadas de ciertas colecciones de inter\'es. La implementaci\'on usada es la presentada en el Cap\'itulo \ref{chapter:code}, donde adem\'as se sugiri\'o la estrategia de realizar restauraciones consecutivas que aprovechan la restauraci\'on anterior. La efectividad de la estrategia mencionada se mide de conjunto con la calidad de las restauraciones. Con el objetivo de contar con referentes a partir de los cuales establecer comparativas, se realizaron otros dos tipos de restauraciones sobre las mismas im\'agenes.
+En este cap\'itulo se muestran los resultados de la experimentaci\'on realizada con el esquema de restauraci\'on propuesto en el Cap\'itulo \ref{chapter:scheme}, sobre una serie de im\'agenes digitales tomadas de ciertas colecciones de inter\'es. La implementaci\'on usada es la presentada en el Cap\'itulo \ref{chapter:code}, donde adem\'as se sugiri\'o la estrategia de realizar restauraciones consecutivas que aprovechan la restauraci\'on anterior. La efectividad de la estrategia mencionada se mide de conjunto con la calidad de las restauraciones. Con el objetivo de establecer comparativas, se realizaron otros dos tipos de restauraciones sobre las mismas im\'agenes. Para distinguir del resto la restauraci\'on propuesta en este trabajo, se usan en su lugar las siglas \SOP a modo de abreviaci\'on.
 
-Como primera restauraci\'on de referencia se cuenta con el trabajo realizado por Alexandru Telea en 2004 \cite{telea2004image}. Como se mencion\'o brevemente en la Introducci\'on, esta restauraci\'on se basa en el m\'etodo \textit{fast marching}. La idea principal es propagar la informaci\'on desde la frontera de las zonas incompletas hacia su interior, completando cada p\'ixel usando un promedio con pesos de los elementos en su vecindad de radio dado. Una vez que se restaura un p\'ixel, se mueve al siguiente usando el m\'etodo \textit{fast marching}. Ahora bien, para abreviar el nombre de esta restauraci\'on se usan las siglas \TELEA en su lugar.
+Como primera restauraci\'on de referencia se cuenta con el trabajo realizado por Alexandru Telea en 2004 \cite{telea2004image}. Como se mencion\'o brevemente en la Introducci\'on, esta restauraci\'on se basa en el m\'etodo \textit{fast marching}. La idea principal es propagar la informaci\'on desde la frontera de las zonas incompletas hacia su interior, completando cada p\'ixel usando un promedio con pesos de los elementos en su vecindad de radio dado. Una vez que se restaura un p\'ixel, se mueve al siguiente usando el m\'etodo \textit{fast marching}. Para referirse a esta restauraci\'on se usan las siglas \TELEA en su lugar.
 
 El segundo tipo de restauraci\'on se trata del desarrollado por los autores Bertalmio, Marcelo, Andrea L. Bertozzi, y Guillermo Sapiro alrededor del año 2001 \cite{bertalmio2001navier}. Se debe recordar que este trabajo est\'a basado en las ecuaciones en derivadas parciales (\textbf{EDP}) de la din\'amica de fluidos. Considerándose una heur\'istica, la estrategia es viajar por los bordes de las zonas completas hacia las zonas incompletas. Se siguen las \textit{isofotos}\footnote{Curvas o contornos que conectan puntos con igual brillo o intensidad} en la medida que coincidan con los vectores gradientes de la frontera de la subregi\'on que se va a restaurar. Para ello se emplean algunos m\'etodos de la din\'amica de fluidos. Una vez obtenido el conjunto de puntos a restaurar, los mismos se completan con valores que reducen la varianza m\'inima en su vecindad de radio dado. An\'alogamente, para abreviar el nombre de este esquema, se usa \NS en su lugar.
 
@@ -17,7 +17,7 @@ donde $\textbf{MAX}_I$ es el mayor valor que puede tomar alg\'un p\'ixel de la i
 \end{equation}
 donde $a \times b$ es la dimensi\'on de ambas im\'agenes. Por ejemplo, si se tiene un error pequeño como $\textbf{MCE}(I, C) = 50$, entonces: $$\PSNR(I, C) = 10 \log_{10} \left(\frac{\textbf{MAX}^2_I}{50}\right) \approx 31.14$$ cuando se trata de de p\'ixeles en el rango est\'andar de $[0,\;255]$. En cambio, para un error mucho mayor como $\textbf{MCE}(I, C) = 5000$, resulta en $$\PSNR(I, C) = 10 \log_{10} \left(\frac{\textbf{MAX}^2_I}{5000}\right) \approx 11.14$$ esto significa que la m\'etrica \PSNR de dos im\'agenes es inversamente proporcional a su error cuadr\'atico medio. En sentido general, altos valores de $\PSNR(I, C)$ indican que $C$ es una reconstrucción fiel a $I$. Esta medida tambi\'en se encuentra implementada de forma eficiente en \texttt{OpenCV}, mediante la funci\'on \texttt{cv2.PSNR} que recibe como par\'ametros las matrices de las im\'agenes.
 
-En el segundo caso de estudio se trabaja con im\'agenes que inicialmente cuentan con zonas incompletas, con lo cual se desconoce la imagen real. En este escenario no es posible utilizar m\'etricas para medir la calidad de las restauraciones. Por lo tanto todo tipo de consideraciones sobre los resultados ser\'an meramente visuales y subjetivas. Sin embargo, las restauraciones \TELEA y \NS que ya son conocidas y han sido utilizadas para resolver dis\'imiles problem\'aticas, ser\'an de mucha utilidad en esta situaci\'on. La intenci\'on en este caso de estudio tambi\'en es analizar las ventajas y desventajas de la restauraci\'on basada en el ordenamiento suave de los parches en el campo de las  im\'agenes medicas.
+En el segundo caso de estudio se trabaja con im\'agenes que inicialmente cuentan con zonas incompletas, con lo cual se desconoce la imagen real. En este escenario no es posible utilizar m\'etricas para medir la calidad de las restauraciones. Por lo tanto todo tipo de consideraciones sobre los resultados ser\'an meramente visuales y subjetivas. Sin embargo, las restauraciones \TELEA y \NS que ya son conocidas y han sido utilizadas para resolver dis\'imiles problem\'aticas, ser\'an de mucha utilidad en esta situaci\'on. La intenci\'on en este caso de estudio tambi\'en es analizar las ventajas y desventajas de la restauraci\'on \SOP en el campo de las  im\'agenes medicas.
 
 \section{Caso de estudio 1: Restauraci\'on conociendo la imagen original}
 
@@ -52,7 +52,7 @@ Descripci\'on general del experimento:
 	
 	\item Se realizaron 3 tipos diferentes de restauraciones, de la siguiente forma:
 	\begin{enumerate}
-		\item Restauraci\'on con el esquema final del epígrafe \ref{sec:final_scheme}, utilizando la estrategia de restauraciones consecutivas, como se sugiere en epígrafe \ref{sec:imageinpainting_module}.
+		\item Restauraci\'on \SOP utilizando la estrategia de restauraciones consecutivas:
 		\begin{table}[H]
 			\centering
 			\begin{tabular}{|c|cccc|}
@@ -82,7 +82,50 @@ Descripci\'on general del experimento:
 \end{itemize}
 
 \input{Experiments/BerkeleyA}
-\BerkeleyA{Medida \PSNR de los tres tipos de restauraciones en el grupo (A)}{tab:berkleyA}{teal}{red}
-
 \input{Experiments/BerkeleyB}
-\BerkeleyB{Medida \PSNR de los tres tipos de restauraciones para el grupo (B)}{tab:berkleyB}{teal}{red}
+A continuaci\'on se muestran los resultados del primer experimento en las tablas \ref{tab:BerkeleyA} y \ref{tab:BerkeleyB}. En ambas tablas se resaltan por cada una de sus filas, el mayor (de color azul) y el menor valor (de color rojo) que alcanz\'o la m\'etrica.
+
+\BerkeleyA{Medida \PSNR de los tres tipos de restauraciones en el grupo (A)}{teal}{red}
+Como se puede apreciar, para todas las im\'agenes la restauraci\'on de mejor calidad seg\'un la m\'etrica \PSNR es \SOP con la estrategia de restauraciones consecutivas. En cambio, la de menos calidad resulta la restauraci\'on de referencia \TELEA. Por otro lado, \NS a pesar de que muestra altos valores de la m\'etrica, tambi\'en queda por debajo de la iteraci\'on 3 de \SOP, y no muy por encima de la iteraci\'on inicial. El caso de la imagen \texttt{house.tif} es donde se alcanz\'o la mayor calidad de restauraci\'on con \SOP (ver figura \ref{fig:house.tif}), y con la imagen \texttt{walkbridge.tif} se obtuvo la peor calidad en este grupo (ver figura \ref{fig:walkbridge.tif}). Ahora bien, analizando los datos de la tabla \ref{tab:BerkeleyA_diffs} es posible observar como, en promedio, la segunda iteraci\'on aumenta la m\'etrica notablemente respecto a la primera iteraci\'on. De igual forma, pero en menor medida sucede con la tercera y la segunda. Los resultados muestran que la estrategia de restauraciones \SOP consecutivas es efectiva, sobretodo una segunda restauraci\'on es casi necesaria. Realizar 3 o m\'as depender\'a de las necesidades y poder de c\'omputo del usuario que considere oportuno y ventajoso ejecutarlas. 
+\BerkeleyAdiffs{Diferencias entre promedios de las medidas \PSNR en el grupo (A)}
+\newcommand\showImageRestaurations[2]{
+\begin{tabular}{ccc}
+	\includegraphics[width=0.25\linewidth]{Experiments/#1_corrupted.#2}&
+	\includegraphics[width=0.25\linewidth]{Experiments/#1_cv2_TELEA.#2}&
+	\includegraphics[width=0.25\linewidth]{Experiments/#1_cv2_NS.#2}\\
+	\tiny{Imagen Corrupta}&\tiny{\TELEA}&\tiny{\NS}\\
+	\includegraphics[width=0.25\linewidth]{Experiments/#1_iteration_1.#2}&
+	\includegraphics[width=0.25\linewidth]{Experiments/#1_iteration_2.#2}&
+	\includegraphics[width=0.25\linewidth]{Experiments/#1_iteration_3.#2}\\
+	\tiny{Iteraci\'on 1}&\tiny{Iteraci\'on 2}&\tiny{Iteraci\'on 3}\\
+\end{tabular}
+}
+
+\begin{figure}[H]
+	\centering
+	\showImageRestaurations{house}{tif}
+	\caption{Restauraciones para la versi\'on corrupta de la imagen \texttt{house.tif}.}
+	\label{fig:house.tif}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\showImageRestaurations{walkbridge}{tif}
+	\caption{Restauraciones para la versi\'on corrupta de la imagen \texttt{walkbridge.tif}.}
+	\label{fig:walkbridge.tif}
+\end{figure}
+
+\BerkeleyB{Medida \PSNR de los tres tipos de restauraciones para el grupo (B)}{teal}{red}
+\BerkeleyBdiffs{Diferencias entre promedios de las medidas \PSNR en el grupo (B)}
+
+\begin{figure}[H]
+	\centering
+	\showImageRestaurations{im24}{jpg}
+	\caption{Restauraciones para la versi\'on corrupta de la imagen \texttt{im24.jpg}.}
+	\label{fig:im24.jpg}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\showImageRestaurations{im16}{jpg}
+	\caption{Restauraciones para la versi\'on corrupta de la imagen \texttt{im16.jpg}.}
+	\label{fig:im16.jpg}
+\end{figure}
