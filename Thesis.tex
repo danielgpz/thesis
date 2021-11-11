@@ -10,6 +10,8 @@
 \usepackage{epstopdf}
 \epstopdfDeclareGraphicsRule{.tif}{png}{.png}{magick #1 \OutputFile}
 \AppendGraphicsExtensions{.tif}
+\epstopdfDeclareGraphicsRule{.bmp}{png}{.png}{magick #1 \OutputFile}
+\AppendGraphicsExtensions{.bmp}
 \usepackage{tikz}
 \usetikzlibrary{positioning,calc,spy}
 \usepackage{listings}
