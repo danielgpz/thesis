@@ -29,18 +29,16 @@ Descripci\'on general del experimento:
 		\item Conforman el grupo (A): 12 im\'agenes de dimensi\'on $512 \times 512$.
 		\item Conforman el grupo (B): 14 im\'agenes, 11 de dimensi\'on $312 \times 418$, y 3 de $418 \times 312$.
 	\end{itemize}
-	\item Las m\'ascaras utilizadas para generar las im\'agenes corruptas son las mismas para las im\'agenes de igual dimensión.
-	\begin{table}[H]
+	\item Las m\'ascaras utilizadas para generar las im\'agenes corruptas son las mismas para las im\'agenes de igual dimensión. Ver figura \ref{fig:mask_map}.
+	\begin{figure}[H]
 		\centering
-		\begin{tabular}{|l|ccc|}\hline
-		Resoluci\'on & $512 \times 512$ & $321 \times 481$ & $481 \times 321$ \\
-		M\'ascara &
-		\includegraphics[scale=0.2]{Experiments/Berkeley/mask_512_512.tif} &
-		\includegraphics[scale=0.2]{Experiments/Berkeley/mask_481_321.jpg} &
-		\includegraphics[scale=0.2]{Experiments/Berkeley/mask_321_481.jpg} \\\hline
-		\end{tabular}
-	\end{table}
-	Las m\'ascaras se generaron de manera aleatoria, cada p\'ixel se seleccion\'o como corrupto con probabilidad $4/5$. Como resultado, aquellos p\'ixeles donde debe realizarse la restauraci\'on representan aproximadamente el 80\% de la m\'ascara. Por lo tanto despu\'es de aplicada, la imagen corrupta resultante solo contiene un 20\% de la informaci\'on original.
+		\subfigure[$512 \times 512$]{\includegraphics[scale=0.25]{Experiments/Berkeley/mask_512_512.tif}}\quad
+		\subfigure[$321 \times 481$]{\includegraphics[scale=0.25]{Experiments/Berkeley/mask_481_321.jpg}}\quad
+		\subfigure[$481 \times 321$]{\includegraphics[scale=0.25]{Experiments/Berkeley/mask_321_481.jpg}}
+		\caption{M\'ascaras correspondientes a cada una de las respectivas dimensiones que pueden tomar las im\'agenes}
+		\label{fig:mask_map}
+	\end{figure}
+	Las m\'ascaras se generaron de manera aleatoria, cada p\'ixel se seleccion\'o como corrupto con probabilidad $4/5$ (ver figura \ref{fig:mask_zoom}). Como resultado, aquellos p\'ixeles donde debe realizarse la restauraci\'on representan aproximadamente el 80\% de la m\'ascara. Por lo tanto despu\'es de aplicada, la imagen corrupta resultante solo contiene un 20\% de la informaci\'on original.
 	\begin{figure}[H]
 		\centering
 		\begin{tikzpicture}[spy using outlines]
@@ -76,8 +74,8 @@ Descripci\'on general del experimento:
 			\end{tabular}
 			\caption{Par\'ametros para el grupo (B)}
 		\end{table}
-		\item Restauraci\'on usando \TELEA con radio de vecindad $8$, para ambos grupos (A) y (B).
-		\item Restauraci\'on usando \NS con radio de vecindad $8$, para ambos grupos (A) y (B).
+		\item Restauraci\'on \TELEA con radio de vecindad $8$, para ambos grupos.
+		\item Restauraci\'on \NS con radio de vecindad $8$, para ambos grupos.
 	\end{enumerate}
 	\item La m\'etrica a usar para comparar los resultados de las diferentes restauraciones es la medida \textbf{PSNR}.
 \end{itemize}
@@ -87,19 +85,18 @@ Descripci\'on general del experimento:
 A continuaci\'on se muestran los resultados del primer experimento en las tablas \ref{tab:BerkeleyA} y \ref{tab:BerkeleyB}. En ambas tablas se resaltan por cada una de sus filas, el mayor (de color azul) y el menor valor (de color rojo) que alcanz\'o la m\'etrica.
 
 \BerkeleyA{Medida \PSNR de los tres tipos de restauraciones en el grupo (A)}{teal}{red}
-Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agenes del grupo (A), la restauraci\'on de mejor calidad seg\'un la m\'etrica \PSNR es \SOP con la estrategia de restauraciones consecutivas. En cambio, la de menos calidad resulta la restauraci\'on de referencia \TELEA. Por otro lado, \NS a pesar de que muestra altos valores de la m\'etrica, tambi\'en queda por debajo de la iteraci\'on 3 de \SOP, y no muy por encima de la iteraci\'on inicial. El caso de la imagen \texttt{house.tif} es donde se alcanz\'o la mayor calidad de restauraci\'on con \SOP (ver figura \ref{fig:house.tif}), y con la imagen \texttt{walkbridge.tif} se obtuvo la peor calidad en este grupo (ver figura \ref{fig:walkbridge.tif}). Ahora bien, analizando los datos de la tabla \ref{tab:BerkeleyA_diffs} es posible observar como, en promedio, la segunda iteraci\'on aumenta la m\'etrica notablemente respecto a la primera iteraci\'on. De igual forma, pero en menor medida sucede con la tercera y la segunda. Los resultados muestran que la estrategia de restauraciones \SOP consecutivas es efectiva, sobretodo una segunda restauraci\'on es casi necesaria. Realizar 3 o m\'as depender\'a de las necesidades y poder de c\'omputo del usuario que considere oportuno y ventajoso ejecutarlas. 
+Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agenes del grupo (A), la restauraci\'on de mejor calidad seg\'un la m\'etrica \PSNR es \SOP con la estrategia de restauraciones consecutivas. En cambio, la de menos calidad resulta la restauraci\'on de referencia \TELEA. Por otro lado, \NS a pesar de que muestra altos valores de la m\'etrica, tambi\'en queda por debajo de la iteraci\'on 3 de \SOP, y no muy por encima de la iteraci\'on inicial. El caso de la imagen \texttt{house.tif} (ver figura \ref{fig:house.tif}) es donde se alcanz\'o la mayor calidad de restauraci\'on con \SOP, y con la imagen \texttt{walkbridge.tif} (ver figura \ref{fig:walkbridge.tif}) se obtuvo la peor calidad en este grupo. Ahora bien, analizando los datos de la tabla \ref{tab:BerkeleyA_diffs} es posible observar como, en promedio, la segunda iteraci\'on aumenta la m\'etrica notablemente respecto a la primera iteraci\'on. De igual forma, pero en menor medida sucede con la tercera y la segunda. Los resultados muestran que la estrategia de restauraciones \SOP consecutivas es efectiva, sobretodo una segunda restauraci\'on es casi necesaria. Realizar 3 o m\'as depender\'a de las necesidades y poder de c\'omputo del usuario que considere oportuno y ventajoso ejecutarlas. 
+
 \BerkeleyAdiffs{Diferencias entre promedios de las medidas \PSNR en el grupo (A)}
+
 \newcommand\showBerkeleyRestaurations[2]{
-\begin{tabular}{ccc}
-	\includegraphics[width=0.25\linewidth]{Experiments/Berkeley/#1_corrupted.#2}&
-	\includegraphics[width=0.25\linewidth]{Experiments/Berkeley/#1_cv2_TELEA.#2}&
-	\includegraphics[width=0.25\linewidth]{Experiments/Berkeley/#1_cv2_NS.#2}\\
-	\tiny{Imagen Corrupta}&\tiny{\TELEA}&\tiny{\NS}\\
-	\includegraphics[width=0.25\linewidth]{Experiments/Berkeley/#1_iteration_1.#2}&
-	\includegraphics[width=0.25\linewidth]{Experiments/Berkeley/#1_iteration_2.#2}&
-	\includegraphics[width=0.25\linewidth]{Experiments/Berkeley/#1_iteration_3.#2}\\
-	\tiny{Iteraci\'on 1}&\tiny{Iteraci\'on 2}&\tiny{Iteraci\'on 3}\\
-\end{tabular}
+\subfigure[Imagen Original]{\includegraphics[width=0.32\linewidth]{Experiments/Berkeley/#1.#2}}
+\subfigure[Imagen Corrupta]{\includegraphics[width=0.32\linewidth]{Experiments/Berkeley/#1_corrupted.#2}}\\
+\subfigure[\TELEA]{\includegraphics[width=0.32\linewidth]{Experiments/Berkeley/#1_cv2_TELEA.#2}}
+\subfigure[\NS]{\includegraphics[width=0.32\linewidth]{Experiments/Berkeley/#1_cv2_NS.#2}}\\
+\subfigure[Iteraci\'on 1]{\includegraphics[width=0.32\linewidth]{Experiments/Berkeley/#1_iteration_1.#2}}
+\subfigure[Iteraci\'on 2]{\includegraphics[width=0.32\linewidth]{Experiments/Berkeley/#1_iteration_2.#2}}
+\subfigure[Iteraci\'on 3]{\includegraphics[width=0.32\linewidth]{Experiments/Berkeley/#1_iteration_3.#2}}
 }
 
 \begin{figure}[H]
@@ -108,6 +105,7 @@ Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agene
 	\caption{Restauraciones para la versi\'on corrupta de la imagen \texttt{house.tif}.}
 	\label{fig:house.tif}
 \end{figure}
+
 \begin{figure}[H]
 	\centering
 	\showBerkeleyRestaurations{walkbridge}{tif}
@@ -117,31 +115,32 @@ Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agene
 
 \BerkeleyB{Medida \PSNR de los tres tipos de restauraciones para el grupo (B)}{teal}{red}
 
-Los resultados del experimento con el grupo de im\'agenes (B) en la tabla \ref{tab:BerkeleyB} muestran en general una menor medida \PSNR respecto al grupo (A). Se debe recordar que la resoluci\'on de todas las im\'agenes de (B) es menor en comparaci\'on con el grupo (A). Por otro lado, puede percatarse que en el caso de (B), en la mayor\'ia de sus im\'agenes existen objetos con mucho nivel de detalle en planos alejados, en cambio, en (A) la tendencia es contener objetos en primer plano. Sin embargo, las diferencias entre los 3 tipos de restauraciones se mantuvieron de forma similar. La iteraci\'on 3 de \SOP es en general la de mayor medida \PSNR, aunque en esta ocasión no ocurrió siempre, ya que en el caso de la imagen \texttt{im16.jpg} la restauraci\'on \NS fue la mejor. Se puede apreciar tambi\'en que en la imagen \texttt{im19.jpg} la iteraci\'on 3 de \SOP fue contraproducente, pues disminuy\'o la métrica con respecto a la segunda. Nuevamente, \TELEA arroj\'o los peores resultados de la m\'etrica en general, sin dejar de destacar que la primera restauración \SOP fue la peor en 3 im\'agenes. En cuanto a las diferencias entre los promedios de la tabla \ref{tab:BerkeleyB_diffs}, se confirma la efectividad de la segunda restauraci\'on \SOP y de la estrategia en general. Tambi\'en se tiene que la brecha entre \NS y la primera iteraci\'on de \SOP es mayor con respecto a la del grupo (A), lo que implica la necesidad de hacer restauraciones \SOP consecutivas. La imagen donde se observaron las mejores m\'etricas fue \texttt{im24.jpg}, como se puede notar se trata de un objeto (ping\"uino) en un plano cercano y con poco detalle. El caso de las peores m\'etricas fue la imagen \texttt{im16.jpg}, la cual tiene un objeto (caballo) en el fondo, y le rodea un paisaje con muchos detalles.
+Los resultados del experimento con el grupo de im\'agenes (B) en la tabla \ref{tab:BerkeleyB} muestran en general una menor medida \PSNR respecto al grupo (A). Se debe recordar que la resoluci\'on de todas las im\'agenes de (B) es menor en comparaci\'on con el grupo (A). Por otro lado, puede percatarse que en el caso de (B), en la mayor\'ia de sus im\'agenes existen objetos con mucho nivel de detalle en planos alejados, en cambio, en (A) la tendencia es contener objetos en primer plano. Sin embargo, las diferencias entre los 3 tipos de restauraciones se mantuvieron de forma similar. La iteraci\'on 3 de \SOP es en general la de mayor medida \PSNR, aunque en esta ocasión no ocurrió siempre, ya que en el caso de la imagen \texttt{im16.jpg} la restauraci\'on \NS fue la mejor. Se puede apreciar tambi\'en que en la imagen \texttt{im19.jpg} la iteraci\'on 3 de \SOP fue contraproducente, pues disminuy\'o la métrica con respecto a la segunda. Nuevamente, \TELEA arroj\'o los peores resultados de la m\'etrica en general, sin dejar de destacar que la primera restauración \SOP fue la peor en 3 im\'agenes. En cuanto a las diferencias entre los promedios de la tabla \ref{tab:BerkeleyB_diffs}, se confirma la efectividad de la segunda restauraci\'on \SOP y de la estrategia en general. Tambi\'en se tiene que la brecha entre \NS y la primera iteraci\'on de \SOP es mayor con respecto a la del grupo (A), lo que implica la necesidad de hacer restauraciones \SOP consecutivas. La imagen donde se observaron las mejores m\'etricas fue \texttt{im24.jpg} (ver figura \ref{fig:im24.jpg}), como se puede notar se trata de un objeto (ping\"uino) en un plano cercano y con poco detalle. El caso de las peores m\'etricas fue la imagen \texttt{im16.jpg} (ver figura \ref{fig:im16.jpg}), la cual tiene un objeto (caballo) en el fondo, y le rodea un paisaje con muchos detalles.
 
 \BerkeleyBdiffs{Diferencias entre promedios de las medidas \PSNR en el grupo (B)}
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\showBerkeleyRestaurations{im24}{jpg}
 	\caption{Restauraciones para la versi\'on corrupta de la imagen \texttt{im24.jpg}.}
 	\label{fig:im24.jpg}
 \end{figure}
-\begin{figure}[H]
+
+\begin{figure}[h]
 	\centering
 	\showBerkeleyRestaurations{im16}{jpg}
 	\caption{Restauraciones para la versi\'on corrupta de la imagen \texttt{im16.jpg}.}
 	\label{fig:im16.jpg}
 \end{figure}
 
-Finalmente, haciendo un an\'alisis conjunto de los resultados del experimento en ambos grupos (A) y (B), se emiten las siguientes consideraciones. Para el tipo de m\'ascara escogido, la restauraci\'on \SOP es eficaz, mejor que \TELEA en el caso de la restauraci\'on simple, y mejor que \NS cuando se llega a la tercera restauraci\'on consecutiva. Lo anterior muestra a su vez que la estrategia de restauraciones consecutivas propuesta en el ep\'igrafe \ref{sec:module_how_to_use} es igualmente efectiva. En cuanto a la selecci\'on de los par\'ametros del esquema, se aprecia que con valores relativamente pequeños para el lado del parche $\sqrt{n}$ y el radio de vecindad $B$ se obtuvieron en general altos valores de la m\'etrica \PSNR. Debe recordarse que las im\'agenes corruptas solo contienen el 20\% de su informaci\'on original. La misma, al estar distribuida de forma uniforme por toda la imagen (ver figura \ref{fig:mask_zoom}) aumenta la posibilidad de que cada parche contenga alg\'un p\'ixel con informaci\'on real, lo cual es una condici\'om favorable para el algoritmo \ref{al:PRA}. Surge la idea de, en cambio de una m\'ascara aleatoria, utilizar una m\'ascara predeterminada que siga alg\'un patr\'on que garantice que todos los parches contengan al menos un p\'ixel no faltante. Lo anterior puede resultar \'util como estrategia de compresi\'on de im\'agenes, incluso se pudiera determinar el patr\'on de la m\'ascara necesario para una raz\'on de compresi\'on deseada. 
+Finalmente, haciendo un an\'alisis conjunto de los resultados del experimento en ambos grupos (A) y (B), se emiten las siguientes consideraciones. Para el tipo de m\'ascara escogido, la restauraci\'on \SOP es eficaz, mejor que \TELEA en el caso de la restauraci\'on simple, y mejor que \NS cuando se llega a la tercera restauraci\'on consecutiva. Lo anterior muestra a su vez que la estrategia de restauraciones consecutivas propuesta en el ep\'igrafe \ref{sec:module_how_to_use} es igualmente efectiva. En cuanto a la selecci\'on de los par\'ametros del esquema, se aprecia que con valores relativamente pequeños para el lado del parche $\sqrt{n}$ y el radio de vecindad $B$ se obtuvieron en general altos valores de la m\'etrica \PSNR. Debe recordarse que las im\'agenes corruptas solo contienen el 20\% de su informaci\'on original. La misma, al estar distribuida de forma uniforme por toda la imagen (ver figura \ref{fig:mask_zoom}) aumenta la posibilidad de que cada parche contenga alg\'un p\'ixel con informaci\'on real, lo cual es una condici\'om favorable para el algoritmo \ref{al:PRA}. Surge la idea de, en cambio de una m\'ascara aleatoria, utilizar una m\'ascara predeterminada que siga alg\'un patr\'on que garantice que todos los parches contengan al menos un p\'ixel no faltante. Lo anterior puede resultar \'util como estrategia de compresi\'on de im\'agenes, incluso se pudiera determinar el patr\'on de la m\'ascara necesario para una raz\'on de compresi\'on deseada.
 
 \section{Caso de estudio 2: Restauraci\'on en im\'agenes de Colposcop\'ia}
 Descripci\'on general del experimento:
 \begin{itemize}
-	\item En este caso se experimentan con im\'agenes de colposcop\'ia. Una colposcop\'ia es un examen que se realiza al cuello del \'utero de la mujer, tomando im\'agenes del mismo usando un colposcopio (instrumento o\'ptico preparado para este tipo de examen que monitorea determinados par\'ametros). Al inicio del proceso se aplica una solución salina con el objetivo de eliminar las secreciones del cérvix y revelar los vasos sanguíneos. Soluciones de ácido acético se aplican para identificar anomalías epiteliales que se expresan a través de una coloración blanca. Sin embargo, su diagnóstico se ve afectado por la aparición de regiones especulares, en las que se concentra el reflejo de la fuente de luz utilizada al realizar la prueba \cite{dgomez2018tesis}.
+	\item En este caso se experimentan con im\'agenes de colposcop\'ia. Una colposcop\'ia es un examen que se realiza al cuello del \'utero de la mujer, tomando im\'agenes del mismo usando un colposcopio (instrumento o\'ptico preparado para este tipo de examen que monitorea determinados par\'ametros). Al inicio del proceso se aplica una solución salina con el objetivo de eliminar las secreciones del cérvix y revelar los vasos sanguíneos. Soluciones de ácido acético se aplican para identificar anomalías epiteliales que se expresan a través de una coloración blanca. Sin embargo, su diagnóstico se ve afectado por la aparición de regiones especulares, en las que se concentra el reflejo de la fuente de luz utilizada al realizar la prueba \cite{dgomez2018tesis}. Precisamente estas zonas son las que se toman con parte faltante de la imagen y mediante su restauraci\'on se logran eliminar.
 	
-	\item Se seleccionaron 10 im\'agenes, todas a color, de ellas:
+	\item Se seleccionaron 10 im\'agenes todas a color, de ellas:
 	\begin{itemize}
 		\item Conforman el grupo (C): 5 im\'agenes de dimensi\'on $480 \times 720$.
 		\item Conforman el grupo (D): 5 im\'agenes de dimensi\'on $480 \times 480$.
@@ -173,56 +172,69 @@ Descripci\'on general del experimento:
 			\end{tabular}
 			\caption{Par\'ametros para el grupo (D)}
 		\end{table}
-		\item Restauraci\'on usando \TELEA con radio de vecindad $8$, para ambos grupos (C) y (D).
-		\item Restauraci\'on usando \NS con radio de vecindad $8$, para ambos grupos (C) y (D).
+		\item Restauraci\'on \TELEA con radio de vecindad $8$, para ambos grupos.
+		\item Restauraci\'on \NS con radio de vecindad $8$, para ambos grupos.
 	\end{enumerate}
 	\item Para las im\'agenes de colposcop\'ia con brillo no es posible usar alguna m\'etrica de calidad, pues se desconoce la imagen real. Todas las consideraciones ser\'an visuales y fruto de la comparativa con las restauraciones \TELEA y \NS.  
 \end{itemize}
 
+\qquad
+
+Se comienza analizando primeramente los resultados del experimento con el grupo (C), los cuales se muestran en las figuras \ref{fig:5-1.bmp}, \ref{fig:13-4.bmp}, \ref{fig:48-1.bmp}, \ref{fig:73-14.bmp} y \ref{fig:82-5.bmp}. Como se puede observar, las restauraciones de referencia \TELEA y \NS logran las restauraciones con buena calidad visual, eliminando por completo las zonas especulares. Ambas restauraciones resultan muy \'utiles en este escenario debido a sus propios esquemas de restauraci\'on descritos al inicio de este cap\'itulo. Debe recordarse que ambos exploran de forma eficiente los bordes de las zonas incompletas y propagan la información hacia su interior. Cuando estos bordes son regulares y continuos, m\'as efectivos son ambos m\'etodos. Precisamente, las m\'ascaras asociada a cada imagen cumplen con la propiedad anteriormente mencionada (ver figura \ref{fig:colposcopy_masks_c}).
+
+\begin{figure}[H]
+	\centering
+	\subfigure[M\'ascara de \texttt{5-1.bmp}]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/5-1_mask.bmp}}
+	\subfigure[M\'ascara de \texttt{13-4.bmp}]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/13-4_mask.bmp}}
+	\subfigure[M\'ascara de \texttt{48-1.bmp}]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/48-1_mask.bmp}}
+	\subfigure[M\'ascara de \texttt{73-14.bmp}]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/73-14_mask.bmp}}
+	\subfigure[M\'ascara de \texttt{82-5.bmp}]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/82-5_mask.bmp}}
+	\caption{M\'ascaras usadas para eliminar las zonas especulares de sus respectivas im\'agenes}
+	\label{fig:colposcopy_masks_c}
+\end{figure}
+
 \newcommand\showColposcopyRestaurations[2]{
-\begin{tabular}{ccc}
-	\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/#1.#2}&
-	\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/#1_cv2_TELEA.#2}&
-	\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/#1_cv2_NS.#2}\\
-	\tiny{Imagen de colposcop\'ia}&\tiny{\TELEA}&\tiny{\NS}\\
-	\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/#1_iteration_1.#2}&
-	\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/#1_iteration_2.#2}&
-	\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/#1_iteration_3.#2}\\
-	\tiny{Iteraci\'on 1}&\tiny{Iteraci\'on 2}&\tiny{Iteraci\'on 3}\\
-\end{tabular}
+\subfigure[Imagen colposc\'opica]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/#1.#2}}
+\subfigure[\TELEA]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/#1_cv2_TELEA.#2}}
+\subfigure[\NS]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/#1_cv2_NS.#2}}
+\subfigure[Iteraci\'on 1]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/#1_iteration_1.#2}}
+\subfigure[Iteraci\'on 2]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/#1_iteration_2.#2}}
+\subfigure[Iteraci\'on 3]{\includegraphics[width=0.32\linewidth]{Experiments/Colposcopy/#1_iteration_3.#2}}
 }
 
 \begin{figure}[H]
 	\centering
 	\showColposcopyRestaurations{5-1}{bmp}
-	\caption{Restauraciones para la versi\'on corrupta de la imagen colposc\'opica \texttt{5-1.bmp}.}
+	\caption{Restauraciones de la imagen colposc\'opica \texttt{5-1.bmp}.}
 	\label{fig:5-1.bmp}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\showColposcopyRestaurations{13-4}{bmp}
-	\caption{Restauraciones para la versi\'on corrupta de la imagen colposc\'opica \texttt{13-4.bmp}.}
+	\caption{Restauraciones de la imagen colposc\'opica \texttt{13-4.bmp}.}
 	\label{fig:13-4.bmp}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\showColposcopyRestaurations{48-1}{bmp}
-	\caption{Restauraciones para la versi\'on corrupta de la imagen colposc\'opica \texttt{48-1.bmp}.}
+	\caption{Restauraciones de la imagen colposc\'opica \texttt{48-1.bmp}.}
 	\label{fig:48-1.bmp}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\showColposcopyRestaurations{73-14}{bmp}
-	\caption{Restauraciones para la versi\'on corrupta de la imagen colposc\'opica \texttt{73-14.bmp}.}
+	\caption{Restauraciones de la imagen colposc\'opica \texttt{73-14.bmp}.}
 	\label{fig:73-14.bmp}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\showColposcopyRestaurations{82-5}{bmp}
-	\caption{Restauraciones para la versi\'on corrupta de la imagen colposc\'opica \texttt{82-5.bmp}.}
+	\caption{Restauraciones de la imagen colposc\'opica \texttt{82-5.bmp}.}
 	\label{fig:82-5.bmp}
 \end{figure}
+
+En cuanto a la restauraci\'on \SOP, queda en evidencia que no funcion\'o en ninguna de las im\'agenes. Las segundas y terceras iteraciones de \SOP fallan igualmente pues estas utilizan los resultados de la restauraci\'on anterior. Urge responder a la pregunta de por qu\'e no fue efectivo el esquema de reordenamiento suave de parches en este escenario.

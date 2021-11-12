@@ -139,12 +139,8 @@ class CorruptedImage:
 Se supone que se tiene una imagen y otra de igual dimensión en forma de m\'ascara. Considérese el ejemplo de  \texttt{woman\_blonde.tif} y \texttt{mask.tif} (ver figura \ref{fig:woman_blonde}).
 \begin{figure}[H]
 	\centering
-	\begin{tabular}{cc}
-		\includegraphics[scale=0.2]{Graphics/Examples/woman_blonde.png}&
-		\includegraphics[scale=0.2]{Graphics/Examples/mask.tif}\\
-		\tiny\texttt{woman\_blonde.tif}&\tiny\texttt{mask.tif}\\
-	\end{tabular}
-	
+	\subfigure[\texttt{woman\_blonde.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde.png}}\qquad
+	\subfigure[\texttt{mask.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/mask.tif}}
 	\caption{La imagen y su m\'ascara.}
 	\label{fig:woman_blonde}
 \end{figure}
@@ -172,14 +168,10 @@ im.save('woman_blonde_r3.tif')
 La ejecuci\'on de lo anterior genera la versi\'on de la imagen original corrupta seg\'un la m\'ascara, y 3 im\'agenes restauradas usando los par\'ametros que se indican.
 \begin{figure}[H]
 	\centering
-	\begin{tabular}{cc}
-		\includegraphics[scale=0.2]{Graphics/Examples/woman_blonde_corrupted.tif}&
-		\includegraphics[scale=0.2]{Graphics/Examples/woman_blonde_iteration_1.tif}\\
-		\tiny\texttt{woman\_blonde\_c.tif}&\tiny\texttt{woman\_blonde\_r1.tif}\vspace{0.2cm}\\
-		\includegraphics[scale=0.2]{Graphics/Examples/woman_blonde_iteration_2.tif}&
-		\includegraphics[scale=0.2]{Graphics/Examples/woman_blonde_iteration_3.tif}\\
-		\tiny\texttt{woman\_blonde\_r2.tif}&\tiny\texttt{woman\_blonde\_r3.tif}\\
-	\end{tabular}
+	\subfigure[\texttt{woman\_blonde\_c.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_corrupted.tif}}
+	\subfigure[\texttt{woman\_blonde\_r1.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_iteration_1.tif}}
+	\subfigure[\texttt{woman\_blonde\_r2.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_iteration_2.tif}}
+	\subfigure[\texttt{woman\_blonde\_r3.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_iteration_3.tif}}
 	\caption{En ese orden: imagen corrupta y las im\'agenes restauradas.}
 	\label{fig:inpainting_woman_blonde}
 \end{figure}

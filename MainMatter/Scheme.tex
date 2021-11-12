@@ -10,12 +10,20 @@ Primeramente se introduce el esquema principal de esta propuesta para la restaur
 Para obtener la señal recuperada $\yhat$ a partir de $\z$ se procede de la siguiente forma:
 \begin{figure}[H]
 	\centering
-	\begin{equation*}
-		\begin{array}[t]{ccccccccc}
-			& & \mbox{\small{Permutaci\'on}} & & \mbox{\small{Operador de suavidad}} & & \mbox{\small{Permutaci\'on inversa}} & &\\
-			\z & \longrightarrow & \boxed{\P} & \longrightarrow & \boxed{\H} & \longrightarrow & \boxed{\P^{-1}} & \longrightarrow & \yhat \\
-		\end{array}
-	\end{equation*}
+	\begin{tikzpicture}
+		\node (z) at (0, 0) {$\z$};
+		\node (P) at (3, 0) {$\boxed{\P}$};
+		\node at ($(P)+(0,-1)$) {\centering Permutaci\'on};
+		\node (H) at (7, 0) {$\boxed{\H}$};
+		\node at ($(H)+(0,-1)$) {\parbox{3cm}{\centering Operador de suavidad}};
+		\node (Pinv) at (11, 0) {$\boxed{\P^{-1}}$};
+		\node at ($(Pinv)+(0,-1)$) {\parbox{3cm}{\centering Permutaci\'on inversa}};
+		\node (yhat) at (14, 0) {$\yhat$};
+		\draw [-stealth] ($(z)+(.5,0)$) -- ($(P)+(-1,0)$);
+		\draw [-stealth] ($(P)+(1,0)$) -- ($(H)+(-1,0)$);
+		\draw [-stealth] ($(H)+(1,0)$) -- ($(Pinv)+(-1,0)$);
+		\draw [-stealth] ($(Pinv)+(1,0)$) -- ($(yhat)+(-.5,0)$);
+	\end{tikzpicture}
 	\caption{Esquema inicial}
 	\label{fig:init_scheme}
 \end{figure}
@@ -35,7 +43,7 @@ Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dic
 			16 &  4 & 36\\
 		\end{matrix}
 	\right)
-	\longrightarrow
+	\qquad
 	\z = \left(
 		\begin{matrix}
 			9 \\ \boxed{?} \\ 16 \\ \boxed{?} \\ 1 \\ 4 \\ 25 \\ 81 \\ 36\\
@@ -56,16 +64,20 @@ Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dic
 		\end{matrix}
 	\right)
 	\]
-	
-	\[
-		\z \longrightarrow
-		\overset{\mbox{Permutaci\'on}}{\P\z = \left(\begin{matrix}1\\4\\9\\16\\25\\36\\\boxed{?}\\\boxed{?}\\81\end{matrix}\right) = \z^p}
-		\longrightarrow
-		\overset{\mbox{Operador de suavidad}}{\H(\z^p) = \left(\begin{matrix}1\\4\\9\\16\\25\\36\\\boxed{49}\\\boxed{64}\\81\end{matrix}\right)}
-		\longrightarrow
-		\overset{\mbox{Permutaci\'on inversa}}{ \P^{-1}\H(\z^p) = \left(\begin{matrix}9\\\boxed{49}\\16\\\boxed{64}\\1\\4\\25\\81\\36\end{matrix}\right) = \yhat}
-	\]
-	
+	\centering{
+	\begin{tikzpicture}
+		\node (z) at (0, 0) {$\left(\begin{matrix}9\\\boxed{?}\\16\\\boxed{?}\\1\\4\\25\\81\\36\\\end{matrix}\right)$};
+		\node at ($(z)+(0,-3)$) {$\z$};
+		\node (P) at (4, 0) {$\left(\begin{matrix}1\\4\\9\\16\\25\\36\\\boxed{?}\\\boxed{?}\\81\end{matrix}\right)$};
+		\node at ($(P)+(0,-3)$) {$\P\z = \z^p$};
+		\node (H) at (8, 0) {$\left(\begin{matrix}1\\4\\9\\16\\25\\36\\\boxed{49}\\\boxed{64}\\81\end{matrix}\right)$};
+		\node at ($(H)+(0,-3)$) {$\H(\z^p)$};
+		\node (Pinv) at (12, 0) {$\left(\begin{matrix}9\\\boxed{49}\\16\\\boxed{64}\\1\\4\\25\\81\\36\end{matrix}\right)$};
+		\node at ($(Pinv)+(0,-3)$) {$\P^{-1}\H(\z^p)  = \yhat$};
+		\draw [-stealth] ($(z)+(1,0)$) -- ($(P)+(-1,0)$);
+		\draw [-stealth] ($(P)+(1,0)$) -- ($(H)+(-1,0)$);
+		\draw [-stealth] ($(H)+(1,0)$) -- ($(Pinv)+(-1,0)$);
+	\end{tikzpicture}}
 	\[
 	\P^{-1} = \P^\intercal = \left(
 		\begin{matrix}
@@ -80,12 +92,13 @@ Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dic
 			0&0&0&0&0&1&0&0&0\\
 		\end{matrix}
 	\right)
-	\quad
+	\qquad
 	\yhat = \left(
 		\begin{matrix}
 			9\\\boxed{49}\\16\\\boxed{64}\\1\\4\\25\\81\\36
 		\end{matrix}
-	\right) \longrightarrow 
+	\right)
+	\qquad
 	\Yhat = \left(
 		\begin{matrix}
 			9 & \boxed{64} & 25\\
