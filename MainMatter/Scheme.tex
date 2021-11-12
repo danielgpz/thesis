@@ -27,8 +27,7 @@ Para obtener la señal recuperada $\yhat$ a partir de $\z$ se procede de la sigu
 	\caption{Esquema inicial}
 	\label{fig:init_scheme}
 \end{figure}
-
-Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dicha permutaci\'on. Luego a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes. Finalmente el vector resultante se permuta mediante $\P^{-1}=\P^\intercal$ (lema \ref{lm:inverse_permutation}), colocando todos sus elementos en su posici\'on inicial en $\z$. Tal y como se muestra en el ejemplo de la figura \ref{ex:init_scheme}. El vector final ser\'ia $\yhat$. Lo anterior puede expresarse como:
+Al premultiplicar $\P$ por el vector $\z$ se reordenan sus elementos seg\'un dicha permutaci\'on. Luego a la señal resultante $\z^p$ se le aplica un operador de suavidad $\H$ con el cual se obtienen los elementos faltantes. Finalmente el vector resultante se permuta mediante $\P^{-1}=\P^\intercal$ (lema \ref{lm:inverse_permutation}), colocando todos sus elementos en su posici\'on inicial en $\z$. En la figura \ref{ex:init_scheme} se muestra de forma sencilla c\'omo aplicar este esquema con un ejemplo\footnote{La matriz $\P$ y el operador $\H$ empleados en este ejemplo son solamente ilustrativos}. El vector restaurado resultante $\yhat$ puede expresarse como:
 \begin{equation}
 	\yhat = \P^{-1}\H(\z^p) = \P^{-1}\H(\P\z)
 	\label{eq:init_yhat}
@@ -128,7 +127,7 @@ Supongamos adem\'as que la matriz de permutaci\'on $\P$ tiene la propiedad de qu
 \end{equation}
 El objetivo de la restauraci\'on no es m\'as que encontrar una aproximaci\'on de esa imagen real que desconocemos, por lo tanto este resultado valida el funcionamiento del esquema (figura \ref{fig:init_scheme}).
 
-Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} se conocen varios en la literatura, por ejemplo, los que se usan para interpolaci\'on o filtrado. Por el momento consideremos este operador como un superpar\'ametro del esquema. Para el caso de $\P$, en el siguiente ep\'igrafe se expone c\'omo hacer para obtener esta permutaci\'on.
+Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\'omo obtener la matriz $\P$. Operadores para suavizar en \textbf{1D} se conocen varios en la literatura, por ejemplo, los que se usan para interpolaci\'on o filtrado. Por el momento consideremos este operador como un par\'ametro del esquema. Para el caso de $\P$, en el siguiente ep\'igrafe se expone c\'omo hacer para obtener esta permutaci\'on.
 
 \section{La matriz de permutaci\'on}
 
@@ -211,7 +210,7 @@ No se conoce ningún algoritmo con complejidad temporal polinomial para resolver
 	\BlankLine
 	\KwInit{$\Omega(1) \gets$ Un entero aleatorio en el intervalo $[1,\; M]$}
 	\For{$k \gets 1$ \emph{\KwTo} $M - 1$} {
-		$A_k \gets $ Conjuto de los \'indices de los $B \times B$ parches alrededor de $\x_{\Omega(k)}$\;
+		$A_k \gets $ Conjunto de los \'indices de los $B \times B$ parches alrededor de $\x_{\Omega(k)}$\;
 		\eIf{$|A_k \setminus \Omega| = 1$} {
 			$\Omega(k + 1) \gets A_i \setminus \Omega$\;
 		}{
@@ -256,7 +255,7 @@ Tomando como $n$ el tamaño de los parches en este procedimiento, se tiene por e
 	N_p = (N_1 - \sqrt{n} + 1)(N_2 - \sqrt{n} + 1)
 	\label{eq:patches}
 \end{equation}
-De igual forma por el lema \ref{le:count_patches_ieq} la cantidad de parches $N_p$ de $\Z$ es menor que el tamaño del vector $\z$, luego la dimensi\'on de la matriz $\P$ obtenida con algoritmo \ref{al:PRA} es $N_p \times N_p$. Lo anterior que implica que el esquema inicial (figura \ref{fig:init_scheme}) solo ser\'ia aplicables a señales de tamaño $N_p$. Esto se aprecia claramente en el ejemplo de la figura \ref{ex:subimages}, donde $N = 16 > N_p = 9$.
+De igual forma, por el lema \ref{le:count_patches_ieq} la cantidad de parches $N_p$ de $\Z$ es menor que el tamaño del vector $\z$, luego la dimensi\'on de la matriz $\P$ obtenida con algoritmo \ref{al:PRA} es $N_p \times N_p$. Lo anterior implica que el esquema inicial (figura \ref{fig:init_scheme}) solo ser\'ia aplicables a señales de tamaño $N_p$. Esto se aprecia claramente en el ejemplo de la figura \ref{ex:subimages}, donde $N = 16 > N_p = 9$.
 
 \begin{figure}[H]
 	\[\Z = \left(
@@ -366,7 +365,7 @@ Con esta t\'ecnica se suaviza mejor la imagen recuperada, lo cual se asemeja al 
 	\item Estas señales se promedian y se obtiene $\yhat$ tal como se expresa en (\ref{eq:final_yhat}).
 \end{enumerate}
 
-\subsection{Superpar\'ametros del esquema}
+\subsection{Par\'ametros del esquema}
 Las \'unicas incógnitas pendientes de este esquema son: el operador de suavidad $\H$, la funci\'on de distancia $\omega$ y el valor ajustable $\epsilon$. Este \'ultimo es un valor que no es fijo y se usa para evitar errores num\'ericos en el momento de realizar la exponenciaci\'on en (\ref{eq:choosing_patch}). Es conocido que el universo de números representables en una aritmética de punto flotante es finito \cite{conte2017elementary}. Los problemas m\'as comunes son asociados a la precisión limitada\footnote{En la mayoría de los lenguajes de programación la precisión de los n\'umeros flotantes no excede las 15 cifras despu\'es de la coma} tales como las operaciones que resultan en valores muy cercanos a cero. En el caso espec\'ifico de (\ref{eq:choosing_patch}), debemos evitar que el exponente no sea muy grande, para ello se divide $\omega$ por un valor lo suficientemente grande para cualquiera de sus evaluaciones, ese ser\'ia el valor adecuado de $\epsilon$. Ahora bien, tanto $\H$ como $\omega$ pueden quedar a elecci\'on del usuario, no obstante se definen a continuaci\'on los usados para el Cap\'itulo \ref{chapter:results}.
 
 En cuanto a la funci\'on $\omega$ entre dos parches $\x_a$ y $\x_b$ se asume como el promedio de los cuadrados de las diferencias entre los p\'ixeles que est\'an en la misma posici\'on en ambos parches y que ambos son p\'ixeles con valor conocido. Escrito formalmente: sea $S_i$ el conjunto de \'indices de los p\'ixeles conocidos del parche $\x_i$ para todo $1 \le i \le N_p$ entonces
