@@ -161,6 +161,7 @@ Descripci\'on general del experimento:
 				3 & $10$ & $4$ & $8$ & $10^8$\\\hline
 			\end{tabular}
 			\caption{Par\'ametros para el grupo (C)}
+			\label{tab:params_c}
 		\end{table}
 		\begin{table}[H]
 			\centering
@@ -237,4 +238,43 @@ Se comienza analizando primeramente los resultados del experimento con el grupo 
 	\label{fig:82-5.bmp}
 \end{figure}
 
-En cuanto a la restauraci\'on \SOP, queda en evidencia que no funcion\'o en ninguna de las im\'agenes. Las segundas y terceras iteraciones de \SOP fallan igualmente pues estas utilizan los resultados de la restauraci\'on anterior. Urge responder a la pregunta de por qu\'e no fue efectivo el esquema de reordenamiento suave de parches en este escenario.
+En cuanto a la restauraci\'on \SOP, queda en evidencia que no funcion\'o en ninguna de las im\'agenes. Las segundas y terceras iteraciones de \SOP fallan igualmente pues estas utilizan los resultados de la restauraci\'on anterior. Urge responder a la pregunta de por qu\'e no fue efectivo el esquema de ordenamiento suave de parches en este escenario.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[spy using outlines]
+		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.5\textwidth]{Experiments/Colposcopy/48-1_example.bmp}};
+		\spy [blue,draw,height=0.3\textwidth,width=0.3\textwidth,magnification=6,connect spies] on (6.38, 1.35) in node at (11, 2.5);
+	\end{tikzpicture}
+	\caption{Imagen de colposcop\'ia \texttt{48-1.bmp} con su m\'ascara aplicada (en negro). En la ampliaci\'on los cuadros de bordes blancos son algunos parches de $5 \times 5$, y los cuadros de borde rojo, ejemplos de la vecindad de $6 \times 6$ explorable.}
+	\label{fig:colposcopy_zoom}
+\end{figure}
+
+ En primer lugar se tienen en cuenta los par\'ametros utilizados (ver tabla \ref{tab:params_c}). En la primera iteraci\'on se usan $K=10$, $\sqrt{n}=5$ y $B=6$. Por lo tanto los parches tienen dimensi\'on $5 \times 5$ y exploran su vecindad de $6 \times 6$. Tal y como muestra la figura \ref{fig:colposcopy_zoom}, en el caso de la imagen \texttt{48-1.bmp} existe una gran cantidad de parches \textit{vac\'ios}\footnote{Enti\'endase por \textit{parche vac\'io}, aquel que todos sus p\'ixles son faltantes} y todos (o casi todos) los parches en sus vecindades tambi\'en lo son. Lo anterior se debe a que las zonas de p\'ixeles faltantes son compactas y no contienen p\'ixeles con informaci\'on en su interior, lo que implica que la mayor\'ia de p\'ixeles a restaurar son centro de parches vac\'ios. Las consecuencias de tener muchos parches vac\'ios es que se pierde la garant\'ia de obtener una ordenaci\'on suave de los mismos mediante el algoritmo \ref{al:PRA}. Por la definici\'on de $\omega$ en (\ref{eq:omega}) se tiene que si $\x$ es un parche vaci\'o entonces $\omega(\x,\; \x') = 0$ para todo parche $\x'$. Entonces cuando se resuelve \TSP la posici\'on donde se coloquen los parches vac\'ios no altera el costo del camino. Si no se tiene seguridad de que la ordenaci\'on es suave, entonces aplicar el operador de suavidad $H$ pierde su objetivo, y los p\'ixeles que se recuperan mediante dicho operador tendr\'an valores pr\'acticamente aleatorios, como se muestran en los resultados previos.
+ 
+ Por lo anteriormente expuesto, los parches vac\'ios son un caso problem\'atico para el esquema de restauraci\'on presentado en este trabajo. Se debe escoger entonces el valor de $\sqrt{n}$ en pos de minimizar la cantidad de parches vac\'ios. En el caso de las im\'agenes del grupo (C), no solo $\sqrt{n} = 5$ es insuficiente, sino que la mayor\'ia de p\'ixeles a recuperar son centros de parches vaci\'os. Se realiz\'o un pequeño experimento con la propia imagen \texttt{48-1.bmp}, aumentando el valor de $\sqrt{n}$ a 16 para realizar la restauraci\'on nuevamente.
+ \begin{figure}[H]
+ 	\centering
+ 	\subfigure[Restauraci\'on con $\sqrt{n} = 6$]{\includegraphics[width=0.45\linewidth]{Experiments/Colposcopy/48-1_iteration_1.bmp}}
+ 	\subfigure[Restauraci\'on con $\sqrt{n} = 16$]{\includegraphics[width=0.45\linewidth]{Experiments/Colposcopy/48-1_r1.bmp}}
+ 	\caption{Imagen \texttt{48-1.bmp} restaurada con \SOP usando distintos tamaños de los parches.}
+ 	\label{fig:patches_diffs}
+ \end{figure}
+Como se aprecia en la figura \ref{fig:patches_diffs} la nueva restauraci\'on con $\sqrt{n} = 16$ es claramente mejor. Excepto en la franja lateral derecha donde se siguen detectando p\'ixeles mal recuperados, en el resto de la imagen el resultado es alentador. Esa zona con p\'ixeles mal recuperados no es m\'as que aquellos de centros de parches vac\'ios a\'un con $\sqrt{n} = 16$. Para reducir a 0 la cantidad de parches vac\'ios en el caso de la imagen \texttt{48-1.bmp} se necesita $\sqrt{n} > 32$. El experimento con dicho valor de $\sqrt{n}$ no se pudo llevar a cabo por restricciones de la memoria \textbf{RAM} del equipo de c\'omputo donde se realizaron los experimentos. Se ha de recordar la complejidad espacial del algoritmo calculada en (\ref{eq:spacial_complexity}), donde el valor de $n$ es importante, ya que $\sqrt{n} > 32 \implies n > 1024$.
+
+Otra cuesti\'on a analizar es el hecho de que la complejidad temporal del esquema \SOP es independiente de la cantidad de p\'ixeles con desinformaci\'on. Usando el resultado obtenido en (\ref{eq:temporal_complexity}) se concluye que la complejidad temporal de \SOP solo depende de el tamaño de la imagen, el tamaño del parche y el tamaño de la vecindad a explorar. A diferencia de las restauraciones \TELEA y \NS, en el caso de \SOP toma un tiempo similar restaurar una imagen con 10\% de desinformaci\'on que una con 80\%. Esto sugiere que realizar la restauraci\'on de im\'agenes donde los p\'ixeles faltantes tienden a agruparse y no representan un gran porciento, puede llevarse a cabo en una subregi\'on rectangular que contenga todos los p\'ixeles a recuperar. Ahora bien, usando ambas consideraciones, tanto el tamaño del parche y la idea de reducir la imagen a una subregi\'on rectangular m\'as pequeña se puede diseñar una estrategia adaptativa para usar \SOP en las im\'agenes de colposcop\'ia.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\node[anchor=south west,inner sep=0] (image) at (0, 0) {\includegraphics[width=0.6\linewidth]{Experiments/Colposcopy/5-1_example.bmp}};
+	\draw[|-, blue, line width=1pt] (5,1)--(10, 1) node[right, black] {$\boxed{\sqrt{n} = 16}$};
+	\draw[|-, orange, line width=1pt] (1,2)--(-1, 2) node[left, black] {$\boxed{\sqrt{n} = 6}$};
+	\draw[|-, cyan, line width=1pt] (8,4)--(10, 4) node[right, black] {$\boxed{\sqrt{n} = 8}$};
+	\draw[|-, lime, line width=1pt] (2,5)--(-1, 5) node[left, black] {$\boxed{\sqrt{n} = 32}$};
+	\end{tikzpicture}
+	\caption{Ejemplo de estrategia adaptativa para la imagen \texttt{5-1.bmp}}
+	\label{fig:adaptative}
+\end{figure}
+
+La estrategia consiste en dividir la imagen en subregiones rectangulares, cada una de las cuales ser\'an restauradas de forma independiente usando un tamaño de parche que minimice la cantidad de parches vac\'ios. Un ejemplo se muestra en la figura \ref{fig:adaptative}, de c\'omo subdividir y cu\'al valor de $\sqrt{n}$ a usar en cada subregi\'on rectangular. Dado que cada subregi\'on tiene menores dimensiones  que la imagen completa, es posible emplear un mayor tamaño de parche que reduzca la cantidad de parches vacíos. Se recomienda la implementaci\'on de esta estrategia y el análisis de sus resultados, e investigar posibles modificaciones tales como usar subregiones con solapamiento, entre otras ideas.
