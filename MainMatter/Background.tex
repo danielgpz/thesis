@@ -72,31 +72,33 @@ Para este trabajo se asume como convenio, que cuando se trata de la imagen como 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=4cm, height=4cm]{Graphics/diamon_sword.png}
-	\hspace{1cm}
-	\includegraphics[width=4cm, height=4cm]{Graphics/diamon_sword_with_patches.png}
+	\begin{tikzpicture}[x=.4cm, y=.4cm, spy using outlines={every spy on node/.append style={very thick}}]
+		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=6.4cm, height=6.4cm]{Graphics/diamond_sword.png}};
+		\draw[step=1,gray,thin] (image.south west) grid (image.north east);
+		\spy[red,height=2cm,width=2cm,magnification=1,spy connection path={\draw[very thick] (tikzspyonnode) -- (tikzspyinnode);}] on (8.5, 6.5) in node at (20, 4);
+		\spy[blue,height=2cm,width=2cm,magnification=1,spy connection path={\draw[very thick] (tikzspyonnode) -- (tikzspyinnode);}] on (4.5, 9.5) in node at (20, 12);
+	\end{tikzpicture}
 	\caption{Una imagen de $16 \times 16$ y dos parches de esta tomando $n = 25$.}
 	\label{ex:patches}
 \end{figure}
 
 En la figura \ref{ex:patches} se ejemplifica visualmente el concepto de parches. Como vemos estos pueden solaparse sin ning\'un problema. Es de inter\'es en el siguiente cap\'itulo el conjunto de todos los parches, incluyendo los solapamientos.
 \begin{lemma}\label{le:count_patches}
-	La cantidad de parches de una matriz (imagen) incluyendo los solapamientos, para una matriz $A$ de dimensiones $a \times b$, y tomando los parches de $\sqrt{n} \times \sqrt{n}$, es igual a:
-	
+	La cantidad de parches de una matriz (imagen) $A_{a \times b}$, incluyendo los solapamientos y tomando los parches de $\sqrt{n} \times \sqrt{n}$, es igual a:
 	\begin{equation}
 		(a - \sqrt{n} + 1)(b - \sqrt{n} + 1)
 		\label{eq:count_patches}
 	\end{equation}
 \end{lemma}
 \begin{proof}
-	Tomando como referencia la esquina superior izquierda de un parche, esta solo puede ser ubicada verticalmente en el intervalo de posiciones $[1,\; a - \sqrt{n} + 1]$, de lo contrario el parche sobresaldr\'ia de la imagen. An\'alogamente solo puede ser colocado horizontalmente en el intervalo de posiciones $[1,\; b - \sqrt{n} + 1]$. Aplicando el principio combinatorio de la multiplicaci\'on, un parche puede ser ubicado de $(a - \sqrt{n} + 1)(b - \sqrt{n} + 1)$ formas distintas.
+	Tomando como referencia la esquina superior izquierda de un parche, esta solo puede ser ubicada verticalmente en el intervalo $[1,\; a - \sqrt{n} + 1]$, de lo contrario el parche sobresaldr\'ia de la imagen. An\'alogamente solo puede ser colocado horizontalmente en el intervalo $[1,\; b - \sqrt{n} + 1]$. Aplicando el principio combinatorio de la multiplicaci\'on, un parche puede ser ubicado de $(a - \sqrt{n} + 1)(b - \sqrt{n} + 1)$ formas distintas.
 \end{proof}
 
 \begin{lemma}\label{le:count_patches_ieq}
 	La cantidad de parches con solapamiento de una matriz A, con $n > 1$, es menor que la cantidad de elementos de la misma.
 \end{lemma}
 \begin{proof}
-	Sea $A$ de $a \times b$; dado que $n > 1$ se cumple la siguiente desigualdad:
+	Sea $A$ de dimensi\'on $a \times b$, dado que $n > 1$ se cumple la siguiente desigualdad:
 	\begin{equation}
 		\begin{array}{lrcl}
 			                &               1 &<& n        \\ 
@@ -119,10 +121,17 @@ En la figura \ref{ex:patches} se ejemplifica visualmente el concepto de parches.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=4cm, height=4cm]{Graphics/diamon_sword_with_patches.png}
-	\hspace{1cm}
-	\includegraphics[width=4cm, height=4cm]{Graphics/diamon_sword_with_patches_and_centers.png}
-	\caption{Parches con p\'ixel central (marcado en rojo) situado en la posici\'on $(1,\;4)$.}
+	\begin{tikzpicture}[x=.4cm, y=.4cm, spy using outlines={every spy on node/.append style={very thick}}]
+		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=6.4cm, height=6.4cm]{Graphics/diamond_sword.png}};
+		\draw[step=1,gray,thin] (image.south west) grid (image.north east);
+		\fill[orange,opacity=.5] (9, 7) rectangle (10, 8);
+		\draw[-,orange,thick] (9, 7) rectangle (10, 8);
+		\fill[orange,opacity=.5] (5, 10) rectangle (6, 11);
+		\draw[-,orange,thick] (5, 10) rectangle (6, 11);
+		\spy[red,height=2cm,width=2cm,magnification=1,spy connection path={\draw[very thick] (tikzspyonnode) -- (tikzspyinnode);}] on (8.5, 6.5) in node at (20, 4);
+		\spy[blue,height=2cm,width=2cm,magnification=1,spy connection path={\draw[very thick] (tikzspyonnode) -- (tikzspyinnode);}] on (4.5, 9.5) in node at (20, 12);
+	\end{tikzpicture}
+	\caption{Parches con p\'ixel central situado en la posici\'on $(2,\;4)$.}
 	\label{ex:patch_center}
 \end{figure}
 

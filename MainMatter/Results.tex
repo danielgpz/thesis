@@ -41,9 +41,9 @@ Descripci\'on general del experimento:
 	Las m\'ascaras se generaron de manera aleatoria, cada p\'ixel se seleccion\'o como corrupto con probabilidad $4/5$ (ver figura \ref{fig:mask_zoom}). Como resultado, aquellos p\'ixeles donde debe realizarse la restauraci\'on representan aproximadamente el 80\% de la m\'ascara. Por lo tanto despu\'es de aplicada, la imagen corrupta resultante solo contiene un 20\% de la informaci\'on original.
 	\begin{figure}[H]
 		\centering
-		\begin{tikzpicture}[spy using outlines]
+		\begin{tikzpicture}[x=.00048828125\textwidth, y=.00048828125\textwidth, spy using outlines]
 			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.25\textwidth]{Experiments/Berkeley/mask_512_512.tif}};
-			\spy [red,draw,height=0.2\textwidth,width=0.2\textwidth,magnification=32,connect spies] on (1, 1) in node at (7, 2);
+			\spy [red,draw,height=0.25\textwidth,width=0.25\textwidth,magnification=32,connect spies] on (300, 400) in node at (1024, 256);
 		\end{tikzpicture}
 		\caption{Subregi\'on ampliada de la m\'ascara de dimensi\'on $512 \times 512$. P\'ixeles blancos (valor 255) indican p\'ixeles faltantes en la imagen donde se aplique.}
 		\label{fig:mask_zoom}
@@ -246,7 +246,7 @@ En cuanto a la restauraci\'on \SOP, queda en evidencia que no funcion\'o en ning
 		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.5\textwidth]{Experiments/Colposcopy/48-1_example.bmp}};
 		\spy [blue,draw,height=0.3\textwidth,width=0.3\textwidth,magnification=6,connect spies] on (6.38, 1.35) in node at (11, 2.5);
 	\end{tikzpicture}
-	\caption{Imagen de colposcop\'ia \texttt{48-1.bmp} con su m\'ascara aplicada (en negro). En la ampliaci\'on los cuadros de bordes blancos representan los parches de $5 \times 5$ vac\'ios, y de naranja aquellos que tienen informaci\'on. Los cuadros de borde rojo, ejemplos de la vecindad de $6 \times 6$ explorable.}
+	\caption{Imagen de colposcop\'ia \texttt{48-1.bmp} con su m\'ascara aplicada (en negro). En la ampliaci\'on los cuadros de bordes blancos representan los parches de $5 \times 5$ vac\'ios, y de amarillo aquellos que tienen informaci\'on. Los cuadros de borde rojo, ejemplos de la vecindad de $6 \times 6$ explorable.}
 	\label{fig:colposcopy_zoom}
 \end{figure}
 
@@ -262,16 +262,110 @@ En cuanto a la restauraci\'on \SOP, queda en evidencia que no funcion\'o en ning
  \end{figure}
 Como se aprecia en la figura \ref{fig:patches_diffs} la nueva restauraci\'on con $\sqrt{n} = 16$ es claramente mejor. Excepto en la franja lateral derecha donde se siguen detectando p\'ixeles mal recuperados, en el resto de la imagen el resultado es alentador. Esa zona con p\'ixeles mal recuperados no es m\'as que aquellos de centros de parches vac\'ios a\'un con $\sqrt{n} = 16$. Para reducir a 0 la cantidad de parches vac\'ios en el caso de la imagen \texttt{48-1.bmp} se necesita $\sqrt{n} > 32$. El experimento con dicho valor de $\sqrt{n}$ no se pudo llevar a cabo por restricciones de la memoria \textbf{RAM} del equipo de c\'omputo donde se realizaron los experimentos. Se ha de recordar la complejidad espacial del algoritmo calculada en (\ref{eq:spacial_complexity}), donde el valor de $n$ es importante, ya que $\sqrt{n} > 32 \implies n > 1024$.
 
-Otra cuesti\'on a analizar es el hecho de que la complejidad temporal del esquema \SOP es independiente de la cantidad de p\'ixeles con desinformaci\'on. Usando el resultado obtenido en (\ref{eq:temporal_complexity}) se concluye que la complejidad temporal de \SOP solo depende de el tamaño de la imagen, el tamaño del parche y el tamaño de la vecindad a explorar. A diferencia de las restauraciones \TELEA y \NS, en el caso de \SOP toma un tiempo similar restaurar una imagen con 10\% de desinformaci\'on que una con 80\%. Esto sugiere que realizar la restauraci\'on de im\'agenes donde los p\'ixeles faltantes tienden a agruparse y no representan un gran porciento, puede llevarse a cabo en una subregi\'on rectangular que contenga todos los p\'ixeles a recuperar. Ahora bien, usando ambas consideraciones, tanto el tamaño del parche y la idea de reducir la imagen a una subregi\'on rectangular m\'as pequeña se puede diseñar una estrategia adaptativa para usar \SOP en las im\'agenes de colposcop\'ia.
+Otra cuesti\'on a analizar es el hecho de que la complejidad temporal del esquema \SOP es independiente de la cantidad de p\'ixeles con desinformaci\'on. Usando el resultado obtenido en (\ref{eq:temporal_complexity}) se concluye que la complejidad temporal de \SOP solo depende de el tamaño de la imagen, el tamaño del parche y el tamaño de la vecindad a explorar. A diferencia de las restauraciones \TELEA y \NS, en el caso de \SOP toma un tiempo similar restaurar una imagen con 10\% de desinformaci\'on que una con 80\%. Esto sugiere que realizar la restauraci\'on de im\'agenes donde los p\'ixeles faltantes tienden a agruparse y no representan un gran porciento, puede llevarse a cabo en una subregi\'on rectangular que contenga todos los p\'ixeles a recuperar.
+
+\section{Propuestas basadas en los resultados}\label{sec:suggestions}
+
+Los resultados del experimento para el caso de estudio 1 mostraron que la restauraci\'on \SOP es efectiva cuando los p\'ixeles de desinformaci\'on est\'an distribuidos de forma tal que la cantidad de parches vac\'ios sea m\'inima. Adem\'as, dado que la complejidad temporal del esquema de restauraci\'on no depende de la cantidad de p\'ixeles incompletos, la potencialidad del algoritmo \ref{al:PRA} se explota al m\'aximo cuando dichos p\'ixeles están distruibuidos a lo largo de la matriz de la imagen de forma uniforme. Teniendo estos factores en cuentan se propone la aplicaci\'on del esquema \SOP en las siguientes lineas de investigaci\'on:
+\begin{itemize}
+	\item Compresi\'on de im\'agenes.
+	\item Aumento de la resoluci\'on de im\'agenes.
+	\item Eliminaci\'on de ruido en im\'agenes 
+\end{itemize}
+
+Para la compresi\'on de im\'agenes se propone el uso de m\'ascaras predefinidas que garanticen la propiedad de no contener parches vac\'ios para valores pequeños de $\sqrt{n}$. Mediante una m\'ascara de este tipo, se comprime la imagen almacenando solo los p\'ixeles señalados por la misma. El archivo de la imagen comprimida debe contener en sus metadatos las dimensiones de la imagen y la m\'ascara usada en la compresi\'on. La descompresi\'on se logra restaurando la imagen original con \SOP sobre los p\'ixeles almacenados mediante la m\'ascara con que fueron comprimidos. La m\'ascara debe tener una definici\'on matem\'atica que evite tener que almacenarla como una matriz. Por ejemplo, se define una m\'ascara $t$\textit{-diagonal} $M_t = \{m_{i,j}\}$, tal que:
+\begin{equation}
+	m_{i, j} = \left\{\begin{array}{rl}
+		0 & \mbox{cuando} \quad t \bigm| |i - j|\\
+		255 & \mbox{para el resto} \\
+	\end{array}\right.
+\end{equation}
+De esta forma solo es necesario almacenar el valor de $t$ en los metadatos del archivo comprimido. En la figura \ref{fig:mask_5_diagonal} se ejemplica como se forma una m\'ascara $5$\textit{-diagonal}. La cantidad de p\'ixeles que selecciona una m\'ascara $t$\textit{-diagonal} de la imagen a comprimir representa aproximadamente $1/t$ de la cantidad inicial. Si la imagen a comprimir $\Y$ tiene dimensi\'on $N_1 \times N_2$ con $N = N_1N_2$, entonces la cantidad de p\'ixeles $N_c$ a los que se reduce la imagen mediante una m\'ascara $t$\textit{-diagonal} de igual dimensi\'on que $Y$, cumple que:
+\begin{equation}
+	N_c < \frac{N}{t} + 1
+\end{equation}
+M\'as a\'un, si $t | N_1$ o $t | N_2$, entonces $N_c = \frac{N}{t}$. Por otro lado, cualquier parche con $\sqrt{n} > \frac{t}{2}$ contiene al menos un p\'ixel no faltante cuando se usa una m\'ascara $t$\textit{-diagonal}. En conlusi\'on, mediante este tipo de m\'ascaras podemos comprimir la imagen a una raz\'on de compresi\'on deseada y adem\'as esa raz\'on determina el m\'inimo tamaño de parche para hacer la restauraci\'on.
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=4mm, y=4mm, rotate=-90]
+		\foreach \i in {0, 5, ..., 15}
+			\foreach \j in {0, 5, ..., 15} {
+				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
+			}
+		\foreach \i in {1, 6, ..., 11}
+			\foreach \j in {1, 6, ..., 11} {
+				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
+			}
+		\foreach \i in {2, 7, ..., 12}
+			\foreach \j in {2, 7, ..., 12} {
+				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
+			}
+		\foreach \i in {3, 8, ..., 13}
+			\foreach \j in {3, 8, ..., 13} {
+				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
+			}
+		\foreach \i in {4, 9, ..., 14}
+			\foreach \j in {4, 9, ..., 14} {
+				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
+			}
+		\draw[step=1,gray,thin] (0,0) grid (16,16);
+	\end{tikzpicture}
+	\caption{Ejemplo de una m\'ascara $5$\textit{-diagonal} de dimensi\'on $16 \times 16$.}
+	\label{fig:mask_5_diagonal}
+\end{figure}
+Usando una m\'ascara \textit{5-diagonal} las im\'agenes se comprimen a un 20\% de su informaci\'on, y solo es necesario parches de $3 \times 3$ para restaurarla. De esta forma es posible comprimir una imagen de forma considerable y recuperarla no supondr\'a un costo computacional elevado. No obstante, las m\'ascaras $t$\textit{-diagonales} son solo un patr\'on posible que se puede usar para comprimir. Se propone la b\'usqueda y el estudio de otros patrones para m\'ascaras de compresi\'on.
+
+La ampliaci\'on de im\'agenes es un proceso contrario a la compresi\'on. Al ampliar una imagen $\Y$ se debe obtener $\Y'$ de mayores dimensiones que resulta de escalar $\Y$ a un nuevo marco. Por ejemplo, ampliar una imagen de $256 \times 256$ a un marco de $512 \times 512$. La idea de realizar la ampliaci\'on utilizando \SOP consiste en colocar los p\'ixeles de $\Y$ dentro de una nueva matriz de dimensiones igual a la ampliaci\'on deseada, conservando la posici\'on relativa de los p\'ixeles. Los p\'ixeles restantes de la nueva matriz se consideran corruptos y se restaura la imagen. Definamos \textit{ampliaci\'on $2x$} aquella que duplica ambas dimensiones de la imagen, luego la ampliaci\'on $\Y'_{2a \times 2b} = \{a'_{i,j}\}$ de $\Y_{a \times b} = \{a_{i,j}\}$ se conforma tal que:
+\begin{equation}
+	a'_{i, j} = \left\{\begin{array}{rl}
+		a_{p, q} & \mbox{cuando} \quad i = 2p - 1,\; j = 2q - 1\\
+		0 & \mbox{para el resto} \\
+	\end{array}\right.
+\end{equation} 
+
 
 \begin{figure}[H]
 	\centering
-	\begin{tikzpicture}
-	\node[anchor=south west,inner sep=0] (image) at (0, 0) {\includegraphics[width=0.6\linewidth]{Experiments/Colposcopy/5-1_example.bmp}};
-	\draw[|-, blue, line width=1pt] (5,1)--(10, 1) node[right, black] {$\boxed{\sqrt{n} = 16}$};
-	\draw[|-, orange, line width=1pt] (1,2)--(-1, 2) node[left, black] {$\boxed{\sqrt{n} = 6}$};
-	\draw[|-, cyan, line width=1pt] (8,4)--(10, 4) node[right, black] {$\boxed{\sqrt{n} = 8}$};
-	\draw[|-, lime, line width=1pt] (2,5)--(-1, 5) node[left, black] {$\boxed{\sqrt{n} = 32}$};
+	\begin{tikzpicture}[x=4mm, y=4mm, rotate=-90]
+		\foreach \i in {0, 2, ..., 14}
+			\foreach \j in {0, 2, ..., 14} {
+				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
+			}
+		\draw[step=1,gray,thin] (0,0) grid (16,16);
+	\end{tikzpicture}
+	\caption{Ejemplo de una m\'ascara $2x$ de dimensi\'on $16 \times 16$.}
+	\label{fig:mask_2x}
+\end{figure}
+
+La m\'ascara $2x$ para realizar la restauraci\'on, que se denota por $M_{2x} = \{m_{i, j}\}$, se conforma de forma an\'aloga:
+\begin{equation}
+	m_{i, j} = \left\{\begin{array}{rl}
+		0 & \mbox{cuando $i$ y $j$ son impares} \\
+		255 & \mbox{para el resto} \\
+	\end{array}\right.
+\end{equation}
+en la figura \ref{fig:mask_2x} tenemos un ejemplo de m\'ascara $2x$ de $16 \times 16$. Finalmente, si se restaura $\Y'$ mediante $M_{2x}$ usando \SOP se obtendr\'a la ampliaci\'on de $\Y$ deseada. De forma similar se pueden definir las ampliaciones y m\'ascaras $2x$, $3x$, ..., $tx$. En el caso general de una ampliaci\'on $tx$, si $\sqrt{n} \ge t$, se tiene que ning\'un parche es vac\'io. Se propone el estudio de este m\'etodo de ampliaci\'on de im\'agenes para usarlo en ampliaciones a marcos de dimensión arbitraria.
+
+Por otro lado se propone la aplicaci\'on de \SOP a la eliminaci\'on de ruido en las im\'agenes. Para ello se debe contar con una herramienta que detecte el ruido y genere una m\'ascara que defina al mismo. Mediante dicha m\'ascara se realiza la restauraci\'on y se elimina el ruido. La propia naturaleza del ruido en im\'agenes reúne las propiedades de estar distribuido uniformemente y sin formar grandes zonas de desinformaci\'on.
+
+\qquad
+
+Los resultados del experimento para el caso de estudio 2 mostraron las desventajas m\'as importantes del esquema \SOP. Los parches vac\'ios representan un caso problem\'atico, pues sus centros no logran restaurase correctamente. Se debe emplear un valor de $\sqrt{n}$ lo suficientemente grande que minimice la cantidad de parches vac\'ios. Tambi\'en, cuando el \'area a restaurar es pequeña en relaci\'on con la imagen completa, se malgasta mucho tiempo de c\'omputo innecesario. Por lo tanto, una soluci\'on simple es seleccionar una subregi\'on rectangular mas pequeña que contenga todas las zonas a restaurar. Ahora bien, usando ambas consideraciones, tanto el tamaño del parche y la idea de reducir la imagen a una subregi\'on rectangular m\'as pequeña se puede diseñar una estrategia adaptativa para usar \SOP en las im\'agenes de colposcop\'ia.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=.000875\linewidth, y=.000875\linewidth]
+	\node[anchor=south west,inner sep=0] (image) at (0, 0) {\includegraphics[width=.63\linewidth]{Experiments/Colposcopy/5-1.bmp}};
+	\draw[-,red,ultra thick] (0, 0) rectangle (200, 320); %x
+	\draw[-,red,ultra thick] (200, 0) rectangle (485, 320); %x
+	\draw[-,red,ultra thick] (485, 0) rectangle (720, 250);
+	\draw[-,red,ultra thick] (0, 320) rectangle (80, 480);
+	\draw[-,red,ultra thick] (80, 320) rectangle (485, 480); %x
+	\draw[-,red,ultra thick] (485, 250) rectangle (720, 480); %x
+	\draw[|-|, orange, line width=1pt] (100, 160) -- (-50, 160) node[left, black] {$\boxed{\sqrt{n} = 6}$};
+	\draw[|-|, blue, line width=1pt] (342.5, 160) -- (770, 160) node[right, black] {$\boxed{\sqrt{n} = 16}$};
+	\draw[|-|, black, line width=1pt] (282.5, 400) -- (-50, 400) node[left, black] {$\boxed{\sqrt{n} = 32}$};
+	\draw[|-|, violet, line width=1pt] (602.5, 365)-- (770, 365) node[right, black] {$\boxed{\sqrt{n} = 8}$};
 	\end{tikzpicture}
 	\caption{Ejemplo de estrategia adaptativa para la imagen \texttt{5-1.bmp}}
 	\label{fig:adaptative}
