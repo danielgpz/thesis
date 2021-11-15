@@ -107,8 +107,17 @@
 \newenvironment{acknowledgements}%
   {\chapter*{Agradecimientos}}%
   {}
-\newenvironment{abstract}%
-  {\chapter*{Resumen}}%
+\newenvironment{sabstract}%
+  {\cleardoublepage%
+   \phantomsection%
+   \addcontentsline{toc}{chapter}{Resumen}%
+   \chapter*{Resumen}}%
+  {}
+\newenvironment{eabstract}%
+  {\cleardoublepage%
+   \phantomsection%
+   \addcontentsline{toc}{chapter}{Abstract}%
+   \chapter*{Abstract}}%
   {}
 \newenvironment{introduction}%
   {\cleardoublepage%

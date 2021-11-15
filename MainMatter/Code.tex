@@ -3,15 +3,15 @@
 En este capítulo se discute acerca de la implementación del algoritmo \ref{al:PRA} presentado en el Capítulo \ref{chapter:scheme} y del esquema final de la restauraci\'on presentado en el epígrafe \ref{sec:final_scheme}. El c\'odigo fuente de la implementaci\'on puede consultarse en el siguiente repositorio: \url{https://github.com/danielgpz/image-inpainting-sop.git}.
 
 \section{Tecnolog\'ias utilizadas}
-Todos los algoritmos y el c\'odigo fuente en general han sido implementados en el lenguaje de programaci\'on \texttt{Python3}, específicamente en su versi\'on \texttt{python 3.7.3}. Para el trabajo con los archivos de im\'agenes digitales, como son las operaciones de \textit{lectura}\footnote{Operaci\'on de cargar determinados datos en un disco duro o dispositivo de almacenamiento hacia la memoria \textbf{RAM}} y \textit{escritura}\footnote{Operaci\'on inversa de la lectura, copiar determinados datos de la memoria hacia el dispositivo de almacenamiento} se us\'o la librer\'ia \texttt{OpenCV}\footnote{Por sus siglas en ingles \textit{Open Source Computer Vision Library}: librer\'ia para visi\'on por computadoras de c\'odigo abierto} en su versi\'on \texttt{cv2 4.2.0}. \texttt{OpenCV} es un \textit{software} librer\'ia de c\'odigo abierto\footnote{D\'igase de aquellos programas cuyo c\'odigo fuente no est\'a oculto o encriptado. Cualquier usuario es libre de verificarlo y contribuir al mismo} que se utiliza para visi\'on por computadoras e Inteligencia Artificial. La misma contiene m\'as de $2500$ algoritmos optimizados que comprenden tanto los cl\'asicos como los del estado del arte en los dos campos anteriormente mencionados. Utilizando los m\'etodos \fbox{\texttt{cv2.imread}} y \fbox{\texttt{cv2.imwrite}} de esta librer\'ia se logra la lectura y la escritura respectivamente de las im\'agenes digitales. Estos permiten adem\'as obtener la representaci\'on matricial asociada. Ambas funciones soportan el uso de la mayor\'ia de los formatos para imágenes matriciales como son \texttt{.bmp}, \texttt{.jpg}, \texttt{.png}, \texttt{.tif}, entre otros, y cuentan con la opción de usar el mapa de color \RGB o la escala de grises.
+Todos los algoritmos y el c\'odigo fuente en general han sido implementados en el lenguaje de programaci\'on \texttt{Python3}, específicamente en su versi\'on \texttt{python 3.7.3}. Para el trabajo con los archivos de im\'agenes digitales, como son las operaciones de \textit{lectura}\footnote{Operaci\'on de cargar determinados datos en un disco duro o dispositivo de almacenamiento hacia la memoria \textbf{RAM}.} y \textit{escritura}\footnote{Operaci\'on inversa de la lectura, copiar determinados datos de la memoria hacia el dispositivo de almacenamiento.} se us\'o la librer\'ia \texttt{OpenCV}\footnote{Por sus siglas en ingles \textit{Open Source Computer Vision Library}: librer\'ia de c\'odigo abierto para visi\'on por computadoras.} en su versi\'on \texttt{cv2 4.2.0}. \texttt{OpenCV} es un \textit{software} librer\'ia de c\'odigo abierto\footnote{D\'igase de aquellos programas cuyo c\'odigo fuente no est\'a oculto o encriptado. Cualquier usuario es libre de verificarlo y contribuir al mismo.} que se utiliza para visi\'on por computadoras e Inteligencia Artificial. La misma contiene m\'as de $2500$ algoritmos optimizados que comprenden tanto los cl\'asicos como los del estado del arte en los dos campos anteriormente mencionados. Utilizando los m\'etodos \fbox{\texttt{cv2.imread}} y \fbox{\texttt{cv2.imwrite}} de esta librer\'ia se logra la lectura y la escritura respectivamente de las im\'agenes digitales. Estos permiten adem\'as obtener la representaci\'on matricial asociada. Ambas funciones soportan el uso de la mayor\'ia de los formatos para imágenes matriciales como son \texttt{.bmp}, \texttt{.jpg}, \texttt{.png}, \texttt{.tif}, entre otros, y cuentan con la opción de usar el mapa de color \RGB/ o la escala de grises.
 
 Para el trabajo con matrices, vectores, otros elementos y operaciones matem\'aticas se hace uso de la librer\'ia \texttt{NumPy} en su versi\'on \texttt{numpy 1.17.4}. Esta librer\'ia es considerada la m\'as ampliamente usada del paquete científico de \texttt{Python}. La misma provee las herramientas para tratar con las matrices obtenidas mediante \texttt{OpenCV} y facilita la realización de transformaciones y operaciones tanto elementales como avanzadas. Adem\'as de las matrices, se usa tambi\'en el m\'odulo \fbox{\texttt{numpy.random}} \'util para el trabajo con variables aleatorias. \texttt{NumPy} es r\'apida y eficiente, conocida por estar mayormente implementada en el lenguaje \texttt{C} lo que ayuda a evitar los procesos lentos y cargados en memoria, t\'ipicos de \texttt{Python}.
 
-\texttt{SciPy} es otra de las librer\'ias m\'as conocidas del paquete científico, de la que tambi\'en se hace uso en este trabajo. La versión usada es \texttt{scipy 1.3.2}. De esta se toma el m\'odulo \fbox{\texttt{scipy.interpolate}} el cual contiene, entre otras, una funci\'on para realizar la interpolaci\'on por \textit{splines} c\'ubicos. Finalmente, con el objetivo de optimizar el tiempo de ejecuci\'on de los esquemas y algoritmos presentados en el Cap\'itulo \ref{chapter:scheme} se utiliza el m\'odulo \texttt{multiprocessing}. Este paquete soporta la ejecuci\'on de procesos concurrentes, de una forma similar al m\'odulo \texttt{threading}, con la gran diferencia de que estos procesos s\'i corren en diferentes n\'ucleos de la \textbf{CPU}\footnote{Por sus siglas en ingl\'es \textit{Central Processing Unit}: unidad central de procesamiento} \cite{enwiki:cpu}. Este m\'odulo resulta de utilidad para lograr la paralelizaci\'on de los esquemas de restauraci\'on presentados, que tal como sus gr\'aficos muestran (figuras \ref{fig:subimage_scheme} y \ref{fig:final_scheme}), sus partes pueden ser realizadas de forma independiente.
+\texttt{SciPy} es otra de las librer\'ias m\'as conocidas del paquete científico, de la que tambi\'en se hace uso en este trabajo. La versión usada es \texttt{scipy 1.3.2}. De esta se toma el m\'odulo \fbox{\texttt{scipy.interpolate}} el cual contiene, entre otras, una funci\'on para realizar la interpolaci\'on por \textit{splines} c\'ubicos. Finalmente, con el objetivo de optimizar el tiempo de ejecuci\'on de los esquemas y algoritmos presentados en el Cap\'itulo \ref{chapter:scheme} se utiliza el m\'odulo \texttt{multiprocessing}. Este paquete soporta la ejecuci\'on de procesos concurrentes, de una forma similar al m\'odulo \texttt{threading}, con la gran diferencia de que estos procesos s\'i corren en diferentes n\'ucleos de la \textbf{CPU}\footnote{Por sus siglas en ingl\'es \textit{Central Processing Unit}: unidad central de procesamiento.} \cite{enwiki:cpu}. Este m\'odulo resulta de utilidad para lograr la paralelizaci\'on de los esquemas de restauraci\'on presentados, que tal como sus gr\'aficos muestran (figuras \ref{fig:subimage_scheme} y \ref{fig:final_scheme}), sus partes pueden ser realizadas de forma independiente.
 
 \section{El m\'odulo \texttt{ImageInpainting}}\label{sec:imageinpainting_module}
 
-Para lograr una mejor organizaci\'on y diseño de la implementaci\'on del esquema de restauraci\'on, la misma se creo en forma de m\'odulo local de \texttt{Python}, el cual se nombr\'o \texttt{ImageInpainting}. Este constituye uno de los aportes de este trabajo en la implementación. Cada una de sus funcionalidades fueron encapsuladas en 4 archivos distintos:
+Para lograr una mejor organizaci\'on y diseño de la implementaci\'on del esquema de restauraci\'on, la misma se cre\'o en forma de m\'odulo local de \texttt{Python}, el cual se nombr\'o \texttt{ImageInpainting}. Este constituye uno de los aportes de este trabajo en la implementación. Cada una de sus funcionalidades fueron encapsuladas en 4 archivos distintos:
 \begin{itemize}
 	\item \texttt{images.py}: archivo que contiene los m\'etodos para la lectura y escritura de las im\'agenes digitales y su conversi\'on a matrices de \texttt{NumPy}.
 	\item \texttt{pra.py}: solo contiene un \'unico m\'etodo con la implementaci\'on del algoritmo \ref{al:PRA}.
@@ -28,7 +28,7 @@ A continuaci\'on se da una explicaci\'on m\'as detallada por cada uno de los arc
 		M\'etodo que por medio de \texttt{cv2.imread} lee la imagen digital del disco duro, y la transforma a uno o tres arreglos bidimensionales de \texttt{numpy}. \underline{Par\'ametros}:
 		\begin{itemize}
 			\item \texttt{location}: tipo \texttt{str}, direcci\'on donde se almacena la im\'agen a leer en el disco.
-			\item \texttt{rgb}: tipo \texttt{bool}, indica si la imagen debe ser le\'ida como \RGB o escala de grises. En el primer caso, se generar\'an 3 arreglos uno por cada canal. En el caso de la escala de grises, un \'unico arreglo. Valor por defecto: \texttt{False}.
+			\item \texttt{rgb}: tipo \texttt{bool}, indica si la imagen debe ser le\'ida como \RGB/ o escala de grises. En el primer caso, se generar\'an 3 arreglos uno por cada canal. En el caso de la escala de grises, un \'unico arreglo. Valor por defecto: \texttt{False}.
 			\item \texttt{dtype}: tipo \texttt{type}, tipo datos con que se interpretar\'an los p\'ixeles. Usar \texttt{int} para el intervalo usual de $[0,\; 255]$. Usar \texttt{bool} para interpretar la imagen como una m\'ascara. Valor por defecto: \texttt{int}.
 		\end{itemize}
 		\underline{Retorna}: una tupla de arreglos, cada arreglo representando uno de los canales de la imagen, 3 para \texttt{rgb=True} y 1 para \texttt{rgb=False}.
@@ -48,7 +48,7 @@ A continuaci\'on se da una explicaci\'on m\'as detallada por cada uno de los arc
 		\begin{itemize}
 			\item \texttt{arrays}: tipo \texttt{tuple}, tupla de uno o tres arreglos bidimensionales que representan los canales de la imagen a alamacenar.
 			\item \texttt{location}: tipo \texttt{str}, direcci\'on que indica donde debe ser almacenada la imagen en el disco duro.
-			\item \texttt{rgb}: tipo \texttt{bool}, tipo de imagen a almacenar, en caso de \texttt{True} se usan los tres arreglos representando en ese orden cada uno de los canales \RGB. Si no, se toma solo el primero. Valor por defecto: \texttt{False}. 
+			\item \texttt{rgb}: tipo \texttt{bool}, tipo de imagen a almacenar, en caso de \texttt{True} se usan los tres arreglos representando en ese orden cada uno de los canales \RGB/. Si no, se toma solo el primero. Valor por defecto: \texttt{False}. 
 		\end{itemize}
 		\underline{Retorna}: \texttt{None}. No tiene valor de retorno, se considera un m\'etodo \textit{void}.
 	\end{itemize}
@@ -74,7 +74,7 @@ A continuaci\'on se da una explicaci\'on m\'as detallada por cada uno de los arc
 		
 		M\'etodo para calcular la distancia entre parches seg\'un (\ref{eq:omega}). \underline{Par\'ametros}:
 		\begin{itemize}
-			\item \texttt{patch1}, \texttt{patch2}: tipo \texttt{numpy.array}, arreglos que representan un parche en forma de vector
+			\item \texttt{patch1}, \texttt{patch2}: tipo \texttt{numpy.array}, arreglos que representan un parche en forma de vector.
 		\end{itemize}
 		\underline{Retorna}: un flotante, la distancia entre \texttt{parch1} y \texttt{patch2}, \texttt{-1} en caso de ser disjuntos en cuanto a sus p\'ixeles no faltantes.
 		
@@ -107,7 +107,7 @@ class CorruptedImage:
 		\begin{itemize}
 			\item \texttt{location}: tipo \texttt{str}, direcci\'on en el disco duro de la imagen digital a recuperar. Los canales de la misma se obtienen mediante el m\'etodo \texttt{read\_image\_as\_arrays} y se almacenan en el atributo \texttt{self.channels}.
 			\item \texttt{mask}: tipo \texttt{numpy.ndarray}, arreglo booleano bidimensional de mimas dimensi\'on que la imagen cargada. M\'ascara que indica con \texttt{False} los p\'ixeles faltantes. Se almacena en el atributo \texttt{self.mask}. Valor por defecto: \texttt{None}.
-			\item \texttt{rgb}: tipo \texttt{bool}, par\'ametro que indica si la imagen debe ser cargada como \RGB o escala de grises. Valor por defecto: \texttt{False}.
+			\item \texttt{rgb}: tipo \texttt{bool}, par\'ametro que indica si la imagen debe ser cargada como \RGB/ o escala de grises. Valor por defecto: \texttt{False}.
 			\item \texttt{corrupt\_prob}: tipo \texttt{float}, valor en el intervalo $[0,\; 1]$. En caso de que \texttt{mask} sea \texttt{None}, se genera una m\'ascara de forma aleatoria asignando \texttt{False} en cada posici\'on con probabilidad de dicho valor. Valor por defecto: \texttt{4/5}. 
 		\end{itemize}
 		\underline{Retorna}: la instancia creada.
@@ -136,15 +136,15 @@ class CorruptedImage:
 \end{enumerate}
 
 \section{\textquestiondown C\'omo usar el m\'odulo \texttt{ImageInpainting}?}\label{sec:module_how_to_use}
-Se supone que se tiene una imagen y otra de igual dimensión en forma de m\'ascara. Considérese el ejemplo de  \texttt{woman\_blonde.tif} y \texttt{mask.tif} (ver figura \ref{fig:woman_blonde}).
+Se supone que se tiene una imagen y otra de igual dimensión en forma de m\'ascara. Considérese el ejemplo de  \texttt{woman\_blonde.tif} y \texttt{mask.tif} (ver figura \ref{fig:woman_blonde}). Para realizar la restauraci\'on de la imagen se procede como el en siguiente ejemplo:
 \begin{figure}[H]
 	\centering
-	\subfigure[\texttt{woman\_blonde.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde.png}}\qquad
-	\subfigure[\texttt{mask.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/mask.tif}}
+	\subfigure[\texttt{woman\_blonde.tif}]{\includegraphics[width=.20\linewidth]{Graphics/Examples/woman_blonde.png}}\qquad
+	\subfigure[\texttt{mask.tif}]{\includegraphics[width=.20\linewidth]{Graphics/Examples/mask.tif}}
 	\caption{La imagen y su m\'ascara.}
 	\label{fig:woman_blonde}
 \end{figure}
-Para realizar la restauraci\'on de la imagen se procede como el en siguiente ejemplo:
+
 \begin{lstlisting}
 from ImageInpainting import CorruptedImage, read_image_as_mask
 
@@ -165,13 +165,13 @@ im.save('woman_blonde_r2.tif')
 im.inpainting(sqrt_n=4, B=8, epsilon=10**8)
 im.save('woman_blonde_r3.tif')
 \end{lstlisting}
-La ejecuci\'on de lo anterior genera la versi\'on de la imagen original corrupta seg\'un la m\'ascara, y 3 im\'agenes restauradas usando los par\'ametros que se indican.
+La ejecuci\'on de dicho programa genera la versi\'on de la imagen original corrupta seg\'un la m\'ascara, y las 3 im\'agenes restauradas (ver figura \ref{fig:inpainting_woman_blonde}).
 \begin{figure}[H]
 	\centering
-	\subfigure[\texttt{woman\_blonde\_c.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_corrupted.tif}}
-	\subfigure[\texttt{woman\_blonde\_r1.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_iteration_1.tif}}
-	\subfigure[\texttt{woman\_blonde\_r2.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_iteration_2.tif}}
-	\subfigure[\texttt{woman\_blonde\_r3.tif}]{\includegraphics[width=.24\linewidth]{Graphics/Examples/woman_blonde_iteration_3.tif}}
+	\subfigure[\texttt{woman\_blonde\_c.tif}]{\includegraphics[width=.23\linewidth]{Graphics/Examples/woman_blonde_corrupted.tif}}\\
+	\subfigure[\texttt{woman\_blonde\_r1.tif}]{\includegraphics[width=.23\linewidth]{Graphics/Examples/woman_blonde_iteration_1.tif}}
+	\subfigure[\texttt{woman\_blonde\_r2.tif}]{\includegraphics[width=.23\linewidth]{Graphics/Examples/woman_blonde_iteration_2.tif}}
+	\subfigure[\texttt{woman\_blonde\_r3.tif}]{\includegraphics[width=.23\linewidth]{Graphics/Examples/woman_blonde_iteration_3.tif}}
 	\caption{En ese orden: imagen corrupta y las im\'agenes restauradas.}
 	\label{fig:inpainting_woman_blonde}
 \end{figure}

@@ -1,7 +1,7 @@
 \chapter{Preliminares}\label{chapter:background}
 
 \begin{definition}\label{def:inpainting}
-	El problema de \II\footnote{T\'ermino en ingl\'es cuyo equivalente en el \'ambito del procesamiento de im\'agenes es \textit{restauraci\'on}}, o en general el problema de \textit{inpainting} es el de recuperar una señal a partir de una versi\'on corrupta de la misma. Sea $\y$ un vector de dimensiones $m \times 1$ y $\z$ la versi\'on corrupta de $\y$ que le faltan algunos elementos, se tiene que:
+	El problema de \II/\footnote{Del ingl\'es \II/, cuyo equivalente en el \'ambito del procesamiento de im\'agenes es \textit{restauraci\'on de im\'agenes}.}, o en general el problema de \textit{inpainting} es el de recuperar una señal a partir de una versi\'on corrupta de la misma. Sea $\y$ un vector de dimensiones $m \times 1$ y $\z$ la versi\'on corrupta de $\y$ que le faltan algunos elementos, se tiene que:
 	\begin{equation}
 		z = My
 		\label{eq:inpainting}
@@ -9,7 +9,7 @@
 	donde $\mathbf{M}$ es una matriz diagonal de $m \times m$ con solo $0$'s y $1$'s la cual define las posiciones de los elementos faltantes. Se quiere encontrar el vector $\y$, cuando $\z$ y  $\mathbf{M}$ son conocidos. 
 \end{definition}
 
-Se ha de destacar que estamos en presencia de un \textit{problema mal planteado} pues la variable $y$ buscada no cumple con la segunda condición de la definición de \textit{problema bien planteado}\footnote{En ingl\'es \textit{well-posed problem}. En caso contrario \textit{il-posed problem}} \cite{enwiki:wpp} dada por Hadamart. Dicha definición pone las siguientes condicionantes a la soluci\'on  del problema en cuestión:
+Se ha de destacar que estamos en presencia de un \textit{problema mal planteado} pues el valor soluci\'on de la variable $y$ no cumple con la segunda condición de la definición de \textit{problema bien planteado}\footnote{En ingl\'es \textit{well-posed problem}. En caso contrario \textit{il-posed problem}.} dada por Hadamart \cite{enwiki:wpp}. Dicha definición pone las siguientes condicionantes a la soluci\'on  del problema en cuestión:
 \begin{itemize}
 	\item La soluci\'on existe.
 	\item La soluci\'on es \'unica.
@@ -20,48 +20,44 @@ La unicidad de la soluci\'on se incumple pues existen infinitas $y$ que satisfac
 \section{Las im\'agenes digitales}\label{sec:digital_images}
 Una imagen digital \cite{solomon2011fundamentals,enwiki:di,eswiki:id} es una representaci\'on bidimensional de una imagen, compuesta por elementos usualmente llamados \textit{p\'ixeles} que contienen informaci\'on finita en valores discretos que representan num\'ericamente la intensidad de alg\'un color o su escala de gris. Estos valores constituyen la salida de una funci\'on en dos dimensiones cuyo dominio son coordenadas espaciales. La resolución de una imagen digital son aquellos intervalos de valores admisibles para cada coordenada espacial. En dependencia de si estos intervalos son fijos o din\'amicos la im\'agenes digitales se clasifican respectivamente en:
 \begin{itemize}
-	\item \textbf{Imagen matricial o mapa de bits} (conocido en ingl\'es como \textit{raster image} o \textit{bitmap}). Este tipo de imagen suele tener asociada una representaci\'on matricial, la cual es el resultado de tabular\footnote{Entiéndase por tabular una funci\'on $f$ al proceso de colocar en la posici\'on $i,\;j$ de la matriz el resultado de $f(i, j)$} la funci\'on que arroja el valor de los p\'ixeles. Comúnmente los píxeles contienen el valor de color o intensidad que representa una muestra puntual de luz de la escena. La mayor\'ia de los formatos de archivos de im\'agenes presentes en los diferentes dispositivos digitales hoy en d\'ia se usan para almacenar este tipo de im\'agenes \cite{eswiki:imp}.
-	\item \textbf{Imagen o gr\'afico vectorial}. Basa su representaci\'on en el concepto geom\'etrico de vector y los elementos que contiene son tambi\'en otros conceptos geom\'etricos b\'asicos tales como las rectas, segmentos, pol\'igonos, circunferencias, arcos, elipses, \textit{etc}. Estos traen consigo otros metadatos tales como el grosor de la linea y color del borde e interior. Tal tipo de im\'agenes no se suele usar para capturar escenas reales, en cambio es m\'as \'util para representar logotipos, texto escrito, f\'ormulas y figuras matem\'aticas. Una de sus principales ventajas es su escalabilidad a cualquier tamaño de marco donde se muestre, pues su concepci\'on geom\'etrica permite \textit{dibujarla} sin perder ning\'un nivel de detalle \cite{eswiki:igv}.
+	\item \textbf{Imagen matricial o mapa de bits} (conocido en ingl\'es como \textit{raster image} o \textit{bitmap}). Este tipo de imagen suele tener asociada una representaci\'on matricial, la cual es el resultado de tabular\footnote{Entiéndase por tabular una funci\'on $f$ al proceso de colocar en la posici\'on $(i,\;j)$ de la matriz el resultado de $f(i, j)$.} la funci\'on que arroja el valor de los p\'ixeles. Comúnmente los píxeles contienen el valor de color o intensidad que representa una muestra puntual de luz de la escena. La mayor\'ia de los formatos de archivos de im\'agenes presentes en los diferentes dispositivos digitales hoy en d\'ia se usan para almacenar este tipo de im\'agenes \cite{eswiki:imp}.
+	\item \textbf{Imagen o gr\'afico vectorial}. Basa su representaci\'on en el concepto geom\'etrico de vector y los elementos que contiene son tambi\'en otros conceptos geom\'etricos b\'asicos tales como las rectas, segmentos, pol\'igonos, circunferencias, arcos, elipses, etc. Estos traen consigo otros metadatos tales como el grosor de la linea y color del borde e interior. Tal tipo de im\'agenes no se suele usar para capturar escenas reales, en cambio es m\'as \'util para representar logotipos, texto escrito, f\'ormulas y figuras matem\'aticas. Una de sus principales ventajas es su escalabilidad a cualquier tamaño de marco donde se muestre, pues su concepci\'on geom\'etrica permite \textit{dibujarla} sin perder ning\'un nivel de detalle \cite{eswiki:igv}.
 \end{itemize}
 
-Las imágenes digitales se pueden obtener de varias formas, por medio de dispositivos de entrada conversión analógica-digital como los escáneres y las cámaras digitales. Se pueden obtener tambi\'en directamente mediante programas informáticos editores de mapas de bits y dibujo vectorial, como por ejemplo realizando dibujos con el ratón o tableta digitalizadora gráfica incluyendo el lápiz óptico. No pueden dejar de mencionarse los programas de renderización \textbf{3D} a mapa de bits. Una vez obtenida la imagen, su informaci\'on pasa usualmente por un proceso de serializaci\'on y compresi\'on que finalmente se almacena en determinado formato digital. La mayoría de formatos de imágenes digitales están compuestos por una cabecera que contiene atributos (dimensiones de la imagen, tipo de codificación, \textit{etc}), seguida de los datos de la imagen en sí misma. La estructura de los atributos y de los datos de la imagen es distinta en cada formato. Además, los formatos actuales añaden a menudo una zona de metadatos (escala de sensibilidad, flash, \textit{etc}). Estos metadatos se utilizan muy a menudo en el formato extensión para cámaras digitales y videocámaras.
+Las imágenes digitales se pueden obtener de varias formas, por medio de dispositivos de entrada conversión \textit{analógica-digital} como los escáneres y las cámaras digitales. Se pueden obtener tambi\'en directamente mediante programas informáticos editores de mapas de bits y dibujo vectorial, como por ejemplo realizando dibujos con el ratón o tableta digitalizadora gráfica incluyendo el lápiz óptico. No pueden dejar de mencionarse los programas de renderización \textbf{3D} a mapa de bits. Una vez obtenida la imagen, su informaci\'on pasa usualmente por un proceso de serializaci\'on y compresi\'on que finalmente se almacena en determinado formato digital. La mayoría de formatos de imágenes digitales están compuestos por una cabecera que contiene atributos (dimensiones de la imagen, tipo de codificación, etc), seguida de los datos de la imagen en sí misma. La estructura de los atributos y de los datos de la imagen es distinta en cada formato. Además, los formatos actuales añaden a menudo una zona de metadatos (escala de sensibilidad, flash, etc). Estos metadatos se utilizan muy a menudo en el formato extensión para cámaras digitales y videocámaras.
 
 \subsection{Las im\'agenes matriciales}
 
 Tal y como se expresa en la definici\'on del problema de restauraci\'on de im\'agenes (definici\'on \ref{def:inpainting}), se trata de im\'agenes representables como una señal o vector. El caso m\'as conveniente son las im\'agenes matriciales pues se pueden vectorizar de manera trivial. En este trabajo no se tratar\'a el caso de las im\'agenes vectoriales debido a que no est\'a claro su adaptaci\'on para el problema de la restauraci\'on. El análisis se enfoca en aquellas im\'agenes digitales con alg\'un tipo de representaci\'on matricial.
 
-La imagen matricial o mapa de bits est\'a compuesta por una matriz $\I_{a \times b}$ con $a$ filas y $b$ columnas. Cada elemento o p\'ixel de dicha matriz suele ser un valor escalar o una tupla de escalares, que como se ha mencionado anteriormente representan la intensidad de un color o de la luz en sus coordenadas. En el caso más simple, cada píxel contiene un único valor numérico que representa el nivel de intensidad de la señal en ese punto de la imagen. Para convertir estos escalares a un elemento visual se usa un mapa de colores, el cual asigna un tono de color espec\'ifico a cada uno de los valores en un intervalo discreto y finito. Dicho intervalo contiene todos los valores admisibles para los p\'ixeles de la imagen.
-
-El mapa de colores más comúnmente usado es la escala de grises \cite{enwiki:gs}, que asigna todos los matices de gris desde el negro (valor $0$) hasta el blanco (máximo valor del intervalo) según el nivel de la señal. El intervalo de valores estándar es $[0,\; 255]$, considerando solo los n\'umeros enteros. En total se tienen $256$ n\'umeros en ese intervalo, que es justamente la m\'axima cantidad de enteros que se puede almacenar en 8 bits. La escala de grises se adapta especialmente bien a las imágenes que expresan sólo la intensidad de la señal como un valor único en cada punto de la región.
+La imagen matricial o mapa de bits est\'a compuesta por una matriz $\I_{a \times b}$ con $a$ filas y $b$ columnas. Cada elemento o p\'ixel de dicha matriz suele ser un valor escalar o una tupla de escalares, que como se ha mencionado anteriormente representan la intensidad de un color o de la luz en sus coordenadas. En el caso más simple, cada píxel contiene un único valor numérico que representa el nivel de intensidad de la señal en ese punto de la imagen. Para convertir estos escalares a un elemento visual se usa un mapa de colores, el cual asigna un tono de color espec\'ifico a cada uno de los valores en un intervalo discreto y finito. Dicho intervalo contiene todos los valores admisibles para los p\'ixeles de la imagen. El mapa de colores más comúnmente usado es la escala de grises \cite{enwiki:gs}, que asigna todos los matices de gris desde el negro (valor $0$) hasta el blanco (máximo valor del intervalo) según el nivel de la señal. El intervalo de valores estándar es $[0,\; 255]$, considerando solo los n\'umeros enteros. En total se tienen $256$ n\'umeros en ese intervalo, que es justamente la m\'axima cantidad de enteros que se puede almacenar en 8 bits. La escala de grises se adapta especialmente bien a las imágenes que expresan sólo la intensidad de la señal como un valor único en cada punto de la región.
 \begin{figure}[h]
 	\centering
 	\begin{tikzpicture}
-		\node (image) at (0,0) {\includegraphics[width=0.75\textwidth,height=1cm]{Graphics/colormap_gray.png}};
-		\coordinate (a) at ($(image.south west)+(0.15, 0)$);
-		\coordinate (b) at ($(image.south east)+(-0.15, 0)$);
+		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.75\textwidth,height=1.25cm]{Graphics/colormap_gray.png}};
+		\coordinate (a) at (image.south west);
+		\coordinate (b) at (image.south east);
 		\draw[-] (a) -- (b);
-		\draw[-] (a) -- ++(0, -.25) node[below]{0};
-		\draw[-] ($(a)!0.25!(b)$) -- ++(0, -.25) node[below]{63};
-		\draw[-] ($(a)!0.50!(b)$) -- ++(0, -.25) node[below]{127};
-		\draw[-] ($(a)!0.75!(b)$) -- ++(0, -.25) node[below]{191};
-		\draw[-] (b) -- ++(0, -.25) node[below]{255};
+		\draw[-] (a) -- ++(0, -.25) node[below]{\texttt{0}};
+		\draw[-] ($(a)!0.25!(b)$) -- ++(0, -.25) node[below]{\texttt{63}};
+		\draw[-] ($(a)!0.50!(b)$) -- ++(0, -.25) node[below]{\texttt{127}};
+		\draw[-] ($(a)!0.75!(b)$) -- ++(0, -.25) node[below]{\texttt{191}};
+		\draw[-] (b) -- ++(0, -.25) node[below]{\texttt{255}};
 	\end{tikzpicture}
-	\caption{Mapa de color de la escala de grises}
+	\caption{Mapa de color de la escala de grises.}
 \end{figure}
 
 \subsection{Mapa de color RGB}
 
-Además de las imágenes en escala de grises, existen imágenes en color en las que el espectro completo de colores puede representarse como una terna de escalares. La forma est\'andar es mediante los componentes \RGB\footnote{Por sus siglas en ingl\'es \textit{red, green and blue}: rojo, verde y azul}\cite{enwiki:rgb} en cada píxel. El color se representa como una combinación lineal de los colores primarios de la luz, cada elemento de la terna indica la intensidad de rojo, verde o azul necesarios para formar el color en cuesti\'on. Las im\'agenes \RGB pueden interpretadas de tres formas distintas:
+Además de las imágenes en escala de grises, existen imágenes en color en las que el espectro completo de colores puede representarse como una terna de escalares. La forma est\'andar es mediante los componentes \RGB/\footnote{Por sus siglas en ingl\'es \textit{red, green and blue}: rojo, verde y azul.}\cite{enwiki:rgb} en cada píxel. El color se representa como una combinación lineal de los colores primarios de la luz, cada elemento de la terna indica la intensidad de rojo, verde o azul necesarios para formar el color en cuesti\'on. Las im\'agenes \RGB/ pueden interpretadas de tres formas distintas:
 \begin{itemize}
 	\item Un arreglo tridimensional.
 	\item Una matriz cuyos elementos son ternas.
 	\item Una terna de matrices de igual dimensi\'on.
 \end{itemize}
-En el \'ultimo caso a cada matriz se le llama \textit{canal}, por ejemplo el \textit{canal rojo} es la matriz que contiene los valores de las intensidades de rojo.
+En el \'ultimo caso a cada matriz se le llama \textit{canal}, por ejemplo, el \textit{canal rojo} es la matriz que contiene los valores de las intensidades de rojo. El espacio de color \RGB/ se basa en la porción del espectro electromagnético perceptible por los humanos para cada una de las longitudes de onda de los colores rojo, verde y azul. An\'alogo a la escala de grises las intensidades en cada canal toman valores enteros en el intervalo $[0,\; 255]$ y mientras mayor es el valor, mayor es la intensidad en el color resultante. De modo que el color rojo se obtiene con $(255,0,0)$, el color verde con $(0,255,0)$ y el color azul con $(0,0,255)$.
 
-El espacio de color \RGB se basa en la porción del espectro electromagnético perceptible por los humanos para cada una de las longitudes de onda de los colores rojo, verde y azul. An\'alogo a la escala de grises las intensidades en cada canal toman valores enteros en el intervalo $[0,\; 255]$ y mientras mayor es el valor, mayor es la intensidad en el color resultante. De modo que el rojo se obtiene con $(255,0,0)$, el verde con $(0,255,0)$ y el azul con $(0,0,255)$.
-
-Para este trabajo se asume como convenio, que cuando se trata de la imagen como matriz, se refiere en el caso de la escala de grises a su matriz de intensidades. En el caso de im\'agenes como las \RGB se refiere a alguno de sus canales. Si se quiere realizar la restauraci\'on a una imagen representada en varios canales de color, se aplica la restauraci\'on a cada uno de estos de forma independiente, luego la imagen final restaurada tendr\'a como canales esos que se restauraron.
+Para este trabajo se asume como convenio, que cuando se trata de la imagen como matriz, se refiere en el caso de la escala de grises a su matriz de intensidades. En el caso de im\'agenes como las \RGB/ se refiere a alguno de sus canales. Si se quiere realizar la restauraci\'on a una imagen representada en varios canales de color, se aplica la restauraci\'on a cada uno de estos de forma independiente, luego la imagen final restaurada tendr\'a como canales esos que se restauraron.
 
 
 \section{Los parches de una imagen}\label{sec:patches}
@@ -149,9 +145,9 @@ Para adaptar las im\'agenes con representaci\'on matricial al problema de la res
 		\end{array} \right)^\intercal
 	\end{equation*}
 \end{definition}
-Para obtener la vectorizaci\'on de las filas de $A$, se debe simplemente vectorizar su transpuesta: $vec(A^\intercal)$. El ejemplo de la figura \ref{ex:vectorization} muestra tanto la vectorizaci\'on por columnas, como por filas.
+Para obtener la vectorizaci\'on de las filas de $A$, se debe simplemente vectorizar su transpuesta: $vec(A^\intercal)$. El ejemplo \ref{ex:vectorization} muestra tanto la vectorizaci\'on por columnas, como por filas.
 
-\begin{figure}[h]
+\begin{example}[h]
 	\[
 		A = \left(
 		\begin{matrix}
@@ -179,9 +175,9 @@ Para obtener la vectorizaci\'on de las filas de $A$, se debe simplemente vectori
 			-2\\
 		\end{matrix}\right)
 	\]
-	\caption{Vectorizaci\'on para una matriz de $2 \times 3$}
+	\caption{Vectorizaci\'on para una matriz de $2 \times 3$.}
 	\label{ex:vectorization}
-\end{figure}
+\end{example}
 
 Los conceptos de vector y señal son muy similares, y en este trabajo se usan ambos t\'erminos indistintamente para referirse a lo mismo. A continuaci\'on se expone su equivalencia.
 \begin{definition}
@@ -199,7 +195,7 @@ Los conceptos de vector y señal son muy similares, y en este trabajo se usan am
 \end{definition}
 La equivalencia entre vectores y señales es trivial. Sea $V = \{v_i\}$ un vector, su señal equivalente $S_V$ es aquella tal que $S_V(i) = v_i$ para todo $i$. Por lo tanto, el conjunto de las señales finitas de tamaño $m$ coincide con el espacio vectorial de dimensi\'on $m$ y el conjunto de las señales infinitas coincide con el espacio vectorial de dimensi\'on infinita. Luego, para los prop\'ositos de este trabajo tanto \textit{vector} como \textit{señal} significan lo mismo.
 
-Finalmente se hace necesario tratar el tema de la suavidad de una señal, pues se usar\'a m\'as adelante en el Cap\'itulo \ref{chapter:scheme}. Este concepto no es m\'as que la percepci\'on visual de qu\'e tan suave es la gr\'afica de la señal en el plano cartesiano. Como se trata de algo subjetivo se usan en su lugar medidas aceptadas en la literatura. Para este trabajo se utiliza la medida de varianza total: \textbf{TV}\footnote{Por sus siglas en ingl\'es: \textit{total variance}}.
+Finalmente se hace necesario tratar el tema de la suavidad de una señal, pues se usar\'a m\'as adelante en el Cap\'itulo \ref{chapter:scheme}. Este concepto no es m\'as que la percepci\'on visual de qu\'e tan suave es la gr\'afica de la señal en el plano cartesiano. Como se trata de algo subjetivo se usan en su lugar medidas aceptadas en la literatura. Para este trabajo se utiliza la medida de varianza total: \textbf{TV}\footnote{Por sus siglas en ingl\'es: \textit{total variance}.}.
 \begin{definition}\label{def:tv}
 	La varianza total de una señal $s$ se define como:
 	\begin{equation}
@@ -225,7 +221,7 @@ La permutación de filas y/o columnas de una matriz es una operación muy frecue
 
 Es bien conocido que cualquier permutación $\pi$ resulta de una sucesi\'on de intercambios. Por ejemplo, permutaciones elementales en las cuales solo dos elementos se intercambian. Una matriz de intercambio es una matriz identidad con dos de sus filas intercambiadas. Denotemos por $C_{i,j}$ tales matrices con $i$ y $j$ los números de las filas intercambiadas. Note que para intercambiar las filas $i$ y $j$ de $A$ solo necesitamos premultiplicarla por la matriz $C_{i,j}$.
 
-Sea $\pi$ una permutación arbitraria. Esta permutación es el resultado de la secuencia de $\sigma(i_k, j_k),\; k=\overline{1,m}$ intercambios consecutivos. Entonces las filas de una matriz pueden ser permutadas intercambiando las filas $(i_1, j_1)$, después las $(i_2, j_2)$ de la matriz resultante, as\'i sucesivamente y finalmente intercambiando $(i_m, j_m)$ de la \'ultima matriz. Cada una de estas operaciones puede ser realizada premultiplicando $A$ por $C_{i_k, j_k}$. La misma operación puede realizarse teniendo en cuenta las columnas de una matriz: para intercambiar las columnas $i$ y $j$ de una matriz la postmultiplicamos por $C_{i,j}$.
+Sea $\pi$ una permutación arbitraria. Esta permutación es el resultado de la secuencia de $\sigma(i_k, j_k),\; k=\overline{1,m}$ intercambios consecutivos. Entonces las filas de una matriz pueden ser permutadas intercambiando las filas $(i_1, j_1)$, después las $(i_2, j_2)$ de la matriz resultante, as\'i sucesivamente y finalmente intercambiando $(i_m, j_m)$ de la \'ultima matriz. Cada una de estas operaciones puede ser realizada premultiplicando $A$ por $C_{i_k, j_k}$. La misma operación puede realizarse sobre las columnas de una matriz: para intercambiar las columnas $i$ y $j$ de una matriz la postmultiplicamos por $C_{i,j}$.
 \begin{lemma}\label{lm:dual_permutation}
 	Sea $A_{m \times m} = \{a_{i,j}\}$ una matriz y $\pi$ la permutación resultante del producto de los intercambios $\sigma(i_k, j_k),\; k=\overline{1,m}$, entonces:
 	\begin{equation}
@@ -242,7 +238,7 @@ Sea $\pi$ una permutación arbitraria. Esta permutación es el resultado de la s
 	Una matriz de permutación no es otra cosa que una matriz identidad con sus filas y columnas permutadas.
 \end{definition}
 
-N\'otese que $C_{i, j}^2 = \I$ es decir, el cuadrado de una matriz de intercambio es igual a la identidad. Por lo que la inversa de una matriz de intercambio es igual a sí misma $C_{i, j} = C_{i, j}^{-1}$. Usando estos resultados es fácil ver que las matrices $P_\pi$ y $Q_\pi$ satisfacen que:
+N\'otese que $C_{i, j}^2 = \I$ es decir, el cuadrado de una matriz de intercambio es igual a la identidad. Por lo que la inversa de una matriz de intercambio es igual a sí misma $C_{i, j} = C_{i, j}^{-1}$. Usando estos resultados es fácil ver que las matrices $P_\pi$ y $Q_\pi$ satisfacen:
 \begin{equation}
 	P_\pi Q_\pi = C_{i_m, j_m}C_{i_{m-1}, j_{m-1}}\;\cdots\;C_{i_1, j_1} C_{i_1, j_1}C_{i_2, j_2}\;\cdots\;C_{i_m, j_m} = \I
 	\label{eq:dual_permutation}

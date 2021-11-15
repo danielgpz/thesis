@@ -1,56 +1,59 @@
 \documentclass[12pt,oneside]{uhthesis}
 \usepackage[scriptsize]{subfigure}
-\usepackage[ruled,vlined]{algorithm2e}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsbsy}
 \usepackage{caption,booktabs}
 \usepackage{url}
-\usepackage{graphicx}
+
+% Graphicx setup 
 \usepackage{epstopdf}
+\usepackage{graphicx}
 \epstopdfDeclareGraphicsRule{.tif}{png}{.png}{magick #1 \OutputFile}
 \AppendGraphicsExtensions{.tif}
 \epstopdfDeclareGraphicsRule{.bmp}{png}{.png}{magick #1 \OutputFile}
 \AppendGraphicsExtensions{.bmp}
-\usepackage{tikz}
-\usetikzlibrary{calc,spy,arrows}
-\usepackage{listings}
-\lstset{ %
-language=Python, % lenguaje
-basicstyle=\small\ttfamily,
-keywordstyle=\color{blue},
-commentstyle=\color{gray},
-stringstyle=\color{orange},
-tabsize=4,
-columns=flexible,
-showstringspaces=false,
-frame=single
-}
-\captionsetup{
-	justification = centering
-}
-%\usepackage{mathpazo}
+
+% Floats setup
 \usepackage{float}
-\usepackage{todonotes}
+\newfloat{example}{tbph!H}{examples}[chapter]
+\floatname{example}{Ejemplo}
+\captionsetup{justification=centering}
 \floatstyle{plaintop}
 \restylefloat{table}
 
-\renewcommand{\tablename}{Tabla}
-\renewcommand{\listalgorithmcfname}{Índice de Algoritmos}%
-%\dontprintsemicolon
-\SetAlgoNoEnd
+% Tikz setup
+\usepackage{tikz}
+\usetikzlibrary{calc,spy,arrows}
 
+% Algorithms setup
+\usepackage[ruled,vlined]{algorithm2e}
+\SetAlgorithmName{Algoritmo}{Algortimo}{Índice de Algoritmos}
+\SetKwInput{KwIn}{\underline{Entrada}}
+\SetKwInput{KwOut}{\underline{Salida}}
+\SetKwInput{KwInit}{Inicializaci\'on}
+\SetKwFor{For}{Para}{hacer}{Fin}
+\SetKw{KwTo}{hasta}
+\SetKwIF{If}{ElseIf}{Else}{Si}{entonces}{Si no y}{Si no}{Fin}
+\SetKw{Return}{Retornar}
+\DontPrintSemicolon
+\SetAlgoInsideSkip{medskip}
 
-\title{Restauraci\'on de imágenes usando una ordenación suave de sus parches}
-\author{Daniel Alberto Garc\'ia P\'erez}
-\advisor{Dra. Marta Lourdes Baguer}
-\degree{Licenciado en Ciencia de la Computaci\'on}
-\faculty{Facultad de Matemática y Computación}
-\date{5 de octubre del 2021}
-\logo{Graphics/uhlogo}
-\makenomenclature
+% Listings setup
+\usepackage{listings}
+\lstset{
+	language=Python,
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	stringstyle=\color{orange},
+	tabsize=4,
+	columns=flexible,
+	showstringspaces=false,
+	frame=single
+}
 
-
+% Macros
 \newcommand{\I}{\mathbb{\mathit{I}}}
 \newcommand{\z}{\mathbf{z}}
 \newcommand{\Z}{\mathbf{Z}}
@@ -67,23 +70,32 @@ frame=single
 \newcommand{\Ztilde}{\tilde{\mathbf{Z}}}
 \newcommand{\yhattilde}{\hat{\tilde{\mathbf{y}}}}
 \newcommand{\Yhattilde}{\hat{\tilde{\mathbf{Y}}}}
-\newcommand{\II}{\textit{image inpainting}\;}
-\newcommand{\TSP}{\textbf{TSP}\;}
-\newcommand{\RGB}{\textbf{RGB}\;}
-\newcommand{\TELEA}{\textbf{TELEA}\;}
-\newcommand{\SOP}{\textbf{SOP}\;}
-\newcommand{\NS}{\textbf{NS}\;}
-\newcommand{\PSNR}{\textbf{PSNR}\;}
+\def\II/{\textit{image inpainting}}
+\def\TSP/{\textbf{TSP}}
+\def\RGB/{\textbf{RGB}}
+\def\TELEA/{\textbf{TELEA}}
+\def\SOP/{\textbf{SOP}}
+\def\NS/{\textbf{NS}}
+\def\PSNR/{\textbf{PSNR}}
 \newenvironment{proof}{\textbf{Demostraci\'on}:
 
 }{$\square$}
+
+\title{Restauraci\'on de imágenes usando una ordenación suave de sus parches}
+\author{Daniel Alberto Garc\'ia P\'erez}
+\advisor{Dra. Marta Lourdes Baguer}
+\degree{Licenciado en Ciencia de la Computaci\'on}
+\faculty{Facultad de Matemática y Computación}
+\date{19 de Noviembre del 2021}
+\logo{Graphics/uhlogo}
+\makenomenclature
 
 \begin{document}
 
 \frontmatter
 \maketitle
 
-%\include{FrontMatter/Dedication}
+\include{FrontMatter/Dedication}
 \include{FrontMatter/Thanks}
 \include{FrontMatter/SupervisorOpinion}
 \include{FrontMatter/Abstract}
@@ -101,7 +113,6 @@ frame=single
 
 \include{BackMatter/Conclusions}
 \include{BackMatter/Recomendations}
-
 \include{BackMatter/Bibliography}
 
 \end{document}
