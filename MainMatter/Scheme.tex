@@ -119,9 +119,9 @@ Supongamos adem\'as que la matriz de permutaci\'on $\P$ tiene la propiedad de qu
 \begin{equation}
 	\def\arraystretch{1.5}
 	\begin{array}{lrcl}
-		                                           &     \H (\P\z ) &\approx& \P\y        \\ 
-		\Longrightarrow                            & P^{-1}\H(\P\z) &\approx& \P^{-1}\P\y \\
-		\overset{(\ref{eq:init_yhat})}{\Longrightarrow} &          \yhat &\approx& \y          \\
+		                                       &     \H (\P\z ) &\approx& \P\y        \\ 
+		\Longrightarrow                        & P^{-1}\H(\P\z) &\approx& \P^{-1}\P\y \\
+		\overset{(\ref{eq:init_yhat})}{\Longrightarrow} & \yhat &\approx& \y          \\
 	\end{array}
 	\label{eq:permutation_smoothness}
 \end{equation}
@@ -359,13 +359,14 @@ La funci\'on $\omega$ entre dos parches $\x_a$ y $\x_b$ se asume como el promedi
 	\omega(\x_a, \x_b) = \frac{\sum_{t \in S_a \cap S_b} (\x_a[t] - \x_b[t])^2}{|S_a \cap S_b|}
 	\label{eq:omega}
 \end{equation}
-Cuando $S_a \cap S_b = \emptyset$ se indetermina el valor de la funci\'on, en este caso se toma un valor lo suficientemente grande en su lugar. Este convenio se asume para evitar colocar dos parches consecutivos sin relaci\'on en el ordenamiento suave. Una soluci\'on simple es tomar ese valor suficientemente grande como $(4\mathbf{MAX_Z}^2 + 1)$, donde $\mathbf{MAX_Z}$ es el m\'aximo valor de $\Z$. Se puede demostrar que $4\mathbf{MAX_Z}^2 \ge \omega(\x_a, \x_b)$ cuando $S_a \cap S_b \not= \emptyset$:
+Cuando $S_a \cap S_b = \emptyset$ se indetermina el valor de la funci\'on, en este caso se toma un valor lo suficientemente grande en su lugar. Este convenio se asume para evitar colocar dos parches consecutivos sin relaci\'on en el ordenamiento suave. Una soluci\'on simple es tomar ese valor suficientemente grande como $(4\mathbf{MAX}^2_\Z + 1)$, donde $\mathbf{MAX_Z}$ es el m\'aximo de los valores absolutos de los elementos en la matriz $\Z$. Se puede demostrar que $4\mathbf{MAX}^2_\Z \ge \omega(\x_a, \x_b)$ para cualesquiera parches $\x_a$ y $\x_b$ tales que $S_a \cap S_b \not= \emptyset$:
 \begin{equation*}
+	\def\arraystretch{2.5}
 	\begin{array}{rcl}
 		\displaystyle
 		\omega(\x_a, \x_b) = \frac{\sum_{t \in S_a \cap S_b} (\x_a[t] - \x_b[t])^2}{|S_a \cap S_b|}
 		&\le& \displaystyle\frac{\sum_{t \in S_a \cap S_b} (|\x_a[t]| + |\x_b[t]|)^2}{|S_a \cap S_b|}\\
-		&\le& \displaystyle\frac{|S_a \cap S_b| (2|\mathbf{MAX_Z}|)^2}{|S_a \cap S_b|} = 4\mathbf{MAX_Z}^2 \quad\square\\
+		&\le& \displaystyle\frac{|S_a \cap S_b| (2\mathbf{MAX_Z})^2}{|S_a \cap S_b|} = 4\mathbf{MAX}^2_\Z \quad\square
 	\end{array}
 \end{equation*}
 
@@ -373,24 +374,24 @@ Como operador de suavidad $\H$ se escoge la interpolaci\'on polinomial por tramo
 
 \subsection{Costo computacional del esquema}
 
-Se analiza primeramente la complejidad temporal del esquema final:
+Se analiza primeramente la complejidad temporal del esquema final. Siguiendo cada una de sus fases:
 \begin{itemize}
 	\item Construir $\X$ se hace en $O(nN_p)$.
 	\item Ejecutar el algoritmo \ref{al:PRA} para obtener la matriz de permutaci\'on es $O(N_pB^2n)$, pues por cada parche se busca en su vecindad de $B \times B$ comparando con $\omega$, que en nuestro caso tiene un costo de evaluaci\'on de $O(n)$.
-	\item Aplicar la permutaci\'on obtenida a cada una de las $n$ subim\'agenes se realiza en $O(nN_p)$.
-	\item Aplicar el operador $\H$ (\textit{splines} c\'ubicos) a cada resultado anterior, igualmente es en $O(nN_p)$.
+	\item Aplicar la permutaci\'on obtenida a las $n$ subim\'agenes se realiza en $O(nN_p)$.
+	\item Aplicar el operador $\H$ (\textit{splines} c\'ubicos) a cada resultado anterior, se logra en $O(nN_p)$.
 	\item Aplicar la permutaci\'on inversa para obtener las $n$ señales recuperadas también se realiza en $O(nN_p)$.
-	\item Acoplar las $n$ subim\'agenes para obtener una imagen completa recuperada se realiza en $O(nN)$.
+	\item Acoplar las $n$ subim\'agenes en la imagen completa se realiza en $O(nN)$.
 	\item Ejecutar los 5 pasos anteriores $K$ veces distintas para obtener $K$ im\'agenes completas recuperadas: $K[O(N_pB^2n) + O(nN_p) + O(nN)]$
 	\item Promediar las $K$ im\'agenes recuperadas para obtener la final: $O(KN)$
 \end{itemize}
-Teniendo en cuenta todos estos costos intermedios y que $N_p < N$ se concluye que la complejidad temporal del esquema final es:
+Ya que $N_p < N$, se concluye que la complejidad temporal del esquema final es:
 \begin{equation}
 	O(nN) + K[O(NB^2n) + O(nN)] + O(KN) = \boxed{O(KNB^2n)}
 	\label{eq:temporal_complexity}
 \end{equation}
 
-En el caso de la complejidad espacial se tiene que:
+En el caso de la complejidad espacial, de igual forma, se analiza cada una de las fases del esquema final:
 \begin{itemize}
 	\item Almacenar $\X$ ocupa $O(nN_p)$ de memoria.
 	\item Una permutaci\'on puede almacenarse en $O(Np)$ de memoria.

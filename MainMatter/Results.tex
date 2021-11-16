@@ -1,5 +1,5 @@
 \chapter{Experimentaci\'on y resultados}\label{chapter:results}
-En este cap\'itulo se muestran los resultados de la experimentaci\'on realizada con el esquema de restauraci\'on propuesto en el Cap\'itulo \ref{chapter:scheme}, sobre una serie de im\'agenes digitales tomadas de ciertas colecciones de inter\'es. La implementaci\'on usada es la presentada en el Cap\'itulo \ref{chapter:code}, donde adem\'as se sugiri\'o la estrategia de realizar restauraciones consecutivas que aprovechan la restauraci\'on anterior. La efectividad de la estrategia mencionada se mide de conjunto con la calidad de las restauraciones. Con el objetivo de establecer comparativas, se realizaron otros dos tipos de restauraciones sobre las mismas im\'agenes. Para distinguir del resto la restauraci\'on propuesta en este trabajo, se usan en su lugar las siglas \SOP/ a modo de abreviaci\'on.
+En este cap\'itulo se muestran los resultados de la experimentaci\'on realizada con el esquema de restauraci\'on propuesto en el Cap\'itulo \ref{chapter:scheme}, sobre una serie de im\'agenes digitales tomadas de ciertas colecciones de inter\'es. La implementaci\'on usada es la presentada en el Cap\'itulo \ref{chapter:code}, donde adem\'as se sugiri\'o la estrategia de realizar restauraciones consecutivas que aprovechan la restauraci\'on anterior. La efectividad de la estrategia mencionada se mide de conjunto con la calidad de las restauraciones. Con el objetivo de establecer comparaciones, se realizaron otros dos tipos de restauraciones sobre las mismas im\'agenes. Para distinguir del resto la restauraci\'on propuesta en este trabajo, se usan en su lugar las siglas \SOP/ a modo de abreviatura.
 
 Como primera restauraci\'on de referencia se cuenta con el trabajo realizado por Alexandru Telea en 2004 \cite{telea2004image}. Como se mencion\'o brevemente en la Introducci\'on, esta restauraci\'on se basa en el m\'etodo \textit{fast marching}. La idea principal es propagar la informaci\'on desde la frontera de las zonas incompletas hacia su interior, completando cada p\'ixel usando un promedio con pesos de los elementos en su vecindad de radio dado. Una vez que se restaura un p\'ixel, se mueve al siguiente usando el m\'etodo \textit{fast marching}. Para referirse a esta restauraci\'on se usan las siglas \TELEA/ en su lugar.
 
@@ -43,7 +43,7 @@ Descripci\'on general del experimento:
 		\centering
 		\begin{tikzpicture}[x=.00048828125\textwidth, y=.00048828125\textwidth, spy using outlines]
 			\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.25\textwidth]{Experiments/Berkeley/mask_512_512.tif}};
-			\spy [red,draw,height=0.25\textwidth,width=0.25\textwidth,magnification=32,connect spies] on (300, 400) in node at (1024, 256);
+			\spy[red,draw,height=0.25\textwidth,width=0.25\textwidth,magnification=32,connect spies] on (300, 400) in node at (1024, 256);
 		\end{tikzpicture}
 		\caption{Subregi\'on ampliada de la m\'ascara de dimensi\'on $512 \times 512$. P\'ixeles blancos (valor 255) indican p\'ixeles faltantes en la imagen donde se aplique.}
 		\label{fig:mask_zoom}
@@ -77,7 +77,7 @@ Descripci\'on general del experimento:
 		\item Restauraci\'on \TELEA/ con radio de vecindad $8$, para ambos grupos.
 		\item Restauraci\'on \NS/ con radio de vecindad $8$, para ambos grupos.
 	\end{enumerate}
-	\item La m\'etrica a usar para comparar los resultados de las diferentes restauraciones es la medida \PSNR/.
+	\item La m\'etrica a usar para comparar los resultados de las diferentes restauraciones es la medida \PSNR/ \cite{enwiki:psnr}.
 \end{itemize}
 
 \input{Experiments/BerkeleyA}
@@ -85,7 +85,7 @@ Descripci\'on general del experimento:
 A continuaci\'on se muestran los resultados del primer experimento en las tablas \ref{tab:BerkeleyA} y \ref{tab:BerkeleyB}. En ambas tablas se resaltan por cada una de sus filas, el mayor (de color azul) y el menor valor (de color rojo) que alcanz\'o la m\'etrica.
 
 \BerkeleyA{Medida \PSNR/ de los tres tipos de restauraciones en el grupo (A).}{teal}{red}
-Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agenes del grupo (A), la restauraci\'on de mejor calidad seg\'un la m\'etrica \PSNR/ es \SOP/ con la estrategia de restauraciones consecutivas. En cambio, la de menos calidad resulta la restauraci\'on de referencia \TELEA/. Por otro lado, \NS/ a pesar de que muestra altos valores de la m\'etrica, tambi\'en queda por debajo de la iteraci\'on 3 de \SOP/, y no muy por encima de la iteraci\'on inicial. El caso de la imagen \texttt{house.tif} (ver figura \ref{fig:house.tif}) es donde se alcanz\'o la mayor calidad de restauraci\'on con \SOP/, y con la imagen \texttt{walkbridge.tif} (ver figura \ref{fig:walkbridge.tif}) se obtuvo la peor calidad en este grupo. Ahora bien, analizando los datos de la tabla \ref{tab:BerkeleyA_diffs} es posible observar como, en promedio, la segunda iteraci\'on aumenta la m\'etrica notablemente respecto a la primera iteraci\'on. De igual forma, pero en menor medida sucede con la tercera y la segunda. Los resultados muestran que la estrategia de restauraciones \SOP/ consecutivas es efectiva, sobretodo una segunda restauraci\'on es casi necesaria. Realizar 3 o m\'as depender\'a de las necesidades y poder de c\'omputo del usuario que considere oportuno y ventajoso ejecutarlas. 
+Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agenes del grupo (A), la restauraci\'on de mejor calidad seg\'un la m\'etrica \PSNR/ es \SOP/ con la estrategia de restauraciones consecutivas. En cambio, la de menos calidad resulta la restauraci\'on de referencia \TELEA/. Por otro lado, \NS/ a pesar de que muestra altos valores de la m\'etrica, tambi\'en queda por debajo de la iteraci\'on 3 de \SOP/, y no muy por encima de la iteraci\'on inicial. El caso de la imagen \texttt{house.tif} (ver figura \ref{fig:house.tif}) es donde se alcanz\'o la mayor calidad de restauraci\'on con \SOP/, y con la imagen \texttt{walkbridge.tif} (ver figura \ref{fig:walkbridge.tif}) se obtuvo la peor calidad en este grupo. Ahora bien, analizando los datos de la tabla \ref{tab:BerkeleyA_diffs} es posible observar como, en promedio, la segunda iteraci\'on aumenta la m\'etrica notablemente respecto a la primera iteraci\'on. De igual forma, pero en menor medida sucede con la tercera y la segunda. Los resultados muestran que la estrategia de restauraciones \SOP/ consecutivas es efectiva, sobre todo una segunda restauraci\'on es casi necesaria. Realizar 3 o m\'as depender\'a de las necesidades y poder de c\'omputo del usuario que considere oportuno y ventajoso ejecutarlas. 
 
 \BerkeleyAdiffs{Diferencias entre promedios de las medidas \PSNR/ en el grupo (A).}
 
@@ -107,7 +107,7 @@ Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agene
 \end{figure}
 
 \begin{scriptsize}
-	*Todas las im\'agenes y sus restauraciones se encuentran en una carpeta adjunta a este documento.
+	*Todas las im\'agenes del grupo (A) y sus restauraciones se encuentran en una carpeta adjunta a este documento.
 \end{scriptsize}
 
 \begin{figure}[H]
@@ -119,9 +119,13 @@ Como se puede apreciar en la tabla \ref{tab:BerkeleyA}, para todas las im\'agene
 
 \BerkeleyB{Medida \PSNR/ de los tres tipos de restauraciones para el grupo (B).}{teal}{red}
 
-Los resultados del experimento con el grupo de im\'agenes (B) en la tabla \ref{tab:BerkeleyB} muestran en general una menor medida \PSNR/ respecto al grupo (A). Se debe recordar que la resoluci\'on de todas las im\'agenes de (B) es menor en comparaci\'on con el grupo (A). Por otro lado, puede percatarse que en el caso de (B), en la mayor\'ia de sus im\'agenes existen objetos con mucho nivel de detalle en planos alejados, en cambio, en (A) la tendencia es contener objetos en primer plano. Sin embargo, las diferencias entre los 3 tipos de restauraciones se mantuvieron de forma similar. La iteraci\'on 3 de \SOP/ es en general la de mayor medida \PSNR/, aunque en esta ocasión no ocurrió siempre, ya que en el caso de la imagen \texttt{im16.jpg} la restauraci\'on \NS/ fue la mejor. Se puede apreciar tambi\'en que en la imagen \texttt{im19.jpg} la iteraci\'on 3 de \SOP/ fue contraproducente, pues disminuy\'o la métrica con respecto a la segunda. Nuevamente, \TELEA/ arroj\'o los peores resultados de la m\'etrica en general, sin dejar de destacar que la primera restauración \SOP/ fue la peor en 3 im\'agenes. En cuanto a las diferencias entre los promedios de la tabla \ref{tab:BerkeleyB_diffs}, se confirma la efectividad de la segunda restauraci\'on \SOP/ y de la estrategia en general. Tambi\'en se tiene que la brecha entre \NS/ y la primera iteraci\'on de \SOP/ es mayor con respecto a la del grupo (A), lo que implica la necesidad de hacer restauraciones \SOP/ consecutivas. La imagen donde se observaron las mejores m\'etricas fue \texttt{im24.jpg} (ver figura \ref{fig:im24.jpg}), como se puede notar se trata de un objeto (ping\"uino) en un plano cercano y con poco detalle. El caso de las peores m\'etricas fue la imagen \texttt{im16.jpg} (ver figura \ref{fig:im16.jpg}), la cual tiene un objeto (caballo) en el fondo, y le rodea un paisaje con muchos detalles.
+Los resultados del experimento con el grupo de im\'agenes (B) en la tabla \ref{tab:BerkeleyB} muestran en general una menor medida \PSNR/ respecto al grupo (A). Se debe recordar que la resoluci\'on de todas las im\'agenes de (B) es menor en comparaci\'on con el grupo (A). Por otro lado, para el caso de (B), en la mayor\'ia de sus im\'agenes existen objetos con mucho nivel de detalle en planos alejados, en cambio, en (A) la tendencia es contener objetos en primer plano. Sin embargo, las diferencias entre los 3 tipos de restauraciones se mantuvieron de forma similar. La iteraci\'on 3 de \SOP/ es en general la de mayor medida \PSNR/, aunque en esta ocasión no ocurrió siempre, ya que en el caso de la imagen \texttt{im16.jpg} la restauraci\'on \NS/ fue la mejor. Se puede apreciar tambi\'en que en la imagen \texttt{im19.jpg} la iteraci\'on 3 de \SOP/ fue contraproducente, pues disminuy\'o la métrica con respecto a la segunda. Nuevamente, \TELEA/ arroj\'o los peores resultados de la m\'etrica en general, sin dejar de destacar que la primera restauración \SOP/ fue la peor en 3 im\'agenes. En cuanto a las diferencias entre los promedios de la tabla \ref{tab:BerkeleyB_diffs}, se confirma la efectividad de la segunda restauraci\'on \SOP/ y de la estrategia en general. Tambi\'en se tiene que la brecha entre \NS/ y la primera iteraci\'on de \SOP/ es mayor con respecto a la del grupo (A), lo que implica la necesidad de hacer restauraciones \SOP/ consecutivas. La imagen donde se observaron las mejores m\'etricas fue \texttt{im24.jpg} (ver figura \ref{fig:im24.jpg}), como se puede notar se trata de un objeto (ping\"uino) en un plano cercano y con poco detalle. El caso de las peores m\'etricas fue la imagen \texttt{im16.jpg} (ver figura \ref{fig:im16.jpg}), la cual tiene un objeto (caballo) en el fondo, y le rodea un paisaje con muchos detalles.
 
 \BerkeleyBdiffs{Diferencias entre promedios de las medidas \PSNR/ en el grupo (B).}
+
+\begin{scriptsize}
+	*Todas las im\'agenes del grupo (B) y sus restauraciones se encuentran en una carpeta adjunta a este documento.
+\end{scriptsize}
 
 \begin{figure}[h]
 	\centering
@@ -142,7 +146,7 @@ Finalmente, haciendo un an\'alisis conjunto de los resultados del experimento en
 \section{Caso de estudio 2: Restauraci\'on en im\'agenes de Colposcop\'ia}
 Descripci\'on general del experimento:
 \begin{itemize}
-	\item En este caso se experimentan con im\'agenes de colposcop\'ia. Una colposcop\'ia es un examen que se realiza al cuello del \'utero de la mujer, tomando im\'agenes del mismo usando un colposcopio (instrumento o\'ptico preparado para este tipo de examen que monitorea determinados par\'ametros). Al inicio del proceso se aplica una solución salina con el objetivo de eliminar las secreciones del cérvix y revelar los vasos sanguíneos. Soluciones de ácido acético se aplican para identificar anomalías epiteliales que se expresan a través de una coloración blanca. Sin embargo, su diagnóstico se ve afectado por la aparición de regiones especulares, en las que se concentra el reflejo de la fuente de luz utilizada al realizar la prueba \cite{dgomez2018tesis}. Precisamente estas zonas son las que se toman con parte faltante de la imagen y mediante su restauraci\'on se logran eliminar.
+	\item En este caso se experimenta con im\'agenes de colposcop\'ia. Una colposcop\'ia es un examen visual que se realiza al cuello del \'utero de la mujer, tomando im\'agenes del mismo usando un colposcopio (instrumento o\'ptico preparado para este tipo de examen que monitorea determinados par\'ametros). Al inicio del proceso se aplica una solución salina con el objetivo de eliminar las secreciones del cérvix y revelar los vasos sanguíneos. Soluciones de ácido acético se aplican para identificar anomalías epiteliales que se expresan a través de una coloración blanca. Sin embargo, su diagnóstico se ve afectado por la aparición de regiones especulares, en las que se concentra el reflejo de la fuente de luz utilizada al realizar la prueba \cite{dgomez2018tesis}. Precisamente estas zonas son las que se asumen como parte faltante de la imagen y mediante su restauraci\'on se logran eliminar.
 	
 	\item Se seleccionaron 10 im\'agenes todas a color, de ellas:
 	\begin{itemize}
@@ -150,7 +154,7 @@ Descripci\'on general del experimento:
 		\item Conforman el grupo (D): 5 im\'agenes de dimensi\'on $480 \times 480$.
 	\end{itemize}
 	
-	\item Cada imagen tiene asociada una m\'ascara que define las regiones especulares que se desean eliminar. Estas m\'ascaras fueron tomadas de trabajos anteriores, lo cuales se obtuvieron mediante el uso de filtros que detectan los p\'ixeles de brillo intenso.
+	\item Cada imagen tiene asociada una m\'ascara que define las regiones especulares que se desean eliminar. Estas m\'ascaras fueron tomadas de trabajos anteriores, las cuales se obtuvieron mediante el uso de filtros que detectan los p\'ixeles de brillo intenso.
 	
 	\item Se realizaron 3 tipos diferentes de restauraciones, de la siguiente forma:
 	\begin{enumerate}
@@ -180,12 +184,12 @@ Descripci\'on general del experimento:
 		\item Restauraci\'on \TELEA/ con radio de vecindad $8$, para ambos grupos.
 		\item Restauraci\'on \NS/ con radio de vecindad $8$, para ambos grupos.
 	\end{enumerate}
-	\item Para las im\'agenes de colposcop\'ia con brillo no es posible usar alguna m\'etrica de calidad, pues se desconoce la imagen real. Todas las consideraciones ser\'an visuales y fruto de la comparativa con las restauraciones \TELEA/ y \NS/.  
+	\item Para las im\'agenes de colposcop\'ia con brillo no es posible usar alguna m\'etrica de calidad, pues se desconoce la imagen real. Todas las consideraciones ser\'an visuales y fruto de la comparaci\'on con las restauraciones \TELEA/ y \NS/.  
 \end{itemize}
 
 \qquad
 
-Se comienza analizando primeramente los resultados del experimento con el grupo (C), las restauraciones de dos im\'agenes de dicho grupo se muestran en las figuras \ref{fig:5-1.bmp} y \ref{fig:48-1.bmp}. Como se puede observar, las restauraciones de referencia \TELEA/ y \NS/ logran las restauraciones con buena calidad visual, eliminando por completo las zonas especulares. Ambas restauraciones resultan muy \'utiles en este escenario debido a sus propios esquemas de restauraci\'on descritos al inicio de este cap\'itulo. Debe recordarse que ambos exploran de forma eficiente los bordes de las zonas incompletas y propagan la información hacia su interior. Cuando estos bordes son regulares y continuos, m\'as efectivos son ambos m\'etodos. Precisamente, las m\'ascaras asociada a cada imagen cumplen con la propiedad anteriormente mencionada (ver figura \ref{fig:colposcopy_masks_c}).
+Se comienza analizando primeramente los resultados del experimento con el grupo (C), las restauraciones de dos im\'agenes de dicho grupo se muestran en las figuras \ref{fig:5-1.bmp} y \ref{fig:48-1.bmp}. Como se puede observar, las restauraciones de referencia \TELEA/ y \NS/ logran resultados con buena calidad visual, eliminando por completo las zonas especulares. Ambas restauraciones resultan muy \'utiles en este escenario debido a sus propios esquemas de restauraci\'on descritos al inicio de este cap\'itulo. Debe recordarse que ambos exploran de forma eficiente los bordes de las zonas incompletas y propagan la información hacia su interior. Cuando los bordes son regulares y continuos, los m\'etodos \TELEA/ y \NS/ son m\'as efectivos. Precisamente, las m\'ascaras asociadas a cada imagen cumplen con la propiedad anteriormente mencionada (ver figura \ref{fig:colposcopy_masks_c}).
 
 \begin{figure}[H]
 	\centering
@@ -193,7 +197,7 @@ Se comienza analizando primeramente los resultados del experimento con el grupo 
 	\subfigure[M\'ascara de \texttt{5-1.bmp}]{\includegraphics[width=0.4\linewidth]{Experiments/Colposcopy/5-1_mask.bmp}}\\
 	\subfigure[Imagen \texttt{48-1.bmp}]{\includegraphics[width=0.4\linewidth]{Experiments/Colposcopy/48-1.bmp}}
 	\subfigure[M\'ascara de \texttt{48-1.bmp}]{\includegraphics[width=0.4\linewidth]{Experiments/Colposcopy/48-1_mask.bmp}}
-	\caption{M\'ascaras usadas para eliminar las zonas especulares de sus respectivas im\'agenes.}
+	\caption{M\'ascaras usadas para eliminar las zonas especulares de sus respectivas im\'agenes del grupo (C).}
 	\label{fig:colposcopy_masks_c}
 \end{figure}
 
@@ -221,24 +225,32 @@ Se comienza analizando primeramente los resultados del experimento con el grupo 
 \end{figure}
 
 \begin{scriptsize}
-	*Todas las im\'agenes y sus restauraciones se encuentran en una carpeta adjunta a este documento.
+	*Todas las im\'agenes del grupo (C) y sus restauraciones se encuentran en una carpeta adjunta a este documento.
 \end{scriptsize}
 
 En cuanto a la restauraci\'on \SOP/, queda en evidencia que no funcion\'o en ninguna de las im\'agenes. Las segundas y terceras iteraciones de \SOP/ fallan igualmente pues estas utilizan los resultados de la restauraci\'on anterior. Urge responder a la pregunta de por qu\'e no fue efectivo el esquema de ordenamiento suave de parches en este escenario.
 
 \begin{figure}[H]
 	\centering
-	\begin{tikzpicture}[spy using outlines]
-		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.5\textwidth]{Experiments/Colposcopy/48-1_example.bmp}};
-		\spy [blue,draw,height=0.3\textwidth,width=0.3\textwidth,magnification=6,connect spies] on (6.38, 1.35) in node at (11, 2.5);
+	\begin{tikzpicture}[x=.00075\linewidth,y=.00075\linewidth,spy using outlines={every spy on node/.append style={thick}}]
+		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.54\textwidth]{Experiments/Colposcopy/48-1_corrupted.bmp}};
+		\draw[-,white,very thin] (588, 100) rectangle ++(4,4) (603,  97) rectangle ++(4,4) (589, 110) rectangle ++(4,4);
+		\draw[-,white,very thin] (608, 107) rectangle ++(4,4) (593, 121) rectangle ++(4,4) (603, 117) rectangle ++(4,4);
+		\draw[-,white,very thin] (616, 118) rectangle ++(4,4) (595, 130) rectangle ++(4,4) (607, 128) rectangle ++(4,4);
+		\draw[-,white,very thin] (597, 107) rectangle ++(4,4) (595, 140) rectangle ++(4,4) (619, 129) rectangle ++(4,4);
+		\draw[-,white,very thin] (605, 141) rectangle ++(4,4) (613, 140) rectangle ++(4,4) (602, 152) rectangle ++(4,4);
+		\draw[-,blue,very thin] (582, 117) rectangle ++(4,4) (580, 125) rectangle ++(4,4) (579, 131) rectangle ++(4,4);
+		\draw[-,blue,very thin] (583, 141) rectangle ++(4,4) (623, 104) rectangle ++(4,4) (628, 108) rectangle ++(4,4);
+		\draw[-,blue,very thin] (632, 116) rectangle ++(4,4) (633, 127) rectangle ++(4,4) (632, 136) rectangle ++(4,4);
+		\spy[red,circle,height=0.36\textwidth,width=0.36\textwidth,magnification=6,connect spies] on (608, 128) in node at (1050, 240);
 	\end{tikzpicture}
-	\caption{Imagen de colposcop\'ia \texttt{48-1.bmp} con su m\'ascara aplicada (en negro). En la ampliaci\'on los cuadros de bordes blancos representan los parches de $5 \times 5$ vac\'ios, y de amarillo aquellos que tienen informaci\'on. Los cuadros de borde rojo, ejemplos de la vecindad de $6 \times 6$ explorable.}
+	\caption{Imagen de colposcop\'ia \texttt{48-1.bmp} con su m\'ascara aplicada (en negro). En la ampliaci\'on los cuadros de bordes blancos representan los parches de $5 \times 5$ vac\'ios, y de color azul aquellos que tienen informaci\'on.}
 	\label{fig:colposcopy_zoom}
 \end{figure}
 
- En primer lugar se tienen en cuenta los par\'ametros utilizados (ver tabla \ref{tab:params_c}). En la primera iteraci\'on se usan $K=10$, $\sqrt{n}=5$ y $B=6$. Por lo tanto los parches tienen dimensi\'on $5 \times 5$ y exploran su vecindad de $6 \times 6$. Tal y como muestra la figura \ref{fig:colposcopy_zoom}, en el caso de la imagen \texttt{48-1.bmp} existe una gran cantidad de parches \textit{vac\'ios}\footnote{Enti\'endase por \textit{parche vac\'io}, aquel que todos sus p\'ixles son faltantes.} y todos (o casi todos) los parches en sus vecindades tambi\'en lo son. Lo anterior se debe a que las zonas de p\'ixeles faltantes son compactas y no contienen p\'ixeles con informaci\'on en su interior, lo que implica que la mayor\'ia de p\'ixeles a restaurar son centro de parches vac\'ios. Las consecuencias de tener muchos parches vac\'ios es que se pierde la garant\'ia de obtener una ordenaci\'on suave de los mismos mediante el algoritmo \ref{al:PRA}. Por la definici\'on de $\omega$ en (\ref{eq:omega}) se tiene que si $\x$ es un parche vaci\'o, el valor de $\omega(\x,\; \x')$ es el mismo para todo parche $\x'$. Entonces cuando se resuelve \TSP/ la posici\'on donde se coloquen los parches vac\'ios no altera el costo del camino. Si no se tiene seguridad de que la ordenaci\'on es suave, entonces aplicar el operador de suavidad $H$ pierde su objetivo, y los p\'ixeles que se recuperan mediante dicho operador tendr\'an valores pr\'acticamente aleatorios, como se muestran en los resultados previos.
+ En primer lugar se tienen en cuenta los par\'ametros utilizados (ver tabla \ref{tab:params_c}). En la primera iteraci\'on se usan $K=10$, $\sqrt{n}=5$ y $B=6$. Por lo tanto los parches tienen dimensi\'on $5 \times 5$ y exploran su vecindad de $6 \times 6$. Tal y como muestra la figura \ref{fig:colposcopy_zoom}, en el caso de la imagen \texttt{48-1.bmp} existe una gran cantidad de parches \textit{vac\'ios}\footnote{Enti\'endase por \textit{parche vac\'io}, aquel que todos sus p\'ixles son faltantes.} y todos (o casi todos) los parches en sus vecindades tambi\'en lo son. Lo anterior se debe a que las zonas de p\'ixeles faltantes son compactas y no contienen p\'ixeles con informaci\'on en su interior, lo que implica que la mayor\'ia de p\'ixeles a restaurar son centro de parches vac\'ios. Las consecuencias de tener muchos parches vac\'ios es que se pierde la garant\'ia de obtener una ordenaci\'on suave de los mismos mediante el algoritmo \ref{al:PRA}. Por la definici\'on de $\omega$ en (\ref{eq:omega}) se tiene que si $\x$ es un parche vac\'io, el valor de $\omega(\x,\; \x')$ es el mismo para todo parche $\x'$. Entonces cuando se resuelve \TSP/, la posici\'on donde se coloquen los parches vac\'ios no altera el costo del camino. Si no se tiene seguridad de que la ordenaci\'on es suave, entonces aplicar el operador de suavidad $H$ pierde su objetivo, y los p\'ixeles que se recuperan mediante dicho operador tendr\'an valores pr\'acticamente aleatorios, como se muestran en los resultados previos.
  
- Por lo anteriormente expuesto, los parches vac\'ios son un caso problem\'atico para el esquema de restauraci\'on presentado en este trabajo. Se debe escoger entonces el valor de $\sqrt{n}$ en pos de minimizar la cantidad de parches vac\'ios. En el caso de las im\'agenes del grupo (C), no solo $\sqrt{n} = 5$ es insuficiente, sino que la mayor\'ia de p\'ixeles a recuperar son centros de parches vaci\'os. Se realiz\'o un pequeño experimento con la propia imagen \texttt{48-1.bmp}, aumentando el valor de $\sqrt{n}$ a 16 para realizar la restauraci\'on nuevamente.
+ Por lo anteriormente expuesto, los parches vac\'ios son un caso problem\'atico para el esquema de restauraci\'on presentado en este trabajo. Se debe escoger entonces el valor de $\sqrt{n}$ en pos de minimizar la cantidad de parches vac\'ios. En el caso de las im\'agenes del grupo (C), no solo $\sqrt{n} = 5$ es insuficiente, sino que la mayor\'ia de p\'ixeles a recuperar son centros de parches vac\'ios. Se realiz\'o un pequeño experimento con la propia imagen \texttt{48-1.bmp}, aumentando el valor de $\sqrt{n}$ a 16 para realizar la restauraci\'on nuevamente.
  \begin{figure}[H]
  	\centering
  	\subfigure[Restauraci\'on con $\sqrt{n} = 6$]{\begin{tikzpicture}[x=.000625\linewidth, y=.000625\linewidth]
@@ -252,7 +264,7 @@ En cuanto a la restauraci\'on \SOP/, queda en evidencia que no funcion\'o en nin
  	\caption{Imagen \texttt{48-1.bmp} restaurada con \SOP/ usando distintos tamaños de los parches. Señalada en rojo la zona donde se notan las diferencias.}
  	\label{fig:patches_diffs}
  \end{figure}
-Como se aprecia en la figura \ref{fig:patches_diffs} la nueva restauraci\'on con $\sqrt{n} = 16$ es claramente mejor. Excepto en la franja lateral derecha donde se siguen detectando p\'ixeles mal recuperados, en el resto de la imagen el resultado es alentador. Esa zona con p\'ixeles mal recuperados no es m\'as que aquellos de centros de parches vac\'ios a\'un con $\sqrt{n} = 16$. Para reducir a 0 la cantidad de parches vac\'ios en el caso de la imagen \texttt{48-1.bmp} se necesita $\sqrt{n} > 32$. El experimento con dicho valor de $\sqrt{n}$ no se pudo llevar a cabo por restricciones de la memoria \textbf{RAM} del equipo de c\'omputo donde se realizaron los experimentos. Se ha de recordar la complejidad espacial del algoritmo calculada en (\ref{eq:spacial_complexity}), donde el valor de $n$ es importante, ya que $\sqrt{n} > 32 \implies n > 1024$.
+Como se aprecia en la figura \ref{fig:patches_diffs} la nueva restauraci\'on con $\sqrt{n} = 16$ es claramente mejor. Excepto en la franja lateral derecha donde se siguen detectando p\'ixeles mal recuperados. En el resto de la imagen el resultado de la restauraci\'on es alentador. En las zonas mal recuperadas se observa que cada p\'ixel con informaci\'on errónea es precisamente el centro de un parche vac\'io, a\'un con $\sqrt{n} = 16$. Para reducir a 0 la cantidad de parches vac\'ios en el caso de la imagen \texttt{48-1.bmp} se necesita $\sqrt{n} > 32$. El experimento con dicho valor de $\sqrt{n}$ no se pudo llevar a cabo por restricciones de la memoria \textbf{RAM} del equipo de c\'omputo donde se realizaron los experimentos. Se ha de recordar la complejidad espacial del algoritmo calculada en (\ref{eq:spacial_complexity}), donde el valor de $n$ es importante, ya que $\sqrt{n} > 32 \implies n > 1024$.
 
 Otra cuesti\'on a analizar es el hecho de que la complejidad temporal del esquema \SOP/ es independiente de la cantidad de p\'ixeles con desinformaci\'on. Usando el resultado obtenido en (\ref{eq:temporal_complexity}) se concluye que la complejidad temporal de \SOP/ solo depende de el tamaño de la imagen, el tamaño del parche y el tamaño de la vecindad a explorar. A diferencia de las restauraciones \TELEA/ y \NS/, en el caso de \SOP/ toma un tiempo similar restaurar una imagen con 10\% de desinformaci\'on que una con 80\%. Esto sugiere que realizar la restauraci\'on de im\'agenes donde los p\'ixeles faltantes tienden a agruparse y no representan un gran porciento, puede llevarse a cabo en una subregi\'on rectangular que contenga todos los p\'ixeles a recuperar.
 
@@ -262,9 +274,11 @@ Otra cuesti\'on a analizar es el hecho de que la complejidad temporal del esquem
 	\subfigure[M\'ascara de \texttt{1.bmp}]{\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/1_mask.bmp}}\\
 	\subfigure[Imagen \texttt{3.bmp}]{\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/3.bmp}}
 	\subfigure[M\'ascara de \texttt{3.bmp}]{\includegraphics[width=0.3\linewidth]{Experiments/Colposcopy/3_mask.bmp}}
-	\caption{M\'ascaras usadas para eliminar las zonas especulares de sus respectivas im\'agenes.}
+	\caption{M\'ascaras usadas para eliminar las zonas especulares de sus respectivas im\'agenes del grupo (D).}
 	\label{fig:colposcopy_masks_d}
 \end{figure}
+
+Se analizan entonces los resultados del grupo (D). An\'alogamente se muestran las restauraciones de dos de las im\'agenes del grupo. Las m\'ascaras empleadas para eliminar las zonas especulares pueden observarse en la figura \ref{fig:colposcopy_masks_d}. A diferencia del grupo (C), las m\'ascaras del grupo (D) son un poco m\'as ajustadas a las zonas especulares, siendo en este caso m\'as irregulares y delgadas. Se debe recordar que para este grupo el par\'ametro $\sqrt{n} = 16$ es mayor al utilizado para (C). Las restauraciones de las figuras \texttt{1.bmp} y \texttt{3.bmp} se muestran en  las figuras \ref{fig:1.bmp} y \ref{fig:3.bmp}. En cuanto a \TELEA/ y \NS/, estas eliminan las zonas especulares, pero en su lugar tienden a propagar colores que no parecen ser los adecuados. En realidad ambas restauraciones est\'an funcionando como se espera. Al usar m\'ascaras muy ajustadas, cerca de sus bordes se pueden observar p\'ixeles de color negro, azul, verde, entre otros que no concuerdan con el tejido fotografiado (ver figura \ref{fig:3.bmp_color_borders}). Este fen\'omeno se debe a un efecto \'optico de la luz, la cual se divide en varios colores al pasar por el borde de una zona h\'umeda. Se trata de un defecto inherente al colposcopio con que se tom\'o la imagen, el cual debido a cuestiones referentes a su lente, no es capaz de evitar el efecto \'optico mencionado.
 
 \renewcommand\showColposcopyRestaurations[2]{
 \subfigure[Imagen colposc\'opica]{\includegraphics[width=0.225\linewidth]{Experiments/Colposcopy/#1.#2}}
@@ -288,30 +302,47 @@ Otra cuesti\'on a analizar es el hecho de que la complejidad temporal del esquem
 	\label{fig:3.bmp}
 \end{figure}
 
+\begin{scriptsize}
+	*Todas las im\'agenes del grupo (D) y sus restauraciones se encuentran en una carpeta adjunta a este documento.
+\end{scriptsize}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=.0006875\linewidth,y=.0006875\linewidth,spy using outlines={every spy on node/.append style={very thick}}]
+		\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[width=0.33\linewidth]{Experiments/Colposcopy/3.bmp}};
+		\spy[red,circle,height=0.25\textwidth,width=0.25\textwidth,magnification=4,connect spies] on (300, 250) in node at (730, 250);
+		\spy[red,circle,height=0.25\textwidth,width=0.25\textwidth,magnification=4,connect spies] on (130, 300) in node at (-250, 300);
+	\end{tikzpicture}
+	\caption{Coloraciones en el borde de las zonas de brillo de la imagen \texttt{3.bmp}.}
+	\label{fig:3.bmp_color_borders}
+\end{figure}
+
+Las dos iteraciones de la restauraci\'on \SOP/ muestran unos resultados similares a \TELEA/ y \NS/. A diferencia del grupo (C), donde no se recuperaban los p\'ixeles correctamente, en este caso si completa las zonas acorde a la informaci\'on de sus bordes. Pese a que, como ya se mencion\'o, los bordes contienen p\'ixeles de varios colores, sobre todo rebordes de color oscuro (ver figura \ref{fig:3.bmp_color_borders}). Esto confirma en cierta medida que el valor de $\sqrt{n}$ es determinante en la calidad de la restauraci\'on en im\'agenes donde la informaci\'on faltante se comporta como el brillo de las colposcop\'ias estudiadas. Se hace necesario entonces, contar con un mecanismo que permita estimar el m\'inimo valor de $\sqrt{n}$ que garantice la inexistencia de parches vac\'ios.
+
 \section{Propuestas basadas en los resultados}\label{sec:suggestions}
 
-Los resultados del experimento para el caso de estudio 1 mostraron que la restauraci\'on \SOP/ es efectiva cuando los p\'ixeles de desinformaci\'on est\'an distribuidos de forma tal que la cantidad de parches vac\'ios sea m\'inima. Adem\'as, dado que la complejidad temporal del esquema de restauraci\'on no depende de la cantidad de p\'ixeles incompletos, la potencialidad del algoritmo \ref{al:PRA} se explota al m\'aximo cuando dichos p\'ixeles están distruibuidos a lo largo de la matriz de la imagen de forma uniforme. Teniendo estos factores en cuentan se propone la aplicaci\'on del esquema \SOP/ en las siguientes lineas de investigaci\'on:
+Los resultados del experimento para el caso de estudio 1 mostraron que la restauraci\'on \SOP/ es efectiva cuando los p\'ixeles de desinformaci\'on est\'an distribuidos de forma tal que la cantidad de parches vac\'ios sea m\'inima. Adem\'as, dado que la complejidad temporal del esquema de restauraci\'on no depende de la cantidad de p\'ixeles incompletos, la potencialidad del algoritmo \ref{al:PRA} se explota al m\'aximo cuando dichos p\'ixeles están distruibuidos a lo largo de la matriz de la imagen de forma uniforme. Teniendo estos factores en cuenta se propone la aplicaci\'on del esquema \SOP/ en las siguientes lineas de investigaci\'on:
 \begin{itemize}
 	\item Compresi\'on de im\'agenes.
 	\item Aumento de la resoluci\'on de im\'agenes.
 	\item Eliminaci\'on de ruido en im\'agenes 
 \end{itemize}
 
-Para la compresi\'on de im\'agenes se propone el uso de m\'ascaras predefinidas que garanticen la propiedad de no contener parches vac\'ios para valores pequeños de $\sqrt{n}$. Mediante una m\'ascara de este tipo, se comprime la imagen almacenando solo los p\'ixeles señalados por la misma. El archivo de la imagen comprimida debe contener en sus metadatos las dimensiones de la imagen y la m\'ascara usada en la compresi\'on. La descompresi\'on se logra restaurando la imagen original con \SOP/ sobre los p\'ixeles almacenados mediante la m\'ascara con que fueron comprimidos. La m\'ascara debe tener una definici\'on matem\'atica que evite tener que almacenarla como una matriz. Por ejemplo, se define una m\'ascara $t$\textit{-diagonal} $M_t = \{m_{i,j}\}$, tal que:
+Para la compresi\'on de im\'agenes se propone el uso de m\'ascaras predefinidas que garanticen la propiedad de no contener parches vac\'ios para valores pequeños de $\sqrt{n}$. Mediante una m\'ascara de este tipo, se comprime la imagen almacenando solo los p\'ixeles señalados por la misma. El archivo de la imagen comprimida debe contener en sus metadatos las dimensiones de la imagen y la m\'ascara usada en la compresi\'on. La descompresi\'on se logra restaurando la imagen original con \SOP/ sobre los p\'ixeles almacenados mediante la m\'ascara con que fueron comprimidos. La m\'ascara debe tener una definici\'on matem\'atica que evite tener que almacenarla como una matriz. Por ejemplo, se define una m\'ascara $t$\textit{-diagonal} $M_t = \{m_{i,j}\}$, tal que\footnote{La notaci\'on $p \mid q$ significa \textit{$p$ divide a $q$} o que \textit{$q$ es m\'ultiplo de $p$}.}:
 \begin{equation}
 	m_{i, j} = \left\{\begin{array}{rl}
-		0 & \mbox{cuando} \quad t \bigm| |i - j|\\
+		0 & \mbox{cuando} \quad t \mid (i - j)\\
 		255 & \mbox{para el resto} \\
 	\end{array}\right.
 \end{equation}
-De esta forma solo es necesario almacenar el valor de $t$ en los metadatos del archivo comprimido. En la figura \ref{fig:mask_5_diagonal} se ejemplica como se forma una m\'ascara $5$\textit{-diagonal}. La cantidad de p\'ixeles que selecciona una m\'ascara $t$\textit{-diagonal} de la imagen a comprimir representa aproximadamente $1/t$ de la cantidad inicial. Si la imagen a comprimir $\Y$ tiene dimensi\'on $N_1 \times N_2$ con $N = N_1N_2$, entonces la cantidad de p\'ixeles $N_c$ a los que se reduce la imagen mediante una m\'ascara $t$\textit{-diagonal} de igual dimensi\'on que $Y$, cumple que:
+De esta forma solo es necesario almacenar el valor de $t$ en los metadatos del archivo comprimido. En la figura \ref{fig:mask_5_diagonal} se ejemplica c\'omo se forma una m\'ascara $5$\textit{-diagonal}. La cantidad de p\'ixeles que selecciona una m\'ascara $t$\textit{-diagonal} de la imagen a comprimir representa aproximadamente $1/t$ de la cantidad inicial. Si la imagen a comprimir $\Y$ tiene dimensi\'on $N_1 \times N_2$ con $N = N_1N_2$, la cantidad de p\'ixeles $N_c$ a los que se reduce la imagen mediante una m\'ascara $t$\textit{-diagonal} de igual dimensi\'on que $Y$, cumple que:
 \begin{equation}
 	N_c < \frac{N}{t} + 1
 \end{equation}
 M\'as a\'un, si $t | N_1$ o $t | N_2$, entonces $N_c = \frac{N}{t}$. Por otro lado, cualquier parche con $\sqrt{n} > \frac{t}{2}$ contiene al menos un p\'ixel no faltante cuando se usa una m\'ascara $t$\textit{-diagonal}. En conlusi\'on, mediante este tipo de m\'ascaras podemos comprimir la imagen a una raz\'on de compresi\'on deseada y adem\'as esa raz\'on determina el m\'inimo tamaño de parche para hacer la restauraci\'on.
 \begin{figure}[H]
 	\centering
-	\begin{tikzpicture}[x=4mm, y=4mm, rotate=-90]
+	\begin{tikzpicture}[x=3mm, y=3mm, rotate=-90]
 		\foreach \i in {0, 5, ..., 15}
 			\foreach \j in {0, 5, ..., 15} {
 				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
@@ -339,18 +370,25 @@ M\'as a\'un, si $t | N_1$ o $t | N_2$, entonces $N_c = \frac{N}{t}$. Por otro la
 \end{figure}
 Usando una m\'ascara \textit{5-diagonal} las im\'agenes se comprimen a un 20\% de su informaci\'on, y solo es necesario parches de $3 \times 3$ para restaurarla. De esta forma es posible comprimir una imagen de forma considerable y recuperarla no supondr\'a un costo computacional elevado. No obstante, las m\'ascaras $t$\textit{-diagonales} son solo un patr\'on posible que se puede usar para comprimir. Se propone la b\'usqueda y el estudio de otros patrones para m\'ascaras de compresi\'on.
 
-La ampliaci\'on de im\'agenes es un proceso contrario a la compresi\'on. Al ampliar una imagen $\Y$ se debe obtener $\Y'$ de mayores dimensiones que resulta de escalar $\Y$ a un nuevo marco. Por ejemplo, ampliar una imagen de $256 \times 256$ a un marco de $512 \times 512$. La idea de realizar la ampliaci\'on utilizando \SOP/ consiste en colocar los p\'ixeles de $\Y$ dentro de una nueva matriz de dimensiones igual a la ampliaci\'on deseada, conservando la posici\'on relativa de los p\'ixeles. Los p\'ixeles restantes de la nueva matriz se consideran corruptos y se restaura la imagen. Definamos \textit{ampliaci\'on $2x$} aquella que duplica ambas dimensiones de la imagen, luego la ampliaci\'on $\Y'_{2a \times 2b} = \{a'_{i,j}\}$ de $\Y_{a \times b} = \{a_{i,j}\}$ se conforma tal que:
+La ampliaci\'on de im\'agenes es un proceso contrario a la compresi\'on. Al ampliar una imagen $\Y$ se debe obtener $\Y'$ de mayores dimensiones que resulta de escalar $\Y$ a un nuevo marco. Por ejemplo, ampliar una imagen de $256 \times 256$ a un marco de $512 \times 512$. La idea de realizar la ampliaci\'on utilizando \SOP/ consiste en colocar los p\'ixeles de $\Y$ dentro de una nueva matriz de dimensiones igual a la ampliaci\'on deseada, conservando la posici\'on relativa de los p\'ixeles. Los p\'ixeles restantes de la nueva matriz se consideran corruptos y se restaura la imagen. Se define ampliaci\'on $2x$ aquella que duplica ambas dimensiones de la imagen. Se define tambi\'en m\'ascara $2x$, que se denota por $M^{2x}$, aquella que se emplea para realizar la ampliaci\'on $2x$. Luego, la ampliaci\'on $\Y'_{2a \times 2b} = \{a'_{i,j}\}$ de $\Y_{a \times b} = \{a_{i,j}\}$ y la m\'ascara $M^{2x}_{2a \times 2b} = \{m_{i, j}\}$ son tales que:
 \begin{equation}
 	a'_{i, j} = \left\{\begin{array}{rl}
-		a_{p, q} & \mbox{cuando} \quad i = 2p - 1,\; j = 2q - 1\\
+		a_{p, q} & \mbox{si $i = 2p - 1,\; j = 2q - 1$} \\
 		0 & \mbox{para el resto} \\
 	\end{array}\right.
+	\quad
+	m_{i, j} = \left\{\begin{array}{rl}
+		0 & \mbox{si $i,j$ son impares} \\
+		255 & \mbox{para el resto} \\
+	\end{array}\right.
 \end{equation} 
+Al realizar una restauraci\'on sobre $\Y'$ mediante $M^{2x}$ usando \SOP/ se obtendr\'a la ampliaci\'on de $\Y$ deseada. 
 
+En la figura \ref{fig:mask_2x} tenemos un ejemplo de m\'ascara $2x$ de $16 \times 16$. De forma similar se pueden definir las ampliaciones y m\'ascaras $2x$, $3x$, ..., $tx$. En el caso general de una ampliaci\'on $tx$, si $\sqrt{n} \ge t$, se tiene que ning\'un parche es vac\'io. Se propone el estudio de este m\'etodo de ampliaci\'on de im\'agenes para usarlo en ampliaciones a marcos de dimensión arbitraria.
 
 \begin{figure}[H]
 	\centering
-	\begin{tikzpicture}[x=4mm, y=4mm, rotate=-90]
+	\begin{tikzpicture}[x=3mm, y=3mm, rotate=-90]
 		\foreach \i in {0, 2, ..., 14}
 			\foreach \j in {0, 2, ..., 14} {
 				\fill [black] (\i, \j) rectangle ($(\i, \j)+(1, 1)$);
@@ -361,38 +399,27 @@ La ampliaci\'on de im\'agenes es un proceso contrario a la compresi\'on. Al ampl
 	\label{fig:mask_2x}
 \end{figure}
 
-La m\'ascara $2x$ para realizar la restauraci\'on, que se denota por $M_{2x} = \{m_{i, j}\}$, se conforma de forma an\'aloga:
-\begin{equation}
-	m_{i, j} = \left\{\begin{array}{rl}
-		0 & \mbox{cuando $i$ y $j$ son impares} \\
-		255 & \mbox{para el resto} \\
-	\end{array}\right.
-\end{equation}
-en la figura \ref{fig:mask_2x} tenemos un ejemplo de m\'ascara $2x$ de $16 \times 16$. Finalmente, si se restaura $\Y'$ mediante $M_{2x}$ usando \SOP/ se obtendr\'a la ampliaci\'on de $\Y$ deseada. De forma similar se pueden definir las ampliaciones y m\'ascaras $2x$, $3x$, ..., $tx$. En el caso general de una ampliaci\'on $tx$, si $\sqrt{n} \ge t$, se tiene que ning\'un parche es vac\'io. Se propone el estudio de este m\'etodo de ampliaci\'on de im\'agenes para usarlo en ampliaciones a marcos de dimensión arbitraria.
-
 Por otro lado se propone la aplicaci\'on de \SOP/ a la eliminaci\'on de ruido en las im\'agenes. Para ello se debe contar con una herramienta que detecte el ruido y genere una m\'ascara que defina al mismo. Mediante dicha m\'ascara se realiza la restauraci\'on y se elimina el ruido. La propia naturaleza del ruido en im\'agenes reúne las propiedades de estar distribuido uniformemente y sin formar grandes zonas de desinformaci\'on.
 
-\qquad
-
-Los resultados del experimento para el caso de estudio 2 mostraron las desventajas m\'as importantes del esquema \SOP/. Los parches vac\'ios representan un caso problem\'atico, pues sus centros no logran restaurase correctamente. Se debe emplear un valor de $\sqrt{n}$ lo suficientemente grande que minimice la cantidad de parches vac\'ios. Tambi\'en, cuando el \'area a restaurar es pequeña en relaci\'on con la imagen completa, se malgasta mucho tiempo de c\'omputo innecesario. Por lo tanto, una soluci\'on simple es seleccionar una subregi\'on rectangular mas pequeña que contenga todas las zonas a restaurar. Ahora bien, usando ambas consideraciones, tanto el tamaño del parche y la idea de reducir la imagen a una subregi\'on rectangular m\'as pequeña se puede diseñar una estrategia adaptativa para usar \SOP/ en las im\'agenes de colposcop\'ia.
+Los resultados del experimento para el caso de estudio 2 mostraron las desventajas m\'as importantes del esquema \SOP/. Los parches vac\'ios representan un caso problem\'atico, pues sus centros no logran restaurase correctamente. Se debe emplear un valor de $\sqrt{n}$ lo suficientemente grande que minimice la cantidad de parches vac\'ios. Tambi\'en, cuando el \'area a restaurar es pequeña en relaci\'on con la imagen completa, se malgasta mucho tiempo de c\'omputo innecesario. Por lo tanto, una soluci\'on simple es seleccionar una subregi\'on rectangular mas pequeña que contenga todas las zonas a restaurar. Ahora bien, usando ambas consideraciones, tanto el tamaño del parche y la idea de reducir la imagen a una subregi\'on rectangular m\'as pequeña, se puede diseñar una estrategia adaptativa para usar \SOP/ en las im\'agenes de colposcop\'ia.
 
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[x=.000875\linewidth, y=.000875\linewidth]
 	\node[anchor=south west,inner sep=0] (image) at (0, 0) {\includegraphics[width=.63\linewidth]{Experiments/Colposcopy/5-1.bmp}};
-	\draw[-,black,ultra thick] (0, 0) rectangle (200, 320); %x
-	\draw[-,black,ultra thick] (200, 0) rectangle (485, 320); %x
+	\draw[-,black,ultra thick] (0, 0) rectangle (200, 320);
+	\draw[-,black,ultra thick] (200, 0) rectangle (485, 320);
 	\draw[-,black,ultra thick] (485, 0) rectangle (720, 250);
 	\draw[-,black,ultra thick] (0, 320) rectangle (80, 480);
-	\draw[-,black,ultra thick] (80, 320) rectangle (485, 480); %x
-	\draw[-,black,ultra thick] (485, 250) rectangle (720, 480); %x
-	\draw[|-|, red, line width=1pt] (100, 160) -- (-50, 160) node[left, black] {$\boxed{\sqrt{n} = 6}$};
-	\draw[|-|, blue, line width=1pt] (342.5, 100) -- (770, 100) node[right, black] {$\boxed{\sqrt{n} = 16}$};
-	\draw[|-|, orange, line width=1pt] (200, 400) -- (-50, 400) node[left, black] {$\boxed{\sqrt{n} = 32}$};
-	\draw[|-|, violet, line width=1pt] (602.5, 300)-- (770, 300) node[right, black] {$\boxed{\sqrt{n} = 8}$};
+	\draw[-,black,ultra thick] (80, 320) rectangle (485, 480);
+	\draw[-,black,ultra thick] (485, 250) rectangle (720, 480);
+	\draw[*-|, red, line width=1pt] (100, 160) -- (-50, 160) node[left, black] {$\boxed{\sqrt{n} = 6}$};
+	\draw[*-|, blue, line width=1pt] (342.5, 100) -- (770, 100) node[right, black] {$\boxed{\sqrt{n} = 16}$};
+	\draw[*-|, orange, line width=1pt] (200, 400) -- (-50, 400) node[left, black] {$\boxed{\sqrt{n} = 32}$};
+	\draw[*-|, violet, line width=1pt] (602.5, 300)-- (770, 300) node[right, black] {$\boxed{\sqrt{n} = 8}$};
 	\end{tikzpicture}
 	\caption{Ejemplo de estrategia adaptativa para la imagen \texttt{5-1.bmp}}
 	\label{fig:adaptative}
 \end{figure}
 
-La estrategia consiste en dividir la imagen en subregiones rectangulares, cada una de las cuales ser\'an restauradas de forma independiente usando un tamaño de parche que minimice la cantidad de parches vac\'ios. Un ejemplo se muestra en la figura \ref{fig:adaptative}, de c\'omo subdividir y cu\'al valor de $\sqrt{n}$ a usar en cada subregi\'on rectangular. Dado que cada subregi\'on tiene menores dimensiones  que la imagen completa, es posible emplear un mayor tamaño de parche que reduzca la cantidad de parches vacíos. Se recomienda la implementaci\'on de esta estrategia y el análisis de sus resultados, e investigar posibles modificaciones tales como usar subregiones con solapamiento, entre otras ideas.
+La estrategia consiste en dividir la imagen en subregiones rectangulares, cada una de las cuales ser\'an restauradas de forma independiente usando un tamaño de parche que minimice la cantidad de parches vac\'ios. Un ejemplo se muestra en la figura \ref{fig:adaptative}, de c\'omo subdividir y cu\'al valor de $\sqrt{n}$ a usar en cada subregi\'on rectangular. Se recomienda la implementaci\'on de esta estrategia de conjunto con una herramienta que estime el m\'inimo valor de $\sqrt{n}$ necesario en cada subregi\'on. Tambi\'en, el análisis de sus resultados e investigar posibles modificaciones tales como usar subregiones con solapamiento, entre otras ideas.
