@@ -143,6 +143,12 @@
    \vskip 3.5cm%
    \begin{flushright}}%
   {\end{flushright}}
+\renewenvironment{quote}
+  {\list{}{%
+    \leftmargin0cm   % this is the adjusting screw
+    \rightmargin\leftmargin}
+   \item\relax}
+  {\endlist}
 
 \newtheorem{theorem}{Teorema}[chapter]
 \newtheorem{definition}{Definición}[chapter]
