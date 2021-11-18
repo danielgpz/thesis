@@ -100,6 +100,7 @@
 \newcommand{\degree}[1]{\def\@degree{#1}}
 \newcommand{\faculty}[1]{\def\@faculty{#1}}
 \newcommand{\logo}[1]{\def\@logo{#1}}
+\newcommand{\qr}[1]{\def\@qr{#1}}
 
 \newenvironment{opinion}%
   {\chapter*{Opinión del tutor}}%
@@ -177,7 +178,9 @@
     {\Large Tutores: \textbf{\@advisor}} \\
     \vfill
     {\large Trabajo de Diploma \\presentado en opción al título de \\ \@degree} \\
-    \vskip 1cm
+    \vskip 0.5cm
+    \includegraphics[width=2.5cm]{\@qr}
+    \vskip 0.5cm
     \@date
   \end{center}
 }

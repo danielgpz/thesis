@@ -131,7 +131,7 @@ Llegados a este punto las únicas incógnitas son qu\'e operador $\H$ usar, y c\
 
 \section{La matriz de permutaci\'on}
 
-El resultado (\ref{eq:permutation_smoothness}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ se usa la varianza total (definici\'on \ref{def:tv}), que en este caso resulta:
+El resultado (\ref{eq:permutation_smoothness}) tiene como condici\'on que $\y^p$ sea una señal suave. Para calcular la suavidad de $\y^p$ se usa la varianza total (definici\'on \ref{def:tv}) \cite{greenhall1999total}, que en este caso resulta:
 \begin{equation}
 	\|\y^p\|_{\mathit{TV}} = \sum_{j = 2}^{N}|\y^{p}(j) - \y^{p}(j - 1)|
 	\label{eq:signal_smoothness}
@@ -184,7 +184,7 @@ Ahora bien, el problema de optimizaci\'on anterior se puede reformular de la sig
 	\item Sus nodos son los parches de $\Z$, $V = \{\x_i\}$.
 	\item Cada arista que une los nodos $\x_a$ y $\x_b$ tiene peso $\omega(\x_a,\; \x_b)$, $f = \omega$.
 \end{itemize}
-Sobre $G_\X$ se quiere resolver una instancia del problema \textit{\textbf{NP}-completo} del viajero, conocido como \TSP/\footnote{Por sus siglas en ingl\'es \textit{traveling salesman problem}.} \cite{cormen2009introduction,enwiki:tsp} buscando un camino que comience en un parche (nodo) cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
+Sobre $G_\X$ se quiere resolver una variante del problema \textit{\textbf{NP}-completo} del viajero, conocido como \TSP/\footnote{Por sus siglas en ingl\'es \textit{traveling salesman problem}.} \cite{cormen2009introduction,ilavarasi2014variants}, buscando un camino que comience en un parche (nodo) cualquiera, pase por el resto de los parches una \'unica vez y cuya longitud es m\'inima.
 
 \section{Algoritmo de reordenamiento de parches}
 
