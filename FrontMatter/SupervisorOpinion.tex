@@ -1,13 +1,29 @@
 \begin{opinion}
 
-Opinión de los tutores [Redactar]
+El trabajo “\textbf{Restauración de imágenes usando una ordenación suave de sus parches}” del estudiante Daniel Alberto García Pérez se basa fundamentalmente en una propuesta de Idan Ram, Michael Elad e Israel Cohen publicada con el mismo nombre y orientada a la restauración y eliminación del ruido en imágenes. 
+Volvemos sobre este tema para mejorar los resultados obtenidos en trabajos anteriores orientados a la eliminación de las zonas de brillo o especulares en imágenes colposcópicas de cérvix, problema que dificulta el diagnóstico de lesiones malignas o premalignas. En el artículo mencionado se presenta un algoritmo y se reportan resultados prometedores tanto para la restauración como para la eliminación del ruido. 
+
+Este artículo me fue recomendado en una visita en la Universidad de Bremen en el año 2019. A mi regreso se lo mostré a Daniel, quien trabajaría conmigo en la práctica de su tercer año de estudios. La estrategia lo motivó tanto como a m\'i y comenzamos a analizar la propuesta orientada a la restauración principalmente. Daniel estudió minuciosamente el algoritmo, lo implementó y probó con pocas imágenes.
+
+Un tiempo después retorna a este trabajo ya con un conocimiento previo y m\'as preparación. Los resultados nos han impresionado nuevamente. En la tesis Daniel vuelve sobre el algoritmo pero ahora lo hace ya acompañado de una implementación para la cual hace un análisis minucioso del costo computacional y en la que paraleliza parte del mismo para mejorar el tiempo de ejecución. 
+En la experimentación se destacan dos casos: Restauración de imágenes para las cuales se conoce el original (imágenes de la conocida colección de Berkeley) y para el caso en que no se conoce la imagen original (Colposcopías de cuello de útero), caso que corresponde a un escenario real.
+
+Las pruebas solo se pudieron realizar en un número reducido de imágenes por la falta de suficientes recursos computacionales, sin embargo, se obtuvieron, también resultados muy interesantes. En su estudio minucioso Daniel caracteriza los casos en los que el algoritmo funciona muy bien y aquellos en los que no se obtienen buenos resultados. Así las cosas, formula un algoritmo basado en el original para la compresión de imágenes en el que se puede decidir qué porciento de información de la misma se quiere almacenar y el resto se recupera con el algoritmo. Además, formula la extensión del algoritmo para restauración basado en restauraciones sucesivas.  Así mismo sugiere una estrategia para tratar aquellos casos en los que no funciona bien.
+Para realizar este trabajo el estudiante tuvo que complementar sus conocimientos de aproximación de funciones, de solución del problema del viajero, de diseño y análisis de algoritmos, entre otros.
+
+Daniel es un estudiante que no hace falta motivar, su talento le permite hacer uso de sus conocimientos de Ciencia de la Computación, así como de Matemática y aplicarlos en nuevos escenarios. La verdad es que los resultados son muy alentadores y estamos preparados para aplicarlos. Para publicarlos habrá que realizar, lógicamente una experimentación más amplia. He tenido el placer nuevamente de trabajar con Daniel y le deseo muchos éxitos en su vida profesional.
+
 
 \vspace{1cm}
 \begin{center}
 	\begin{tikzpicture}[x=.01\linewidth, y=.01\linewidth]
-%		\node[anchor=south west,inner sep=0] (image) at (0, -4) {\includegraphics[width=.3\linewidth]{Graphics/signature.png}};
-		\draw[-, thick] (-1, 0) edge (31, 0);
-		\node[below,align=center,text width=.3\linewidth] at (15, -1) {Dra. Marta Lourdes Baguer D\'iaz-Roma\~nach};
+		\node[anchor=south west,inner sep=0] (image1) at (0, -5) {\includegraphics[width=.3\linewidth]{Graphics/signature_marta.png}};
+		\draw[-, thick] (-5, 0) edge (35, 0);
+		\node[below,align=center,text width=.35\linewidth] at (15, -1) {DraC. Marta Lourdes Baguer D\'iaz-Roma\~nach};
+		
+%		\node[anchor=south west,inner sep=0] (image2) at (50, -5) {\includegraphics[width=.3\linewidth]{Graphics/signature_marta.png}};
+		\draw[-, thick] (45, 0) edge (85, 0);
+		\node[below,align=center,text width=.35\linewidth] at (65, -1) {Lic. Lauren Jim\'enez Mart\'in};
 	\end{tikzpicture}
 \end{center}
 
